@@ -1,0 +1,101 @@
+/* Google Fonts - Poppins */
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap");
+
+
+
+#cardsbody {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 5rem 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Poppins", sans-serif;
+}
+
+#cardsbody .mycontainer {
+    background: #efefef;
+    max-width: 1300px;
+    width: 100%;
+    padding: 40px 0;
+}
+
+#cardsbody .slide-container {
+    margin: 0 30px;
+    overflow: hidden;
+}
+
+#cardsbody .mycard {
+    background: #fff;
+    border-radius: 8px;
+}
+
+#cardsbody .mycard .image-box {
+    height: 250px;
+    justify-content: center;
+}
+
+#cardsbody .mycard .image-box img {
+    width: 100%;
+    height: 100%;
+    padding: 12px;
+    border-radius: 8px 8px 0 0;
+}
+
+@media screen and (max-width: 768px) {
+    #cardsbody .mycard .image-box {
+        height: 200px;
+    }
+    #cardsbody .mycard .image-box img  {
+        width: 55%;
+        margin-left: 20%;
+        margin-right: auto;
+    }
+}
+
+#cardsbody .mycard .profile-details {
+    display: flex;
+    align-items: center;
+    column-gap: 12px;
+    padding: 15px;
+}
+
+#cardsbody .mycard .profile-details img {
+    height: 40px;
+    width: 40px;
+    border-radius: 50%;
+}
+
+#cardsbody .profile-details .name {
+    font-size: 15px;
+    font-weight: 500;
+}
+
+#cardsbody .profile-details .job {
+    font-size: 12px;
+    font-weight: 500;
+    color: #4d4d4d;
+}
+
+#cardsbody .swiper-navBtn {
+    color: #000;
+    height: 40px;
+    width: 40px;
+    background: #fff;
+    border-radius: 50%;
+}
+
+#cardsbody.swiper-navBtn::before,
+#cardsbody .swiper-navBtn::after {
+    font-size: 18px;
+}
+
+#cardsbody .swiper-pagination-bullet {
+    background-color: #000;
+}
+
+@media screen and (max-width: 768px) {
+    #cardsbody .swiper-navBtn {
+        display: none;
+    }
+}
