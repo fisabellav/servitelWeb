@@ -1,0 +1,47 @@
+{% load static %} 
+<section id="navbarbody">
+    <div class="navbar">
+        <div class="logo"> <a href=""><img class="logo" src="{%static 'core/img/logo_icon.png' %}"
+                    alt="">Servitel</a>
+        </div>
+        <ul class="links">
+            <li><a href="">Cámaras</a></li>
+            <li><a href="">Accesorios</a></li>
+            <li><a href="">Kits</a></li>
+            <div class="items">
+                <a href="#" class="action_btn"><i class="fa-solid fa-user"></i></a>
+                <a href="#" class="action_btn"><i class="fa-solid fa-magnifying-glass"></i></a>
+                <a href="#" class="action_btn"><i class="fa-solid fa-cart-shopping"></i></a>
+            </div>
+        </ul>
+
+        <div class="toggle_btn">
+            <i class="fa-solid fa-bars"></i>
+        </div>
+    </div>
+
+    <div class="dropdown_menu">
+        <li><a href="">Home</a></li>
+        <li><a href="">About</a></li>
+        <li><a href="">Services</a></li>
+        <li><a href="">Contact</a></li>
+        <div class="items">
+            <a href="#" class="action_btn"><i class="fa-solid fa-user"></i></a>
+            <a href="#" class="action_btn"><i class="fa-solid fa-magnifying-glass"></i></a>
+            <a href="#" class="action_btn"><i class="fa-solid fa-cart-shopping"></i></a>
+        </div>
+</section>
+
+<script>
+    const toggleBtn = document.querySelector('.toggle_btn');
+    const toggleBtnIcon = document.querySelector('.toggle_btn i');
+    const dropdownMenu = document.querySelector('.dropdown_menu');
+
+    toggleBtn.onclick = function () {
+        dropdownMenu.classList.toggle('open')
+        const isOpen = dropdownMenu.classList.contains('open')
+
+        toggleBtnIcon.classList = isOpen ? 'fa-solid fa-xmark' : 'fa-solid fa-bars'
+    };
+
+</script>
