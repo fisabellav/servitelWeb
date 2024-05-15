@@ -1,12 +1,10 @@
 .banner {
     position: relative;
-    height: 600px;
+    height: fit-content;
     background-image: url('/static/core/img/carrusel_bg.jpg');
     background-size: cover;
     background-position: center;
 }
-
-
 
 .banner img {
     height: 100%;
@@ -14,78 +12,20 @@
     object-fit: cover;
 }
 
-.categories {
-    width: 75%;
-    height: 220px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0 100px;
-    margin: 0 auto
-}
-
-
-
-
-.category {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-    width: 25%;
-}
-
-.category:hover {
-    transform: scale(1.1);
-    transition: transform 0.5s;
-    filter: brightness(50%);
-}
-
-.category img {
-    width: 100%;
-    height: auto;
-    border-radius: 50%;
-    margin-bottom: 1rem;
-}
-
-@media (min-width: 1000px) {
+/* 
+@media (min-width: 1200px) {
     .banner {
-        height: 800px;
+        max-height: fit-content;
     }
 }
 
-@media (max-width: 1000px) {
-
-    .categories {
-        width: 90%;
-    }
-
-    .category img{
-        width: 180px;
-        height: auto;
-    }
-
+@media (max-width: 992px) {
     .banner{
         height: 500px;
     }
 }
 /* Media query for medium screen size */
-@media (max-width: 768px) {
-    .categories {
-        flex-wrap: wrap;
-        justify-content: center;
-    }
-
-    .category {
-        width: 90%;
-        margin-bottom: 20px;
-    }
-
-    .category img{
-        width: 215px;
-        height: auto;
-    }
-
+/* @media (max-width: 768px) {
     .banner{
         height: 400px;
     }
@@ -95,6 +35,6 @@
     .banner {
         height: 300px;
     }
-}
+} */ 
 
 

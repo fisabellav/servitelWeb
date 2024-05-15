@@ -4,4 +4,5 @@ from core import views
 urlpatterns = [
     path ('', views.index, name='index'),
     path ('catalogo/', views.catalogo, name='catalogo'),
+    path ('catalogo/producto/', views.producto, name='producto'),
 ]

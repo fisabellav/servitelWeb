@@ -6,8 +6,19 @@
 
 {% block extra_css %}
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
-<link rel="stylesheet" href="{%static 'core/css/cardstyle.css' %}" />
-<link rel="stylesheet" href="{%static 'core/css/index.css' %}" />
+<link rel="stylesheet" href="{% static 'core/css/cardstyle.css' %}" />
+<link rel="stylesheet" href="{% static 'core/css/index.css' %}" />
+<link rel="stylesheet" href="{% static 'core/css/category.css' %}" />
+{% endblock %}
+
+{% block navbar_script %}
+
+<script src="{% static 'core/js/navscript.js' %}"></script>
+
+<script>
+    const backgroundImageUrl = "{% static 'core/img/navbar.jpg' %}";
+    setNavbarBackgroundOnScroll(backgroundImageUrl);
+</script>
 {% endblock %}
 
 {% block first_content %}
@@ -17,6 +28,7 @@
 
 {% include 'core/cards.html' %}
 
+<!-- CATEGORIAS -->
 <div class="categories">
     <div class="category">
         <img src="{% static 'core/img/productos/domo_4mp.png' %}" alt="Categoría 1">
@@ -28,5 +40,9 @@
         <img src="{% static 'core/img/productos/domo_4mp.png' %}" alt="Categoría 2">
     </div>
 </div>
+
 {% endblock %}
+
+
+
 

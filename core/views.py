@@ -7,3 +7,5 @@ def index(request):
 def catalogo(request):
     return render(request, 'core/catalogo.html')
 
+def producto(request):
+    return render(request, 'core/producto.html')

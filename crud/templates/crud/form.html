@@ -12,22 +12,23 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css"
         integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <link rel="stylesheet" href="{% static 'core/css/navcrud.css' %}">
+    <link rel="stylesheet" href="{% static 'crud/css/navcrud.css' %}">
+    <link rel="stylesheet" href="{% static 'crud/css/newcam.css' %}">
     <title>Document</title>
 </head>
 
 <body>
 
-    <nav>
-        {% include 'core/navbar.html' %}
+    <nav class="mb-5">
+        {% include 'crud/navbar.html' %}
     </nav>
     
-    <section id="form" class="container my-4 mx-auto">
+    <section id="form" class="  mx-auto">
         <form class="" action="" method="post" enctype="multipart/form-data">
             {% csrf_token %}
             <div class="row">
                 <!-- box formulario -->
-                <div class="col-7 mx-auto" style="background-color: #e6e6e6;">
+                <div class="col-7 mx-auto py-4 rounded-2" style="background-color: #e6e6e6;">
                     <div class="row justify-content-center">
                         <!-- inputs y sus labels -->
                         <div class="col-10">
@@ -110,7 +111,7 @@
                                         </div>
                                         <div class="col-8 align-self-end">
                                             <div class="input-group">
-                                                <input min="0" type="number" class="form-control rounded-4" id="idStock"
+                                                <input min="0" placeholder="0" type="number" class="form-control rounded-4" id="idStock"
                                                     name="stock">
                                             </div>
                                             <!-- <small id="error_nombre_min" class="text-danger">Debes ingresar tu
@@ -187,7 +188,7 @@
         }
 
         document.addEventListener('DOMContentLoaded', function () {
-            const inputElement = document.getElementById('idStock');
+            const inputElement = document.getElementById('idValor');
             inputElement.addEventListener('input', function () {
                 const rawValue = inputElement.value;
                 const formattedValue = formatChileanPesos(rawValue);

@@ -4,8 +4,241 @@
 
 {% load static %}
 
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'core/css/index.css' %}">
+<link rel="stylesheet" href="{% static 'core/css/category.css' %}">
+<link rel="stylesheet" href="{% static 'core/css/catalogo.css' %}">
+{% endblock %}
+
+{% block navbar_script %}
+
+<script src="{% static 'core/js/navscript.js' %}"></script>
+
+<script>
+    const backgroundImageUrl = "{% static 'core/img/navbar2.jpg' %}";
+    setNavbarBackgroundOnScroll(backgroundImageUrl);
+</script>
+{% endblock %}
+
 {% block first_content %}
 <div class="banner">
-    <img src="{% static 'core/img/carrusel_bg.jpg' %}" alt="">
+    <img src="{% static 'core/img/camera.jpg' %}" alt="">
 </div>
+
+<!-- CATEGORIAS -->
+<div class="categories">
+    <div class="category">
+        <img src="{% static 'core/img/productos/domo_4mp.png' %}" alt="Categoría 1">
+    </div>
+    <div class="category">
+        <img src="{% static 'core/img/productos/domo_4mp.png' %}" alt="Categoría 2">
+    </div>
+    <div class="category">
+        <img src="{% static 'core/img/productos/domo_4mp.png' %}" alt="Categoría 2">
+    </div>
+</div>
+
+<div class="mycatalogo">
+    <!-- FILTROS -->
+    <div id="filters">
+        <h3 class="filter-title">Filters</h3>
+        <!-- Add your filter elements here -->
+        <div class="filter-group">
+            <h3 class="filter-group-title">Colores
+                <span class="filter-group-toggle">+</span>
+            </h3>
+            <ul class="filter-options">
+                <li>
+                    <input type="checkbox" id="color-red" name="color-red">
+                    <label for="color-red">Rojo</label>
+                </li>
+                <li>
+                    <input type="checkbox" id="color-green" name="color-green">
+                    <label for="color-green">Verde</label>
+                </li>
+                <li>
+                    <input type="checkbox" id="color-blue" name="color-blue">
+                    <label for="color-blue">Azul</label>
+                </li>
+                <li>
+                    <input type="checkbox" id="color-yellow" name="color-yellow">
+                    <label for="color-yellow">Amarillo</label>
+                </li>
+            </ul>
+        </div>
+        <div class="filter-group">
+            <h3 class="filter-group-title">Tamaños
+                <span class="filter-group-toggle">+</span>
+            </h3>
+            <ul class="filter-options">
+                <li>
+                    <input type="checkbox" id="size-small" name="size-small">
+                    <label for="size-small">Pequeño</label>
+                </li>
+                <li>
+                    <input type="checkbox" id="size-medium" name="size-medium">
+                    <label for="size-medium">Mediano</label>
+                </li>
+                <li>
+                    <input type="checkbox" id="size-large" name="size-large">
+                    <label for="size-large">Grande</label>
+                </li>
+            </ul>
+        </div>
+        <div class="price-filter">
+            <h3 class="filter-group-title">Rango de precios</h3>
+            <div class="price-slider">
+                <input type="range" min="0" max="1000" step="100" value="1000" class="price-range" id="price-range">
+                <div class="price-labels">
+                    <span class="price-label" id="price-label-min">$0</span>
+                    <span class="price-label" id="price-label-max">$1000</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- PRODUCTOS -->
+    <section id="myproducts" class="products">
+        <div class="all-products">
+            <div class="product" data-id="1">
+                <img src="{% static 'core/img/productos/camara2px.jpg' %}">
+                <div class="product-info">
+                    <h4 class="product-title">Cámara 2px
+                    </h4>
+                    <p class="product-price">$129</p>
+                    
+                </div>
+                <div class="button-container">
+                    <a class="product-btn" href="{% url 'producto' %}">Buy Now</a>
+                    <i class="carrito fa-solid fa-cart-shopping"></i>
+                </div>
+            </div>
+            <div class="product">
+                <img src="{% static 'core/img/productos/camara2px.jpg' %}">
+                <div class="product-info">
+                    <h4 class="product-title">Cámara 2px
+                    </h4>
+                    <p class="product-price">$129</p>
+                    
+                </div>
+                <div class="button-container">
+                    <a class="product-btn" href="{% url 'producto' %}">Buy Now</a>
+                </div>
+            </div>
+            <div class="product">
+                <img src="{% static 'core/img/productos/camara2px.jpg' %}">
+                <div class="product-info">
+                    <h4 class="product-title">Cámara 2px</h4>
+                    <p class="product-price">$999</p>
+                    
+                </div>
+                <div class="button-container">
+                    <a class="product-btn" href="#">Buy Now</a>
+                </div>
+            </div>
+            <div class="product">
+                <img src="{% static 'core/img/productos/camara2px.jpg' %}">
+                <div class="product-info">
+                    <h4 class="product-title">Cámara 2px</h4>
+                    <p class="product-price">$629</p>
+                    
+                </div>
+                <div class="button-container">
+                    <a class="product-btn" href="#">Buy Now</a>
+                </div>
+            </div>
+            <div class="product">
+                <img src="{% static 'core/img/productos/camara2px.jpg' %}">
+                <div class="product-info">
+                    <h4 class="product-title">Cámara 2px</h4>
+                    <p class="product-price">$129</p>
+                    
+                </div>
+                <div class="button-container">
+                    <a class="product-btn" href="#">Buy Now</a>
+                </div>
+            </div>
+            <div class="product">
+                <img src="{% static 'core/img/productos/camara2px.jpg' %}">
+                <div class="product-info">
+                    <h4 class="product-title">Cámara 2px</h4>
+                    <p class="product-price">$299</p>
+                    
+                </div>
+                <div class="button-container">
+                    <a class="product-btn" href="#">Buy Now</a>
+                </div>
+            </div>
+            <div class="product">
+                <img src="{% static 'core/img/productos/camara2px.jpg' %}">
+                <div class="product-info">
+                    <h4 class="product-title">Cámara 2px</h4>
+                    <p class="product-price">$999</p>
+                    
+                </div>
+                <div class="button-container">
+                    <a class="product-btn" href="#">Buy Now</a>
+                </div>
+            </div>
+            <div class="product">
+                <img src="{% static 'core/img/productos/camara2px.jpg' %}">
+                <div class="product-info">
+                    <h4 class="product-title">Cámara 2px</h4>
+                    <p class="product-price">$999</p>
+                    
+                </div>
+                <div class="button-container">
+                    <a class="product-btn" href="#">Buy Now</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="cartTab">
+        <h1 style="font-weight: bold;">Carrito de compras</h1>
+        <div class="listCart">
+            
+        </div>
+        <div class="btn">
+            <button class="close">CLOSE</button>
+            <button class="checkOut">Check Out</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    const filterGroups = document.querySelectorAll('.filter-group');
+
+    filterGroups.forEach(filterGroup => {
+        const filterGroupTitle = filterGroup.querySelector('.filter-group-title');
+        const filterGroupToggle = filterGroupTitle.querySelector('.filter-group-toggle');
+        const filterOptions = filterGroup.querySelector('.filter-options');
+
+        filterGroupToggle.addEventListener('click', () => {
+            filterGroup.classList.toggle('active');
+        });
+    });
+</script>
+
+<script>
+    const priceRange = document.querySelector('#price-range');
+    const priceLabelMin = document.querySelector('#price-label-min');
+    const priceLabelMax = document.querySelector('#price-label-max');
+
+    priceRange.addEventListener('input', () => {
+        console.log("holaa")
+        const minPrice = priceRange.value;
+        const maxPrice = priceRange.max;
+        const labelMin = `$${minPrice}`;
+        const labelMax = `$${maxPrice}`;
+
+        priceLabelMin.textContent = labelMin;
+        priceLabelMax.textContent = labelMax;
+    });
+</script>
+
+{% endblock %}
+
+{% block my_js %}
+<script src="{% static 'core/js/myscripts.js' %}"></script>
 {% endblock %}

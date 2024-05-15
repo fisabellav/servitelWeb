@@ -2,16 +2,16 @@
 
 <header id="navbarbody">
     <div class="navbar">
-        <div class="logo"> <a href=""><img class="logo" src="{%static 'core/img/logo_icon.png' %}" alt="">Servitel</a>
+        <div class="logo"> <a href="{% url 'index' %}"><img class="logo" src="{%static 'core/img/logo_icon.png' %}" alt="">Servitel</a>
         </div>
         <ul class="links">
-            <li><a href="">Cámaras</a></li>
+            <li><a href="{% url 'catalogo' %}">Cámaras</a></li>
             <li><a href="">Accesorios</a></li>
             <li><a href="">Kits</a></li>
             <div class="items">
                 <a href="#" class="action_btn"><i class="fa-solid fa-user"></i></a>
                 <a href="#" class="action_btn"><i class="fa-solid fa-magnifying-glass"></i></a>
-                <a href="#" class="action_btn"><i class="fa-solid fa-cart-shopping"></i></a>
+                <div class="action_btn icon-cart"><i class="fa-solid fa-cart-shopping"></i><span>0</span></div>
             </div>
         </ul>
 
@@ -21,10 +21,9 @@
     </div>
 
     <div class="dropdown_menu">
-        <li><a href="">Home</a></li>
-        <li><a href="">About</a></li>
-        <li><a href="">Services</a></li>
-        <li><a href="">Contact</a></li>
+        <li><a href="{% url 'catalogo' %}">Cámaras</a></li>
+        <li><a href="">Accesorios</a></li>
+        <li><a href="">Kits</a></li>
         <div class="items">
             <a href="#" class="action_btn"><i class="fa-solid fa-user"></i></a>
             <a href="#" class="action_btn"><i class="fa-solid fa-magnifying-glass"></i></a>
@@ -47,14 +46,16 @@
 
 </script>
 
-<script>
+<!-- <script>
     const navbar = document.querySelector(".navbar");
 
     window.addEventListener("scroll", function () {
         if (window.pageYOffset > 150) {
             navbar.classList.add("scrolled");
+            navbar.style.backgroundImage = "url('/static/core/img/navbar.jpg')";
         } else {
             navbar.classList.remove("scrolled");
+            navbar.style.backgroundImage = "";
         }
     });
-</script>
+</script> -->
