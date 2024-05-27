@@ -1,0 +1,78 @@
+.product-detail {
+    margin: 100px 50px;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.product-detail img {
+    flex-basis: 50%;
+    max-width: 450px;
+    height: auto;
+    margin-right: 20px;
+}
+
+.product-detail .product-info {
+    flex-basis: 40%;
+    display: flex;
+    flex-direction: column;
+}
+
+.product-title {
+    margin-top: 15px;
+    font-size: 32px;
+    
+}
+
+.product-price {
+    margin-bottom: 20px;
+}
+
+.product-actions {
+    display: flex;
+    justify-content: space-between;
+}
+
+.cantidad label, .cantidad span{
+    display: inline-block;
+    width: 25px;
+    height: 25px;
+    background: #1e1e1e;
+    border-radius: 50%;
+    margin: 10px 10px 20px 0;
+    color: beige;
+    text-align: center; /* Centra el texto horizontalmente */
+    line-height: 25px; /* Centra el texto verticalmente */
+    font-size: 13px; /* Ajusta el tamaño de la fuente para que se vea bien dentro del círculo */
+    cursor: pointer;
+    user-select: none;
+}
+
+.cantidad span:hover{
+    transform: scale(1.1);
+    background: #383838;
+}
+
+.product-actions a:link,
+.product-actions a:visited {
+    color: #ececec;
+    display: inline-block;
+    text-decoration: none;
+    background-color: #191919;
+    padding: 1.2rem 2.5rem;
+    border-radius: 1rem;
+    margin-top: 1rem;
+    font-size: 14px;
+    transition: all 0.2s;
+}
+
+.comprar:hover{
+    transform: scale(1.1);
+}
+
+.formulario{
+    background-color: #eeeeee;
+    padding: 30px;
+    width: 70%;
+    margin: 40px 50px;
+    border-radius: 1rem;
+}

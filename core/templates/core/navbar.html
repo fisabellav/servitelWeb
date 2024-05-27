@@ -1,17 +1,18 @@
 {% load static %}
 
 <header id="navbarbody">
-    <div class="navbar">
+    <div class="myNavbar">
         <div class="logo"> <a href="{% url 'index' %}"><img class="logo" src="{%static 'core/img/logo_icon.png' %}" alt="">Servitel</a>
         </div>
         <ul class="links">
-            <li><a href="{% url 'catalogo' %}">Cámaras</a></li>
+            <li><a href="{% url 'catalogo' %}">Cátalogo</a></li>
             <li><a href="">Accesorios</a></li>
             <li><a href="">Kits</a></li>
+            <li><a href="">Nosotros</a></li>
             <div class="items">
                 <a href="#" class="action_btn"><i class="fa-solid fa-user"></i></a>
                 <a href="#" class="action_btn"><i class="fa-solid fa-magnifying-glass"></i></a>
-                <div class="action_btn icon-cart"><i class="fa-solid fa-cart-shopping"></i><span>0</span></div>
+                <div class="action_btn icon-cart"><i class="fa-solid fa-heart"></i><span>0</span></div>
             </div>
         </ul>
 
@@ -21,9 +22,10 @@
     </div>
 
     <div class="dropdown_menu">
-        <li><a href="{% url 'catalogo' %}">Cámaras</a></li>
+        <li><a href="{% url 'catalogo' %}">Catálogo</a></li>
         <li><a href="">Accesorios</a></li>
         <li><a href="">Kits</a></li>
+        <li><a href="">Nosotros</a></li>
         <div class="items">
             <a href="#" class="action_btn"><i class="fa-solid fa-user"></i></a>
             <a href="#" class="action_btn"><i class="fa-solid fa-magnifying-glass"></i></a>

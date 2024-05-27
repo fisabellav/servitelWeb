@@ -1,0 +1,99 @@
+{% extends 'core/base.html' %}
+
+{% block title %}HOME{% endblock %}
+
+{% load static %}
+
+{% block extra_css %}
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
+<link rel="stylesheet" href="{%static 'core/css/product.css' %}">
+{% endblock %}
+
+{% block navbar_script %}
+<script>
+    const backgroundImageUrl = "{% static 'core/img/navbar2.jpg' %}";
+    const navbarElement = document.querySelector('.myNavbar');
+    navbarElement.style.backgroundImage = `url(${backgroundImageUrl})`;
+</script>
+{% endblock %}
+
+{% block first_content %}
+<div class="product-detail">
+    {% if producto.image %}
+    <img src="{{producto.image.url}}">
+    {% endif %}
+    <div class="product-info">
+        <h4 class="product-title">{{producto.product}}
+        </h4>
+        <p class="product-price">Opción 1</p>
+        <h5>Cantidad:</h5>
+        <div class="cantidad">
+            <span id="menos-cantidad">-</span>
+            <label id="cantidad-valor">1</label>
+            <span id="mas-cantidad">+</span>
+        </div>
+        <div class="product-actions">
+            <a href="" class="comprar">Contáctanos</a>
+        </div>
+    </div>
+</div>
+
+<div class="formulario">
+    <form class="row g-4">
+        <div class="col-md-6">
+            <label for="idNombre" class="form-label">Nombres</label>
+            <input type="text" class="form-control" id="idNombre">
+        </div>
+        <div class="col-md-6">
+            <label for="idApellido" class="form-label">Apellidos</label>
+            <input type="text" class="form-control" id="idApellido">
+        </div>
+        <div class="col-6">
+            <label for="idFono" class="form-label">Teléfono</label>
+            <input type="tel" class="form-control" id="idFono" placeholder="9 1234 5678">
+        </div>
+        <div class="col-6">
+            <label for="inputState" class="form-label">Comuna</label>
+            <select id="inputState" class="form-select">
+                <option selected>Eliga una comuna...</option>
+                <option>...</option>
+            </select>
+        </div>
+        <div class="col-12">
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="gridCheck">
+                <label class="form-check-label" for="gridCheck">
+                    Check me out
+                </label>
+            </div>
+        </div>
+        <div class="col-12">
+            <button type="submit" class="btn btn-primary">Enviar</button>
+        </div>
+    </form>
+</div>
+
+
+<script>
+    const cantidadValor = document.getElementById('cantidad-valor');
+    const menosCantidad = document.getElementById('menos-cantidad');
+    const masCantidad = document.getElementById('mas-cantidad');
+
+    let cantidad = parseInt(cantidadValor.textContent);
+
+    menosCantidad.addEventListener('click', () => {
+        if (cantidad > 1) {
+            cantidad--;
+            cantidadValor.textContent = cantidad;
+        }
+    });
+
+    masCantidad.addEventListener('click', () => {
+        cantidad++;
+        cantidadValor.textContent = cantidad;
+    });
+</script>
+
+
+{% endblock %}

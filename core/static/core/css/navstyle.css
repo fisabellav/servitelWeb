@@ -1,7 +1,11 @@
-* {
+*{
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    font-family: "Opens Sans", sans-serif;
+}
+
+#navbarbody {
     font-family: "Opens Sans", sans-serif;
 }
 
@@ -44,7 +48,7 @@
 
 }
 
-#navbarbody .navbar {
+#navbarbody .myNavbar {
     position: fixed;
     top: 0;
     left: 0;
@@ -61,27 +65,28 @@
     transition: background-image 0.5s ease;
 }
 
-.navbar.scrolled {
+.myNavbar.scrolled {
     background-size: cover;
     background-position: center;    
 }
 
 
 
-#navbarbody .navbar .links {
+#navbarbody .myNavbar .links {
     justify-content: flex-end;
     display: flex;
     gap: 2rem;
     align-items: center;
+    margin-bottom: 0;
 }
 
-#navbarbody .navbar .items {
+#navbarbody .myNavbar .items {
 
     display: flex;
     gap: 1rem;
 }
 
-#navbarbody .navbar .toggle_btn {
+#navbarbody .myNavbar .toggle_btn {
     color: white;
     font-size: 1.5rem;
     cursor: pointer;
@@ -168,7 +173,7 @@
 
 /* responsive design */
 @media (min-width: 1400px){
-    #navbarbody .navbar {
+    #navbarbody .myNavbar {
         padding: 0 3rem;
     }
     
@@ -176,12 +181,12 @@
 
 @media (max-width: 992px) {
     
-    #navbarbody .navbar .links,
-    #navbarbody .navbar .action_btn {
+    #navbarbody .myNavbar .links,
+    #navbarbody .myNavbar .action_btn {
         display: none;
     }
 
-    #navbarbody .navbar .toggle_btn {
+    #navbarbody .myNavbar .toggle_btn {
         display: block;
     }
 

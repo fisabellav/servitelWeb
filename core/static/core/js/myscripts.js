@@ -20,17 +20,16 @@ closeCart.addEventListener('click', () => {
 
 listProductHTML.addEventListener('click', (event) => {
     let positionClick = event.target;
-    if (positionClick.classList.contains('carrito')) {
+    if (positionClick.classList.contains('deseos')) {
         let productElement = positionClick.closest('.product');
         let productId = productElement.dataset.id;
         let productName = productElement.querySelector('.product-title').textContent;
-        let productPrice = productElement.querySelector('.product-price').textContent;
+        
         let productImage = productElement.querySelector('img').src;
 
         let productData = {
             id: productId,
             name: productName,
-            price: productPrice,
             image: productImage,
         };
 
@@ -44,7 +43,6 @@ const addToCart = (productData) => {
         cart = [{
             id: productData.id,
             name: productData.name,
-            price: productData.price,
             image: productData.image,
             quantity: 1,
         }];
@@ -52,7 +50,6 @@ const addToCart = (productData) => {
         cart.push({
             id: productData.id,
             name: productData.name,
-            price: productData.price,
             image: productData.image,
             quantity: 1,
         });
@@ -80,7 +77,7 @@ const addCartToHTML = () => {
         <div class="name">
             ${item.name}
         </div>
-        <div class="totalPrice">$${item.price * item.quantity}</div>
+        
         <div class="quantity">
             <span class="minus"><</span>
             <span>${item.quantity}</span>
@@ -92,6 +89,7 @@ const addCartToHTML = () => {
     }
     iconCartSpan.innerText = totalQuantity;
 }
+
 
 listCartHTML.addEventListener('click', (event) => {
     let positionClick = event.target;

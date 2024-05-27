@@ -22,25 +22,35 @@
 {% endblock %}
 
 {% block first_content %}
-<div class="banner">
-    <img src="{% static 'core/img/carrusel_bg.jpg' %}" alt="">
+<div class="indexBody">
+    <div class="banner">
+        <img src="{% static 'core/img/carrusel_bg.jpg' %}" alt="">
+    </div>
+
+    {% include 'core/cards.html' %}
+
+    <!-- CATEGORIAS -->
+    <div class="categories">
+        <div class="category">
+            <a href="{% url 'catalogo' %}">
+                <img src="{% static 'core/img/categorias/catalogo.png' %}" alt="Categoría 1">
+                <h4 class="category-title">Catálogo</h4>
+            </a>
+        </div>
+        <div class="category">
+            <a href="">
+                <img src="{% static 'core/img/categorias/accesorios.png' %}" alt="Categoría 2">
+                <h4 class="category-title">Accesorios</h4>
+            </a>
+        </div>
+        <div class="category">
+            <a href="">
+                <img src="{% static 'core/img/categorias/kits.png' %}" alt="Categoría 2">
+                <h4 class="category-title">Kits</h4>
+            </a>
+        </div>
+    </div>
 </div>
-
-{% include 'core/cards.html' %}
-
-<!-- CATEGORIAS -->
-<div class="categories">
-    <div class="category">
-        <img src="{% static 'core/img/productos/domo_4mp.png' %}" alt="Categoría 1">
-    </div>
-    <div class="category">
-        <img src="{% static 'core/img/productos/domo_4mp.png' %}" alt="Categoría 2">
-    </div>
-    <div class="category">
-        <img src="{% static 'core/img/productos/domo_4mp.png' %}" alt="Categoría 2">
-    </div>
-</div>
-
 {% endblock %}
 
 

@@ -1,5 +1,5 @@
 function setNavbarBackgroundOnScroll(backgroundImageUrl) {
-    const navbar = document.querySelector(".navbar");
+    const navbar = document.querySelector(".myNavbar");
 
     window.addEventListener("scroll", function () {
         if (window.scrollY > 80) {
