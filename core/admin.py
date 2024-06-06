@@ -1,10 +1,14 @@
 from django.contrib import admin
-from .models import Product
+from .models import Solicitud, Comuna
 
 # Register your models here.
-class ProductAdmin(admin.ModelAdmin):
-    readonly_fields = ('created_at','updated_at')
-    list_display = ('id','product')
-    ordering = ('product',)
+class SolicitudAdmin(admin.ModelAdmin):
+    list_display = ('id','name', 'last_name')
+    ordering = ('last_name',)
 
-admin.site.register(Product,ProductAdmin)
+class ComunaAdmin(admin.ModelAdmin):
+    list_display = ('id','comuna')
+    ordering = ('comuna',)
+
+admin.site.register(Solicitud,SolicitudAdmin)
+admin.site.register(Comuna,ComunaAdmin)

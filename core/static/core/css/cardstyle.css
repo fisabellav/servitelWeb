@@ -53,7 +53,7 @@
     }
 }
 
-#cardsbody .mycard .profile-details {
+#cardsbody .mycard .card-details {
     display: flex;
     align-items: center;
     column-gap: 12px;
@@ -62,12 +62,12 @@
 
 
 
-#cardsbody .profile-details .name {
+#cardsbody .card-details .name {
     font-size: 18px;
     font-weight:500;
 }
 
-#cardsbody .profile-details .job {
+#cardsbody .card-details .description {
     font-size: 12px;
     font-weight: 500;
     color: #4d4d4d;

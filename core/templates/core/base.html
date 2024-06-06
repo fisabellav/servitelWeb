@@ -13,6 +13,7 @@
         crossorigin="anonymous" referrerpolicy="no-referrer" />
     {% block extra_css %}{% endblock %}
     <link rel="stylesheet" href="{%static 'core/css/navstyle.css' %}" />
+    <link rel="stylesheet" href="{%static 'core/css/wish.css' %}" />
 
 </head>
 
@@ -28,11 +29,24 @@
     
     <main>
         {% block first_content %}{% endblock %}
-
         {% block second_content %}{% endblock %}
+
+        <div class="cart-container">
+            <div class="cartTab">
+                <h1 style="font-weight: bold;">Carrito de compras</h1>
+                <div class="listCart">
+        
+                </div>
+                <div class="btn">
+                    <button class="close">Cerrar</button>
+                    <a href="{% url 'contacto' %}" class="solicitar">Solicitar</a>
+                </div>
+            </div>
+        </div>
     </main>
 
     {% block my_js %}{% endblock %}
+    <script src="{% static 'core/js/showwish.js' %}"></script>
 </body>
 
 </html>

@@ -104,7 +104,7 @@
         <div class="all-products">
             {% if filtered_products %}
             {% for p in filtered_products %}
-            <div class="product" data-id="1">
+            <div class="product" data-id="{{ p.id }}">
                 {% if p.image %}
                 <img src="{{p.image.url}}">
                 {% endif %}
@@ -122,7 +122,7 @@
             {% endfor %}
             {% else %}
             {% for f in productos %}
-            <div class="product" data-id="1">
+            <div class="product" data-id="{{ f.id }}">
                 {% if f.image %}
                 <img src="{{f.image.url}}">
                 <div class="product-info">
@@ -142,65 +142,14 @@
         </div>
     </section>
 
-    <div class="cartTab">
-        <h1 style="font-weight: bold;">Carrito de compras</h1>
-        <div class="listCart">
-
-        </div>
-        <div class="btn">
-            <button class="close">CLOSE</button>
-            <button class="checkOut">Check Out</button>
-        </div>
-    </div>
+    
 </div>
 
-<script>
-    const filterGroups = document.querySelectorAll('.filter-group');
 
-    filterGroups.forEach(filterGroup => {
-        const filterGroupTitle = filterGroup.querySelector('.filter-group-title');
-        const filterGroupToggle = filterGroupTitle.querySelector('.filter-group-toggle');
-        const filterOptions = filterGroup.querySelector('.filter-options');
-
-        filterGroupToggle.addEventListener('click', () => {
-            filterGroup.classList.toggle('active');
-        });
-    });
-</script>
-
-<script>
-    const priceRange = document.querySelector('#price-range');
-    const priceLabelMin = document.querySelector('#price-label-min');
-    const priceLabelMax = document.querySelector('#price-label-max');
-
-    priceRange.addEventListener('input', () => {
-        console.log("holaa")
-        const minPrice = priceRange.value;
-        const maxPrice = priceRange.max;
-        const labelMin = `$${minPrice}`;
-        const labelMax = `$${maxPrice}`;
-
-        priceLabelMin.textContent = labelMin;
-        priceLabelMax.textContent = labelMax;
-    });
-</script>
-<script>
-    // Almacena la posición de desplazamiento antes de recargar la página
-    window.onbeforeunload = function () {
-        localStorage.setItem('scrollPosition', window.pageYOffset);
-    };
-
-    // Restaura la posición de desplazamiento después de recargar la página
-    window.onload = function () {
-        if (localStorage.getItem('scrollPosition')) {
-            window.scrollTo(0, localStorage.getItem('scrollPosition'));
-            localStorage.removeItem('scrollPosition');
-        }
-    };
-</script>
-
-    {% endblock %}
-
-    {% block my_js %}
-    <script src="{% static 'core/js/myscripts.js' %}"></script>
 {% endblock %}
+
+{% block my_js %}
+<script src="{% static 'core/js/catalogo.js' %}"></script>
+<script src="{% static 'core/js/wishlist.js' %}"></script>
+{% endblock %}
+    

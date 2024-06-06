@@ -1,18 +1,45 @@
 .product-detail {
-    margin: 100px 50px;
+    margin: 0px 50px 100px;
     display: flex;
     flex-wrap: wrap;
 }
 
-.product-detail img {
-    flex-basis: 50%;
-    max-width: 450px;
+.product-gallery {
+    display: flex;
+    flex-direction: row;
+    margin: 100px 50px;
+}
+
+.product-image {
+    flex-basis: 60%;
+    max-width: 550px;
     height: auto;
     margin-right: 20px;
 }
 
+.thumbnails {
+    flex-basis: 20%;
+    display: flex;
+    flex-direction: column;
+}
+
+.thumbnail-image {
+    width: 180px;
+    height: auto;
+    margin-bottom: 10px;
+    margin-right: 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: transform .2s;
+}
+
+.thumbnail-image:hover {
+    transform: scale(1.1);
+}
+
 .product-detail .product-info {
-    flex-basis: 40%;
+    margin-top: 150px;
+    flex-basis: 20%;
     display: flex;
     flex-direction: column;
 }
@@ -20,7 +47,7 @@
 .product-title {
     margin-top: 15px;
     font-size: 32px;
-    
+
 }
 
 .product-price {
@@ -32,7 +59,8 @@
     justify-content: space-between;
 }
 
-.cantidad label, .cantidad span{
+.cantidad label,
+.cantidad span {
     display: inline-block;
     width: 25px;
     height: 25px;
@@ -40,14 +68,17 @@
     border-radius: 50%;
     margin: 10px 10px 20px 0;
     color: beige;
-    text-align: center; /* Centra el texto horizontalmente */
-    line-height: 25px; /* Centra el texto verticalmente */
-    font-size: 13px; /* Ajusta el tamaño de la fuente para que se vea bien dentro del círculo */
+    text-align: center;
+    /* Centra el texto horizontalmente */
+    line-height: 25px;
+    /* Centra el texto verticalmente */
+    font-size: 13px;
+    /* Ajusta el tamaño de la fuente para que se vea bien dentro del círculo */
     cursor: pointer;
     user-select: none;
 }
 
-.cantidad span:hover{
+.cantidad span:hover {
     transform: scale(1.1);
     background: #383838;
 }
@@ -65,14 +96,20 @@
     transition: all 0.2s;
 }
 
-.comprar:hover{
+.comprar:hover {
     transform: scale(1.1);
 }
 
-.formulario{
+.formulario {
     background-color: #eeeeee;
     padding: 30px;
-    width: 70%;
-    margin: 40px 50px;
+    width: 80%;
+    margin: 40px 100px;
     border-radius: 1rem;
 }
+
+.iti {
+    position: relative;
+    display: flex;
+}
+

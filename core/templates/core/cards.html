@@ -5,66 +5,21 @@
     <div class="mycontainer swiper">
         <div class="slide-container">
             <div class="mycard-wrapper swiper-wrapper">
+                {% for p in productos %}
                 <div class="mycard swiper-slide">
                     <div class="image-box">
-                        <img src="{%static 'core/img/productos/kit_1.png' %}" alt="" />
+                        {% if p.image %}
+                        <img src="{{p.image.url}}" alt="" />
+                        {% endif %}
                     </div>
-                    <div class="profile-details">
-                        <!--<img src="images/profile/profile1.jpg" alt="" />-->
+                    <div class="card-details">
                         <div class="name-job">
-                            <h3 class="name">Kit 4 cámaras DVR 4 canales</h3>
-                            <h4 class="job">Kit Opción 1</h4>
+                            <h3 class="name">{{p.product}}</h3>
+                            <h4 class="description">{{ p.description }}</h4>
                         </div>
                     </div>
                 </div>
-                <div class="mycard swiper-slide">
-                    <div class="image-box">
-                        <img src="{%static 'core/img/productos/kit_2.png' %}" alt="" />
-                    </div>
-                    <div class="profile-details">
-                        <!--<img src="images/profile/profile2.jpg" alt="" />-->
-                        <div class="name-job">
-                            <h3 class="name">Kit 4 cámaras DVR 8 canales</h3>
-                            <h4 class="job">Kit Opción 2</h4>
-                        </div>
-                    </div>
-                </div>
-                <div class="mycard swiper-slide">
-                    <div class="image-box">
-                        <img src="{%static 'core/img/productos/kit_3.png' %}" alt="" />
-                    </div>
-                    <div class="profile-details">
-                        <!--<img src="images/profile/profile3.jpg" alt="" />-->
-                        <div class="name-job">
-                            <h3 class="name">Kit 8 cámaras DVR 8 canales</h3>
-                            <h4 class="job">Kit Opción 3</h4>
-                        </div>
-                    </div>
-                </div>
-                <div class="mycard swiper-slide">
-                    <div class="image-box">
-                        <img src="{%static 'core/img/productos/kit_4.png' %}" alt="" />
-                    </div>
-                    <div class="profile-details">
-                        <!--<img src="images/profile/profile4.jpg" alt="" />-->
-                        <div class="name-job">
-                            <h3 class="name">Kit 8 cámaras DVR 16 canales</h3>
-                            <h4 class="job">Kit Opción 4</h4>
-                        </div>
-                    </div>
-                </div>
-                <div class="mycard swiper-slide">
-                    <div class="image-box">
-                        <img src="{%static 'core/img/productos/kit_5.png' %}" alt="" />
-                    </div>
-                    <div class="profile-details">
-                        <!--<img src="images/profile/profile5.jpg" alt="" />-->
-                        <div class="name-job">
-                            <h3 class="name">Kit 16 cámaras DVR 16 canales</h3>
-                            <h4 class="job">Kit Opción 5</h4>
-                        </div>
-                    </div>
-                </div>
+                {% endfor %}
             </div>
         </div>
         <div class="swiper-button-next swiper-navBtn"></div>
@@ -75,38 +30,7 @@
 
 
 <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
-<script>
-    var swiper = new Swiper(".slide-container", {
-        slidesPerView: 4,
-        spaceBetween: 20,
-        sliderPerGroup: 4,
-        loop: true,
-        centerSlide: "true",
-        fade: "true",
-        grabCursor: "true",
-        pagination: {
-            el: ".swiper-pagination",
-            clickable: true,
-            dynamicBullets: true,
-        },
-        navigation: {
-            nextEl: ".swiper-button-next",
-            prevEl: ".swiper-button-prev",
-        },
 
-        breakpoints: {
-            0: {
-                slidesPerView: 1,
-            },
-            520: {
-                slidesPerView: 2,
-            },
-            768: {
-                slidesPerView: 3,
-            },
-            1000: {
-                slidesPerView: 4,
-            },
-        },
-    });
-</script>
+{% block my_js %}
+<script src="{% static 'core/js/swiper.js' %}"></script>
+{% endblock %}
