@@ -1,0 +1,90 @@
+{% extends 'crud/base.html' %}
+
+{% block title %}Productos{% endblock %}
+
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'crud/css/product-list.css' %}">
+{% endblock %}
+
+{% block first_content %}
+
+
+
+<div class="mycontainer container mx-auto">
+    <div class="text-end mb-3">
+        <a class="btn add-product" href="{% url 'add-product' %}"><img style="width: 25px; vertical-align: bottom;" src="{% static 'crud/img/boton-agregar.png' %}" alt=""> Nuevo Producto</a>
+    </div>
+
+    
+
+    <div class="table-responsive">
+        <table class="table table-hover">
+            <thead class="table-head">
+                <tr>
+                    <th>Producto</th>
+                    <th>Cámaras</th>
+                    <th>Canales</th>
+                    <th>Imagen</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody class="table-body">
+                {% for p in productos %}
+                <tr>
+                    <td>
+                        <h6><a class="card-link text-decoration-none" href="">{{p.product}}</a></h6>
+                    </td>
+                    <td>
+                        <h6><a class="card-link text-decoration-none" href="">{{p.cameras}}</a></h6>
+                    </td>
+                    <td>
+                        <h6><a class="card-link text-decoration-none" href="">{{p.channels}}</a></h6>
+                    </td>
+                    <td>
+                        {% if p.image %}
+                        <img class="img-fluid myimg" src="{{p.image.url}}" alt="">
+                        {% else %}
+                        <img class="img-fluid myimg" src="{% static 'crud/img/image_not_found.jpg' %}" alt="">
+                        {% endif %}
+                    </td>
+                    <td>
+                        <div class="row row-cols-3  text-center pt-2">
+                            <div class="col col-md-3 col-lg-2">
+                                <a class="btn btn-outline-none" href="">
+                                    <span class="fs-5 btn-view">
+                                        <i class="fa-solid fa-eye"></i>
+                                    </span>
+                                </a>
+                            </div>
+                            <div class="col col-md-3 col-lg-2">
+                                <a class="btn btn-outline-none" href="{% url 'productlist-edit' id=p.id %}">
+                                    <span class="fs-5 btn-edit">
+                                        <i class="fa-solid fa-pen"></i>
+                                    </span>
+                                </a>
+                            </div>
+                            <div class="col col-md-3 col-lg-2">
+                                <a class="btn btn-outline-none modal-borrar" data-bs-toggle="modal"
+                                    data-bs-target="#staticBackdrop" data-href="{% url 'productlist-delete' id=p.id %}">
+                                    <span class="fs-5 btn-delete">
+                                        <i class="fa-solid fa-trash-can"></i>
+                                    </span>
+                                </a>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+{% endblock %}
+
+{% block my_js %}
+<script src="{% static 'crud/js/funciones.js' %}"></script>
+{% endblock %}

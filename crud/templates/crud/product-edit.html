@@ -1,0 +1,77 @@
+{% extends 'crud/base.html' %}
+
+{% block title %}Asignaturas{% endblock %}
+
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'crud/css/form-product.css' %}">
+{% endblock %}
+
+{% block first_content %}
+<section id="form_sptn" class="mycontainer container mx-auto">
+    <div id="container_new" class="container px-0 mx-0  py-3 text-center">
+        <h3>Editar Producto</h3>
+    </div>
+    <div class="container myform  pt-2 p-5">
+        <form class="row g-3" action="" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="col-md-12 form-group mb-3">
+                <label for="product" class="fw-bold">Producto</label>
+                <div class="input-group">
+                    {{ form.product }}
+                </div>
+            </div>
+            <div class="col-md-12 form-group mb-3">
+                <label for="description" class="fw-bold">Descripción</label>
+                <div class="input-group">
+                    {{ form.description }}
+                </div>
+            </div>
+            <div class="col-md-6 form-group mb-3">
+                <label for="cameras" class="fw-bold">Cámaras</label>
+                <div class="input-group">
+                    {{ form.cameras }}
+                </div>
+            </div>
+            <div class="col-md-6 form-group mb-3">
+                <label for="channels" class="fw-bold">Canales</label>
+                <div class="input-group">
+                    {{ form.channels }}
+                </div>
+            </div>
+            <div class="form-group mb-3">
+                <label for="image" class="fw-bold">Imagen</label>
+                {% if form.instance.image %}
+                <div class="row my-2 text-center">
+                    <div class="col-12">
+                        <img class="img-update mx-auto pt-4" src="{{ form.instance.image.url }}" alt="">
+                        <small>Currently</small>
+                    </div>
+                </div>
+                <div class="row my-2 text-center">
+                    <div class="col-12">
+                        <a href="{{ form.instance.image.url }}">{{ form.instance.image }}</a>
+                        <br>
+                        <input type="checkbox" name="{{ form.image.name }}_clear" id="id_{{ form.image.name }}_clear">
+                        <label for="id_{{ form.image.name }}_clear">Eliminar imagen actual</label>
+                    </div>
+                </div>
+                {% endif %}
+                <div class="row">
+                    <div class="col-12">
+                        <div class="input-group">
+                            {{ form.image}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="text-center my-4">
+                <input type="submit" class="btn btn-primary" id="actualizar" value="Actualizar">
+                <a class="btn btn-success" href="{% url 'product-list' %}">Volver</a>
+            </div>
+        </form>
+    </div>
+</section>
+{% endblock %}

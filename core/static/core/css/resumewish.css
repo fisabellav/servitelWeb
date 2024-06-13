@@ -1,0 +1,51 @@
+.formulario{
+    margin-top: 100px;
+}
+
+.listCart .item img {
+    width: 80%;
+    max-width: 100px;
+}
+
+.listCart .item {
+    display: grid;
+    grid-template-columns: 20% 45% 20% 10%;
+    gap: 10px;
+    text-align: center;
+    align-items: center;
+    margin: 0 auto;
+}
+
+.listCart .quantity span {
+    display: inline;
+    width: 25px;
+    height: 25px;
+    background-color: #eee;
+    border-radius: 50%;
+    color: #555;
+    cursor: pointer;
+    padding: 0 5px;
+}
+
+.listCart .quantity span:nth-child(2) {
+    background-color: transparent;
+    color: #020202;
+    cursor: auto;
+}
+
+.listCart .item:nth-child(even) {
+    background-color: #eee1;
+}
+
+.table-titulo{
+    font-size: 20px;
+    font-weight: 500;
+    background-color: #d4d4d4;
+    margin: 0 0 1rem;
+}
+
+.product-table{
+    margin: 50px 0 25px;
+    background-color: white;
+    padding: 0 0;
+}

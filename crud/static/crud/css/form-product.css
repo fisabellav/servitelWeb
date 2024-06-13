@@ -1,0 +1,61 @@
+.img-update {
+    max-width: 150px;  /* Ajusta el tamaño máximo de la imagen */
+    max-height: 150px; /* Ajusta el tamaño máximo de la imagen */
+    border: 1px solid #ddd; /* Añade un borde para que se vea como una miniatura */
+    padding: 4px; /* Añade un padding para que la imagen no toque el borde */
+    border-radius: 5px; /* Opcional: añade bordes redondeados */
+    display: block; /* Asegura que se comporte como un bloque */
+    margin: 0 auto; /* Centra la imagen horizontalmente */
+}
+
+
+.text-center small {
+    display: block;
+    margin-top: 10px;
+    font-size: 0.875em;
+    color: #6c757d; /* Color de texto gris */
+}
+
+.mycontainer{
+    margin: 100px 50px;
+    width: 75%;
+    padding-top: 10px;
+    background-color: rgb(230, 230, 230);
+    border-radius: 10px;
+}
+
+.myform{
+    width: 90%;
+}
+
+.btn-primary{
+    background-color: #28799f;
+    border-color: #28799f;
+}
+
+.btn-primary:hover{
+    background-color: #236d8f;
+}
+
+.btn-reset{
+    background-color: #153f53;
+    border-color: #153f53;
+    color: white;
+}
+
+.btn-reset:hover{
+    background-color: #0f2f3d;
+    color: white;
+}
+
+.btn-secondary{
+    background-color: #a5a5a5;
+    border-color: #a5a5a5;
+    color: white;
+}
+
+.btn-secondary:hover{
+    background-color: #9a9a9a;
+    border-color: #9a9a9a;
+    color: white;
+}

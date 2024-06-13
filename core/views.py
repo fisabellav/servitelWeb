@@ -1,3 +1,4 @@
+import json
 from django.shortcuts import render, HttpResponse, redirect, reverse
 from crud.models import *
 from .models import *
@@ -87,11 +88,18 @@ def contacto(request):
                 gender=gender,
             )
             obj.save()
+
+            wishlist = request.POST.get('wishlist', '[]')
+            wishlist_products = json.loads(wishlist)
+
+            for item in wishlist_products:
+                product = Product.objects.get(id=item['id'])
+                SolicitudProducto.objects.create(solicitud_id=obj.id, product=product, quantity=item['quantity'])
             return redirect(reverse('contacto') + '?OK')
         else:
             return render(request, 'core/contacto.html', {'producto': product, 'form': form})
     else:
-        form = SolicitudForm
+        form = SolicitudForm()
     context = {'form': form}
     return render(request, 'core/contacto.html', context)
 

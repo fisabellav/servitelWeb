@@ -20,6 +20,20 @@
     padding: 40px 0;
 }
 
+#cardsbody .mycontainer h2 {
+    text-align: start;
+    font-size: 36px;
+    font-weight: 600;
+    margin: 0px 40px 20px;
+    
+}
+
+#cardsbody .mycontainer a{
+    text-decoration: none;
+    color: #000;
+
+}
+
 #cardsbody .slide-container {
     margin: 0 30px;
     overflow: hidden;
