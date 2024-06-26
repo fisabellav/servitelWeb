@@ -1,7 +1,6 @@
 from django.db import models
 import re
 from datetime import datetime, timedelta
-from core.models import Solicitud
 
 # Create your models here.
 class UserManager(models.Manager):
@@ -38,12 +37,30 @@ class UserManager(models.Manager):
 
         return errors
 
+class Comuna(models.Model):
+    comuna = models.CharField(verbose_name='COMUNA', max_length=100)
+
+    def __str__(self):
+        return self.comuna
+
+def default_birthday():
+    return datetime.now().date() - timedelta(days=365*18)
 
 class User(models.Model):
+    GENERO_CHOICES = [
+        ('M', 'Masculino'),
+        ('F', 'Femenino'),
+        ('SE', 'Sin especificar'),
+    ]
 
-    solicitud = models.ForeignKey(Solicitud, on_delete=models.CASCADE)
-    email = models.EmailField(verbose_name='Correo', max_length=100, unique=True)
-    password = models.CharField(verbose_name='Clave', max_length=250)
+    name = models.CharField(verbose_name='NOMBRE', max_length=50, blank=True)
+    last_name = models.CharField(verbose_name='APELLIDO', max_length=50, blank=True)
+    birthday = models.DateField(verbose_name='FECHA DE NACIMIENTO', default=default_birthday)
+    phone_number = models.CharField(verbose_name='TELÉFONO', max_length=15, blank=True)
+    gender = models.CharField(verbose_name='GÉNERO', max_length=2, choices=GENERO_CHOICES, default='SE')
+    comuna = models.ForeignKey(Comuna, on_delete=models.CASCADE, verbose_name='COMUNA', blank=True, null=True)
+    email = models.EmailField(verbose_name='Correo', max_length=100, unique=True, blank=True)
+    password = models.CharField(verbose_name='Clave', max_length=250, null=True, blank=True)
     rol = models.CharField(max_length=20, default='USER')
     created_at = models.DateTimeField(verbose_name='Fecha registro', auto_now_add=True)
     updated_at = models.DateTimeField(verbose_name='Fecha actualización', auto_now=True)
@@ -52,6 +69,15 @@ class User(models.Model):
     class Meta:
         verbose_name = "usuario"
         verbose_name_plural = "usuarios"
-
-    
         
+    def __str__(self):
+        return f"{self.name} {self.last_name}"
+    
+    def save(self, *args, **kwargs):
+        if not self.name:
+            self.name = 'Nombre por defecto'
+        if not self.last_name:
+            self.last_name = 'Apellido por defecto'
+        if not self.phone_number:
+            self.phone_number = 'Teléfono por defecto'
+        super().save(*args, **kwargs)  

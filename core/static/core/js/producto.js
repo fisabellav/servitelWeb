@@ -1,22 +1,31 @@
 
-const cantidadValor = document.getElementById('cantidad-valor');
-const menosCantidad = document.getElementById('menos-cantidad');
-const masCantidad = document.getElementById('mas-cantidad');
+document.addEventListener('DOMContentLoaded', function() {
 
-let cantidad = parseInt(cantidadValor.textContent);
+    let cantidadValor = document.getElementById('cantidad-valor');
+    let cantidadSeleccionada = document.getElementById('cantidad-seleccionada');
+    let menosCantidad = document.getElementById('menos-cantidad');
+    let masCantidad = document.getElementById('mas-cantidad');
 
-menosCantidad.addEventListener('click', () => {
-    if (cantidad > 1) {
-        cantidad--;
-        cantidadValor.textContent = cantidad;
+    let cantidad = parseInt(cantidadValor.textContent);
+
+    function actualizarCantidadSeleccionada() {
+        cantidadSeleccionada.value = cantidad;
     }
+
+    menosCantidad.addEventListener('click', () => {
+        if (cantidad > 1) {
+            cantidad--;
+            cantidadValor.textContent = cantidad;
+            actualizarCantidadSeleccionada();
+        }
+    });
+
+    masCantidad.addEventListener('click', () => {
+        cantidad++;
+        cantidadValor.textContent = cantidad;
+        actualizarCantidadSeleccionada();
+    });
+
+    actualizarCantidadSeleccionada();
 });
-
-masCantidad.addEventListener('click', () => {
-    cantidad++;
-    cantidadValor.textContent = cantidad;
-});
-
-
-
 

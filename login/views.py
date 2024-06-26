@@ -2,6 +2,9 @@ from django.shortcuts import render, redirect, HttpResponse, reverse
 from django.contrib import messages
 from .models import *
 import bcrypt
+import json
+from django.http import JsonResponse
+import requests
 
 
 
@@ -100,3 +103,19 @@ def logout(request):
     
     return redirect('/')
 
+def cargar_comunas_rm_desde_api(request):
+    url_api_comunas = "https://gist.githubusercontent.com/juanbrujo/0fd2f4d126b3ce5a95a7dd1f28b3d8dd/raw/b8575eb82dce974fd2647f46819a7568278396bd/comunas-regiones.json"  # Reemplaza con la URL de la API de comunas
+    response = requests.get(url_api_comunas)
+    if response.status_code == 200:
+        comunas_data = response.json()
+        region_rm = next((region for region in comunas_data["regiones"] if region["region"] == "Región Metropolitana de Santiago"), None)
+        if region_rm:
+            for comuna in region_rm["comunas"]:
+                nombre_comuna = comuna
+                # Verifica si la comuna ya existe en la base de datos
+                if not Comuna.objects.filter(comuna=nombre_comuna).exists():
+                    comuna_obj = Comuna(comuna=nombre_comuna)
+                    comuna_obj.save()
+        return JsonResponse({'status': 'success'})
+    else:
+        return JsonResponse({'status': 'error'})

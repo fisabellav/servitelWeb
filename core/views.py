@@ -1,10 +1,11 @@
 import json
 from django.shortcuts import render, HttpResponse, redirect, reverse
 from crud.models import *
+from login.models import *
 from .models import *
-from .forms import *
-from django.http import JsonResponse
-import requests
+from login.forms import UserForm
+from .forms import SolicitudProductoForm
+
 
 # Create your views here.
 def index(request):
@@ -67,33 +68,59 @@ def producto(request, id):
         product = Product.objects.get(id=id)
         if product:
             if request.method == 'POST':
-                form = SolicitudForm(request.POST, request.FILES)
-                if form.is_valid():
-                    name = form.cleaned_data.get('name')
-                    last_name = form.cleaned_data.get('last_name')
-                    birthday = form.cleaned_data.get('birthday')
+                user_form = UserForm(request.POST, prefix='user')
+                solicitud_form = SolicitudProductoForm(request.POST, prefix='solicitud')
+                if user_form.is_valid() :
+                    name = user_form.cleaned_data.get('name')
+                    last_name = user_form.cleaned_data.get('last_name')
+                    birthday = user_form.cleaned_data.get('birthday')
                     prefijo_telefono = request.POST.get('prefijo_telefono')
-                    phone_number = form.cleaned_data.get('phone_number')
+                    phone_number = user_form.cleaned_data.get('phone_number')
                     phone_number = ''.join(phone_number.split())  # Quitamos los espacios en blanco
                     phone_number = prefijo_telefono + phone_number
-                    gender = form.cleaned_data.get('gender')
-                    comuna = form.cleaned_data.get('comuna')
-                    obj = Solicitud.objects.create(
+                    gender = user_form.cleaned_data.get('gender')
+                    comuna = user_form.cleaned_data.get('comuna')
+                    email = user_form.cleaned_data.get('email')
+                    password = user_form.cleaned_data.get('password')
+
+                    user = User.objects.create(
                         name=name,
                         last_name=last_name,
                         birthday=birthday,
                         phone_number=phone_number,
                         comuna=comuna,
                         gender=gender,
-                        product=product
+                        email=email,
+                        password=password,
                     )
-                    obj.save()
+                    user.save()
+
+                    # solicitud = SolicitudProducto.objects.create(
+                    #     user=user,
+                    #     product=product,
+                    #     quantity=solicitud_form.cleaned_data.get('quantity')
+                    # )
+                    # solicitud.save()
+
                     return redirect(reverse('catalogo') + '?OK')
+
+                  
                 else:
-                    return render(request, 'core/producto.html', {'producto': product, 'form': form})
+                    context = {
+                        'producto': product,
+                        'user_form': user_form,
+                        'solicitud_form': solicitud_form
+                    }
+                    return render(request, 'core/producto.html', context)
             else:
-                form = SolicitudForm
-            context = {'producto': product, 'form': form}
+                user_form = UserForm(prefix='user')
+                solicitud_form = SolicitudProductoForm(prefix='solicitud')
+                
+            context = {
+                'producto': product,
+                'user_form': user_form,
+                'solicitud_form': solicitud_form
+            }
             return render(request, 'core/producto.html', context)
         else:
             return redirect(reverse('catalogo') + '?NO_EXIST')
@@ -102,7 +129,7 @@ def producto(request, id):
 
 def contacto(request):
     if request.method == 'POST':
-        form = SolicitudForm(request.POST, request.FILES)
+        form = UserForm(request.POST, request.FILES)
         if form.is_valid():
             name = form.cleaned_data.get('name')
             last_name = form.cleaned_data.get('last_name')
@@ -113,7 +140,7 @@ def contacto(request):
             phone_number = prefijo_telefono + phone_number
             gender = form.cleaned_data.get('gender')
             comuna = form.cleaned_data.get('comuna')
-            obj = Solicitud.objects.create(
+            obj = User.objects.create(
                 name=name,
                 last_name=last_name,
                 birthday=birthday,
@@ -128,12 +155,12 @@ def contacto(request):
 
             for item in wishlist_products:
                 product = Product.objects.get(id=item['id'])
-                SolicitudProducto.objects.create(solicitud_id=obj.id, product=product, quantity=item['quantity'])
+                SolicitudProducto.objects.create(user_id=obj.id, product=product, quantity=item['quantity'])
             return redirect(reverse('contacto') + '?OK')
         else:
             return render(request, 'core/contacto.html', {'producto': product, 'form': form})
     else:
-        form = SolicitudForm()
+        form = UserForm()
     context = {'form': form}
     return render(request, 'core/contacto.html', context)
 
@@ -156,19 +183,3 @@ def editar_perfil(request, idUser):
         return render(request,'crud/product-edit.html',context)
 
 
-def cargar_comunas_rm_desde_api(request):
-    url_api_comunas = "https://gist.githubusercontent.com/juanbrujo/0fd2f4d126b3ce5a95a7dd1f28b3d8dd/raw/b8575eb82dce974fd2647f46819a7568278396bd/comunas-regiones.json"  # Reemplaza con la URL de la API de comunas
-    response = requests.get(url_api_comunas)
-    if response.status_code == 200:
-        comunas_data = response.json()
-        region_rm = next((region for region in comunas_data["regiones"] if region["region"] == "Región Metropolitana de Santiago"), None)
-        if region_rm:
-            for comuna in region_rm["comunas"]:
-                nombre_comuna = comuna
-                # Verifica si la comuna ya existe en la base de datos
-                if not Comuna.objects.filter(comuna=nombre_comuna).exists():
-                    comuna_obj = Comuna(comuna=nombre_comuna)
-                    comuna_obj.save()
-        return JsonResponse({'status': 'success'})
-    else:
-        return JsonResponse({'status': 'error'})
