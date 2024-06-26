@@ -12,21 +12,55 @@ def index(request):
     return render(request, 'core/index.html', context)
 
 def catalogo(request):
-    filters = list(set(Product.objects.all().values_list('cameras', flat=True)))
-    context = {'filtros': filters, 'productos':Product.objects.all(), 'request': request}
+    camera_filter = list(set(Product.objects.all().values_list('cameras', flat=True)))
+    channel_filter = list(set(Product.objects.all().values_list('channels', flat=True)))
+
+    selected_cameras = request.GET.getlist('cameras')
+    selected_channels = request.GET.getlist('channels')
+
+    filtered_products = Product.objects.all()
+
+    if selected_cameras:
+        filtered_products = filtered_products.filter(cameras__in=selected_cameras)
+
+    if selected_channels:
+        filtered_products = filtered_products.filter(channels__in=selected_channels)
+
+    context = {
+        'filtro_canal': channel_filter,
+        'filtro_camara': camera_filter,
+        'productos': filtered_products,
+        'request': request,
+        'selected_cameras': selected_cameras,
+        'selected_channels': selected_channels
+    }
     return render(request, 'core/catalogo.html', context)
 
-def filter_by_cameras(request, cameras):
-    try:
-        filters = list(set(Product.objects.all().values_list('cameras', flat=True)))
-        filtered_products = Product.objects.filter(cameras=cameras)
-        if filtered_products:
-            context = {'filtros': filters, 'filtered_products': filtered_products, 'request': request}
-            return render(request,'core/catalogo.html',context)
-        else:
-            return redirect(reverse('catalogo') + '?FAIL')
-    except:
-        return redirect(reverse('catalogo') + '?FAIL')
+def filter_products(request):
+    camera_filter = list(set(Product.objects.all().values_list('cameras', flat=True)))
+    channel_filter = list(set(Product.objects.all().values_list('channels', flat=True)))
+
+    selected_cameras = request.GET.getlist('cameras')
+    selected_channels = request.GET.getlist('channels')
+
+    filtered_products = Product.objects.all()
+
+    if selected_cameras:
+        filtered_products = filtered_products.filter(cameras__in=selected_cameras)
+
+    if selected_channels:
+        filtered_products = filtered_products.filter(channels__in=selected_channels)
+
+    context = {
+        'filtro_canal': channel_filter,
+        'filtro_camara': camera_filter,
+        'filtered_products': filtered_products,
+        'selected_cameras': selected_cameras,
+        'selected_channels': selected_channels,
+        'request': request
+    }
+    return render(request, 'core/catalogo.html', context)
+
 
 def producto(request, id):
     try:
@@ -103,6 +137,23 @@ def contacto(request):
     context = {'form': form}
     return render(request, 'core/contacto.html', context)
 
+def editar_perfil(request, idUser):
+    
+        user = User.objects.get(idUser=id)
+        form = ProductForm(instance = user)
+
+        if request.method == 'POST':
+            form = ProductForm(request.POST, request.FILES, instance = product)
+
+    
+            if form.is_valid():
+                form.save()
+                return redirect(reverse('product-list') + '?UPDATED')
+            else:
+                return redirect(reverse('productlist-edit') + id)
+
+        context = {'form':form}
+        return render(request,'crud/product-edit.html',context)
 
 
 def cargar_comunas_rm_desde_api(request):

@@ -59,3 +59,14 @@ def productlist_edit(request,id):
 
         context = {'form':form}
         return render(request,'crud/product-edit.html',context)
+
+def product_detail(request,id):
+    try:
+        product = Product.objects.get(id=id)
+        if product:
+            context = {'producto':product}
+            return render(request,'crud/detail.html',context)
+        else:
+            return redirect(reverse('product-list') + '?NO_EXIST')
+    except:
+        return redirect(reverse('product-list') + '?NO_EXIST')

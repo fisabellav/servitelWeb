@@ -13,9 +13,12 @@ modalBorrarElements.forEach(function (element) {
             text: "¡No podrás revertir esto!",
             icon: "warning",
             showCancelButton: true,
-            confirmButtonColor: "#3085d6",
-            cancelButtonColor: "#d33",
+            confirmButtonColor: "#d33",
+            cancelButtonColor: "#3085d6",
             confirmButtonText: "Sí, ¡elimínalo!"
+            
+            
+            
         }).then((result) => {
             if (result.isConfirmed) {
                 window.location.href = href;

@@ -1,6 +1,5 @@
 .img-update {
-    max-width: 150px;  /* Ajusta el tamaño máximo de la imagen */
-    max-height: 150px; /* Ajusta el tamaño máximo de la imagen */
+    width: 25%;
     border: 1px solid #ddd; /* Añade un borde para que se vea como una miniatura */
     padding: 4px; /* Añade un padding para que la imagen no toque el borde */
     border-radius: 5px; /* Opcional: añade bordes redondeados */

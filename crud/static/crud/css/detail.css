@@ -1,0 +1,13 @@
+.detail-img{
+    width: 80%;
+}
+
+.mycont{
+    margin: 100px 50px;
+}
+
+.btn-danger{
+    background-color: #d9534f;
+    border-color: #d9534f;
+    color: white;
+}

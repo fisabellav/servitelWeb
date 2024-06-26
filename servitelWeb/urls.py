@@ -23,6 +23,7 @@ from crud import views as crud_views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('accounts/', include('login.urls')),
     path('', include('core.urls')),
     path('crud/', include('crud.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -1,0 +1,82 @@
+{% extends "login/base.html"%}
+
+{% block title %}Login | Registro{% endblock %}
+
+{% load static %}
+
+{% block content %}
+
+
+    {% if messages %}
+    <div class="alert {{ request.session.level_mensaje }} alert-dismissible" role="alert">
+        <ul>
+            {% for message in messages %}
+            <li><strong>{{message}}</strong></li>
+            {% endfor %}
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </ul>
+    </div>
+    {% endif %}
+
+    <div class="container-fluid">
+        <form action="/accounts/signup" method="POST">
+            {% csrf_token %}
+            <div class="card border-0 mx-auto mycardsignup py-4">
+                <div class="" >
+                    <h2 class="card-title text-center">Registrarse</h2>
+                </div>
+                <div class="card-body">
+                    <div class="mb-3 row">
+                        <label for="first_name" class="col-sm-3 col-form-label fw-bold">Nombre</label>
+                        <div class="col-sm 9">
+                            <input class="form-control" type="text" name="first_name" id="first_name" value="{{ first_name }}" maxlength=30 required>
+                        </div>
+                    </div>
+                    <div class="mb-3 row">
+                        <label for="last_name" class="col-sm-3 col-form-label fw-bold">Apellido</label>
+                        <div class="col-sm 9">
+                            <input class="form-control" type="text" name="last_name" id="last_name" value="{{ last_name }}" maxlength=30 required>
+                        </div>
+                    </div>
+                    <div class="mb-3 row">
+                        <label for="email" class="col-sm-3 col-form-label fw-bold">Correo</label>
+                        <div class="col-sm 9">
+                            <input class="form-control" type="email" name="email" id="email" value="{{ email }}"  maxlength=100 required>
+                        </div>
+                    </div>
+                    <div class="mb-3 row">
+                        <label for="password" class="col-sm-3 col-form-label fw-bold">Contraseña</label>
+                        <div class="col-sm 9">
+                            <input class="form-control" type="password" name="password" id="password" required>
+                            <ul class="fst-italic fs-6">
+                                <li>La contraseña debe tener al entre 8 y 16 caracteres</li>
+                                <li>Al menos un dígito</li>
+                                <li>Al menos una minúscula y al menos una mayúscula</li>
+                                <li>NO puede tener otros símbolos.</li>
+                            </ul>
+                        </div>
+                        
+                    </div>
+                    <div class="mb-3 row">
+                        <label for="password_confirm" class="col-sm-3 col-form-label fw-bold">Repetir contraseña</label>
+                        <div class="col-sm 9">
+                            <input class="form-control" type="password" name="password_confirm" id="password_confirm" required>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer text-center bg-transparent border-0">
+                    <div class="d-grid gap-2 col-6 mx-auto">
+                        <input class="btn btn-primary" type="submit" value="Registrar">
+                        <input class="btn btn-light" type="reset" value="Limpiar datos">
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+
+{% endblock %}
+
+{% block my_js %}
+<script src="{% static 'login/js/login.js' %}"></script>
+{% endblock %}
+

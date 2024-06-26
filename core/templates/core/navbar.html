@@ -10,7 +10,25 @@
             <li><a href="">Kits</a></li>
             <li><a href="">Nosotros</a></li>
             <div class="items">
-                <a href="#" class="action_btn"><i class="fa-solid fa-user"></i></a>
+                {% if request.session.usuario %}
+                    {% if request.session.usuario.rol == 'ADMIN' %}
+                    <a class="nav-link" href="{% url 'product-list' %}">Vista admin</a>
+                    {% endif %}
+                    {% if request.session.usuario.rol == 'USER' %}
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                            aria-expanded="false"> <i class="fa-solid fa-user"></i>
+                            {{request.session.usuario.first_name}}
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="{% url 'add-product' %}">Editar datos</a></li>
+                            <li><a href="/accounts/logout" class="dropdown-item">Cerrar sesión</a></li>
+                        </ul>
+                    </li>
+                    {% endif %}
+                {% else %}
+                    <a href="/accounts/login" class="action_btn"><i class="fa-solid fa-user"></i></a>
+                {% endif %}
                 <a href="#" class="action_btn"><i class="fa-solid fa-magnifying-glass"></i></a>
                 <div class="action_btn icon-cart"><i class="fa-solid fa-heart"></i><span>0</span></div>
             </div>
@@ -27,7 +45,15 @@
         <li><a href="">Kits</a></li>
         <li><a href="">Nosotros</a></li>
         <div class="items">
-            <a href="#" class="action_btn"><i class="fa-solid fa-user"></i></a>
+            {% if request.session.usuario.rol == 'ADMIN' %}
+            <a class="nav-link " href="">Vista admin</a>
+            {% endif %}
+            {% if request.session.usuario %}
+            <a href="/accounts/logout" class="action_btn"><i class="fa-solid fa-user"></i> </a>
+            {% else %}
+            <a href="/accounts/login" class="action_btn"><i class="fa-solid fa-user"></i></a>
+            {% endif %}
+
             <a href="#" class="action_btn"><i class="fa-solid fa-magnifying-glass"></i></a>
             <a href="#" class="action_btn"><i class="fa-solid fa-cart-shopping"></i></a>
         </div>
