@@ -39,3 +39,22 @@ body{
 .card-footer .d-grid small a:hover {
     color: rgb(26, 139, 192);
 }
+
+
+.iti {
+    position: relative;
+    display: flex;
+}
+
+@media (max-width: 768px) {
+    .mycardlogin {
+        margin: 200px;
+        width: 80%;
+    }
+
+    .mycardsignup{
+        margin: 30px;
+        width: 100%;
+        padding: 0 25px;
+    }
+}

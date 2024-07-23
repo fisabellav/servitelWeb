@@ -58,3 +58,14 @@
     border-color: #9a9a9a;
     color: white;
 }
+
+@media (max-width: 768px) {
+    .mycontainer {
+        margin: 50px 20px;
+        width: 90%;
+    }
+
+    .myform {
+        width: 100%;
+    }
+}

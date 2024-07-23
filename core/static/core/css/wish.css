@@ -1,35 +1,4 @@
-/* CARRITO */
-.cart-container{
-    display: flex;
-    flex-wrap: wrap;
-}
 
-/* cart */
-.cartTab {
-    width: 400px;
-    background-color: #ffffff;
-    color: #000000;
-    position: fixed;
-    top: 0;
-    right: -400px;
-    bottom: 0;
-    display: none;
-    grid-template-rows: 70px 1fr 70px;
-    padding-left: 10px;
-    transition: .5s;
-    z-index: 1000;
-}
-
-body.showCart .cartTab {
-    right: 0;
-    display: block;
-}
-
-.cartTab h1 {
-    padding: 20px;
-    margin: 0;
-    font-weight: 300;
-}
 
 .cartTab .btn {
     position: absolute;
@@ -103,3 +72,4 @@ body.showCart .cartTab {
 .listCart::-webkit-scrollbar {
     width: 0;
 }
+

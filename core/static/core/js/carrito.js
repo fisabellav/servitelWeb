@@ -1,6 +1,14 @@
-let iconCartSpan = document.querySelector('.icon-cart span');
+let iconCartSpans = document.querySelectorAll('.icon-cart span');
 let listCartHTML = document.querySelector('.listCart');
 let cart = [];
+
+
+// Función para actualizar todos los spans del carrito
+const updateIconCartSpans = (totalQuantity) => {
+    iconCartSpans.forEach(span => {
+        span.innerText = totalQuantity;
+    });
+}
 // Función para eliminar producto del carrito
 export const removeFromCart = (product_id) => {
     cart = cart.filter(item => item.id !== product_id);
@@ -96,7 +104,7 @@ export const addCartToHTML = () => {
             listCartHTML.appendChild(newItem);
         })
     }
-    iconCartSpan.innerText = totalQuantity;
+    updateIconCartSpans(totalQuantity);
 }
 
 export { cart, listCartHTML };

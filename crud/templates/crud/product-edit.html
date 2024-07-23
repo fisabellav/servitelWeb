@@ -10,6 +10,16 @@
 
 {% block first_content %}
 <section id="form_sptn" class="mycontainer container mx-auto">
+    {% if messages %}
+    <div class="alert {{ request.session.level_mensaje }} alert-dismissible" role="alert">
+        <ul>
+            {% for message in messages %}
+            <li><strong>{{message}}</strong></li>
+            {% endfor %}
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </ul>
+    </div>
+    {% endif %}
     <div id="container_new" class="container px-0 mx-0  py-3 text-center">
         <h3>Editar Producto</h3>
     </div>
@@ -30,14 +40,26 @@
             </div>
             <div class="col-md-6 form-group mb-3">
                 <label for="cameras" class="fw-bold">Cámaras</label>
-                <div class="input-group">
+                <div class="input-group mt-2">
                     {{ form.cameras }}
                 </div>
             </div>
             <div class="col-md-6 form-group mb-3">
                 <label for="channels" class="fw-bold">Canales</label>
-                <div class="input-group">
+                <div class="input-group mt-2">
                     {{ form.channels }}
+                </div>
+            </div>
+            <div class="col-md-6 form-group mb-3">
+                <label for="category" class="fw-bold">Categoría</label>
+                <div class="input-group mt-2">
+                    {{ form.category }}
+                </div>
+            </div>
+            <div class="col-md-6 form-group mb-3">
+                <label for="price" class="fw-bold">Precio</label>
+                <div class="input-group mt-2">
+                    {{ form.price }}
                 </div>
             </div>
             <div class="form-group mb-3">

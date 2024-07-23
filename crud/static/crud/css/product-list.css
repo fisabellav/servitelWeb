@@ -3,6 +3,12 @@
     height: 100px;
 }
 
+.myimg-order{
+    width: 50px;
+    height: 50px;
+
+}
+
 a{
     color: black;
 }
@@ -20,9 +26,132 @@ a:hover{
     
 }
 
+.myActions{
+    width: 80%;
+}
+
+.myTable{
+    width: 100%;
+
+}
+
+.tbActions{
+    width: 20%;
+
+}
+
+.order-panel{
+    margin: 60px 0 0 15px;
+}
+
 .add-product:hover{
-    background-color: #236d8f;
+    background-color: #28799f;
+    border-color: #28799f;
     color: white;
     scale: 1.02;
 }
 
+
+.filter-title {
+    margin: 0;
+    font-size: 30px;
+    font-weight: bold;
+    color: #29232F;
+}
+
+.filter-group {
+    margin-top: 15px;
+    height: 100%;
+}
+
+.filter-group-title {
+    margin: 0;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    color: #342D3C;
+}
+
+.filter-group-toggle {
+    float: right;
+    font-size: 12px;
+    font-weight: bold;
+    margin-top: 5px;
+}
+
+.filter-options {
+    list-style: none;
+    padding: 0 15px;
+    margin: 0;
+    display: none;
+}
+
+.filter-options li {
+    margin-top: 8px;
+}
+
+.filter-options label {
+    display: inline-block;
+}
+
+.filter-options input[type="checkbox"] {
+    margin-right: 5px;
+}
+
+button.product-btn {
+    
+    color: white;
+    background-color: #28799f;
+    padding: 0.8rem 1rem;
+    border-radius: 1rem;
+    border-style: none;
+}
+
+.detalle-btn{
+    background-color: #28799f;
+    border-color: #28799f;
+    border-radius: 1rem;
+    color: white;
+    padding: 5px 10px;
+    border-style: none;
+
+}
+
+.detalle-btn:hover{
+    background-color: #236d8f;
+    border-color: #236d8f;
+    color: white;
+}
+
+.product .button-container i {
+    font-size: 15px;
+}
+
+.product a:hover,
+.button-container i:hover, button.product-btn:hover {
+    transform: scale(1.1);
+}
+
+.btn-circle {
+    display: inline-block;
+    width: 35px; /* Puedes ajustar el tamaño según sea necesario */
+    height: 35px;
+    color: white;
+    border-radius: 50%;
+    text-align: center;
+    line-height: 35px; /* Alinea el contenido verticalmente */
+    padding: 0;
+    border: none;
+}
+
+
+
+.btn-circle.btn-confirm{
+    font-size: 20px;
+    background-color: green;
+}
+
+.btn-circle.btn-cancel{
+    font-size: 20px;
+    background-color: red;
+}

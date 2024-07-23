@@ -47,111 +47,143 @@
     </div>
 </div>
 
-<div class="mycatalogo">
-    <!-- FILTROS -->
-    <div id="filters">
-        <h3 class="filter-title">Filters</h3>
-        <!-- Número de cámaras -->
-        <div class="filter-group">
-            <h3 class="filter-group-title">Número de cámaras</h3>
-            <div class="row">
-                <div class="col-12">
-                    <select id="camera-filter" name="cameras" class="form-select myselect" multiple>
-                        {% for f in filtro_camara %}
-                        <option value="{{ f }}" {% if f in selected_cameras %}selected{% endif %}>{{ f }}</option>
+<div class="container-fluid">
+    <div class="row row-cols-1 row-cols-md-2 m-0">
+        <div id="myFilters" class="col-md-3">
+            <!-- FILTROS -->
+            <div id="filters" class="p-3">
+                <h3 class="filter-title">Filters</h3>
+                <div class="row">
+                    <div class="col-12">
+                        <!-- Número de cámaras -->
+                        <div class="filter-group">
+                            <h3 class="filter-group-title">Número de cámaras</h3>
+                            <p class="text-white"> Click abajo para ver las opciones disponibles</p>
+                            <div class="row">
+                                <div class="col-12">
+                                    {% if filtro_camara %}
+                                    <select id="camera-filter" name="cameras" class="form-select myselect" multiple>
+                                        {% for f in filtro_camara %}
+                                        <option value="{{ f }}" {% if f in selected_channels %}selected{% elif forloop.first %}selected{% endif %}>{{ f }}</option>
+                                        {% endfor %}
+                                    </select>
+                                    {% else %}
+                                    <p class="my-2">No hay filtros disponibles</p>
+                                    {% endif %}
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <!-- Número de canales -->
+                        <div class="filter-group">
+                            <h3 class="filter-group-title">Número de canales</h3>
+                            <p class="text-white"> Click abajo para ver las opciones disponibles</p>
+                            <div class="row">
+                                <div class="col-12">
+                                    {% if filtro_canal %}
+                                    <select id="channel-filter" name="channels" class="form-select myselect" multiple>
+                                        {% for f in filtro_canal %}
+                                        <option value="{{ f }}" {% if f in selected_channels %}selected{% elif forloop.first %}selected{% endif %}>{{ f }}</option>
+                                        {% endfor %}
+                                    </select>
+                                    {% else %}
+                                    <p class="my-2">No hay filtros disponibles</p>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Añadir botón para aplicar filtros -->
+            <div class="apply-filters">
+                <button id="apply-filters-btn" class="product-btn ms-3 mx-2 mt-1 mb-4">Aplicar Filtros</button>
+            </div>
+
+
+        </div>
+
+        
+
+        <div class="col-md-9 p-0 contenedor">
+            <!-- PRODUCTOS -->
+            <div id="myproducts" class="container-fluid p-4">
+                <div class="all-products">
+                    <div class="row row-cols-1 row-cols-md-4 gy-3  mx-auto justify-content-center justify-content-md-start">
+                        {% if filtered_cameras %}
+                        {% for p in filtered_cameras %}
+                        <div class="col-lg-3 ">
+                            <div class="product m-2" data-id="{{ p.id }}">
+                                {% if p.image %}
+                                <img src="{{p.image.url}}">
+                                {% endif %}
+                                <div class="product-info">
+                                    <h4 class="product-title">{{p.product}}</h4>
+                                    <p class="product-price">Opción 1</p>
+                                </div>
+                                <div class="button-container">
+                                    <a class="product-btn" href="{% url 'producto' id=p.id %}">Ver Detalles</a>
+                                    <i class="deseos fa-regular fa-heart"></i>
+                                </div>
+                            </div>
+                        </div>
                         {% endfor %}
-                    </select>
+                        {% else %}
+                        {% for f in productos %}
+                        <div class="product m-2" data-id="{{ f.id }}">
+                            {% if f.image %}
+                            <img src="{{f.image.url}}">
+                            <div class="product-info">
+                                {% endif %}
+                                <h4 class="product-title">{{f.product}}</h4>
+                                <p class="product-price">Opción 1</p>
+                            </div>
+                            <div class="button-container">
+                                <a class="product-btn" href="{% url 'producto' id=f.id %}">Ver Detalles</a>
+                                <i class="deseos fa-regular fa-heart"></i>
+                            </div>
+                        </div>
+                        {% endfor %}
+                        {% endif %}
+                    </div>
                 </div>
             </div>
-            
-        </div>
-    
-        <!-- Número de canales -->
-        <div class="filter-group">
-            <h3 class="filter-group-title">Número de canales</h3>
-            <select id="channel-filter" name="channels" class="form-select myselect" multiple>
-                {% for f in filtro_canal %}
-                <option value="{{ f }}" {% if f in selected_channels %}selected{% endif %}>{{ f }}</option>
-                {% endfor %}
-            </select>
         </div>
     </div>
-    
-    <!-- Añadir botón para aplicar filtros -->
-    <div class="apply-filters">
-        <button id="apply-filters-btn" class="btn btn-primary">Aplicar Filtros</button>
-    </div>
 
-    <!-- PRODUCTOS -->
-    <section id="myproducts" class="products">
-        <div class="all-products">
-            {% if filtered_cameras %}
-            {% for p in filtered_cameras %}
-            <div class="product" data-id="{{ p.id }}">
-                {% if p.image %}
-                <img src="{{p.image.url}}">
-                {% endif %}
-                <div class="product-info">
-                    <h4 class="product-title">{{p.product}}</h4>
-                    <p class="product-price">Opción 1</p>
-                </div>
-                <div class="button-container">
-                    <a class="product-btn" href="{% url 'producto' id=p.id %}">Ver Detalles</a>
-                    <i class="deseos fa-regular fa-heart"></i>
-                </div>
-            </div>
-            {% endfor %}
-            {% else %}
-            {% for f in productos %}
-            <div class="product" data-id="{{ f.id }}">
-                {% if f.image %}
-                <img src="{{f.image.url}}">
-                <div class="product-info">
-                    {% endif %}
-                    <h4 class="product-title">{{f.product}}</h4>
-                    <p class="product-price">Opción 1</p>
-                </div>
-                <div class="button-container">
-                    <a class="product-btn" href="{% url 'producto' id=f.id %}">Ver Detalles</a>
-                    <i class="deseos fa-regular fa-heart"></i>
-                </div>
-            </div>
-            {% endfor %}
-            {% endif %}
-        </div>
-    </section>
-</div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const applyFiltersBtn = document.getElementById('apply-filters-btn');
+            applyFiltersBtn.addEventListener('click', function () {
+                const cameraFilter = document.getElementById('camera-filter');
+                const channelFilter = document.getElementById('channel-filter');
 
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const applyFiltersBtn = document.getElementById('apply-filters-btn');
-        applyFiltersBtn.addEventListener('click', function() {
-            const cameraFilter = document.getElementById('camera-filter');
-            const channelFilter = document.getElementById('channel-filter');
-            
-            const selectedCameras = Array.from(cameraFilter.selectedOptions).map(option => option.value);
-            const selectedChannels = Array.from(channelFilter.selectedOptions).map(option => option.value);
-            
-            const url = new URL(window.location.href);
-            url.searchParams.delete('cameras');
-            url.searchParams.delete('channels');
-            
-            selectedCameras.forEach(camera => url.searchParams.append('cameras', camera));
-            selectedChannels.forEach(channel => url.searchParams.append('channels', channel));
-            
-            window.location.href = url.toString();
+                const selectedCameras = Array.from(cameraFilter.selectedOptions).map(option => option.value);
+                const selectedChannels = Array.from(channelFilter.selectedOptions).map(option => option.value);
+
+                const url = new URL(window.location.href);
+                url.searchParams.delete('cameras');
+                url.searchParams.delete('channels');
+
+                selectedCameras.forEach(camera => url.searchParams.append('cameras', camera));
+                selectedChannels.forEach(channel => url.searchParams.append('channels', channel));
+
+                window.location.href = url.toString();
+            });
         });
-    });
-</script>
+    </script>
 
-{% endblock %}
+    {% endblock %}
 
-{% block my_js %}
-<script src="{% static 'core/js/catalogo.js' %}"></script>
-<script type="module" src="{% static 'core/js/addwish.js' %}"></script>
-{% endblock %}
+    {% block my_js %}
+    <script src="{% static 'core/js/catalogo.js' %}"></script>
+    <script type="module" src="{% static 'core/js/addwish.js' %}"></script>
+    {% endblock %}
 
-<!-- <div class="price-filter">
+    <!-- <div class="price-filter">
             <h3 class="filter-group-title">Rango de precios</h3>
             <div class="price-slider">
                 <input type="range" min="0" max="1000" step="100" value="1000" class="price-range" id="price-range">
@@ -161,7 +193,7 @@
                 </div>
             </div>
         </div> -->
-        <!-- <script>
+    <!-- <script>
             const priceRange = document.querySelector('#price-range');
             const priceLabelMin = document.querySelector('#price-label-min');
             const priceLabelMax = document.querySelector('#price-label-max');

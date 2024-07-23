@@ -25,6 +25,8 @@
     font-size: 1rem;
 }
 
+
+
 #navbarbody a:hover {
     color: #026cb6;
 }
@@ -86,6 +88,14 @@
     gap: 1rem;
 }
 
+#navbarbody a.dropdown-item{
+    color: black;
+}
+
+#navbarbody a.dropdown-item:hover{
+    color: #026cb6;
+}
+
 #navbarbody .myNavbar .toggle_btn {
     color: white;
     font-size: 1.5rem;
@@ -114,7 +124,7 @@
 
 #navbarbody .dropdown_menu {
     display: none;
-    position: absolute;
+    position: fixed;
     z-index: 50;
     top: 60px;
     right: 2rem;
@@ -129,7 +139,7 @@
 }
 
 #navbarbody .dropdown_menu.open {
-    height: 170px;
+    height: 230px;
 }
 
 #navbarbody .dropdown_menu li {
@@ -168,6 +178,34 @@
     top: 50%;
     right: -18px;
     font-size: 10.5px;
+}
+
+.icon-navbar {
+    position: relative;
+}
+
+.wishlist-counter {
+    position: absolute;
+    top: 0;
+    right: 0;
+    background-color: red;
+    color: white;
+    border-radius: 50%;
+    padding: 2px 6px;
+}
+
+.animated-heart {
+    position: absolute;
+    z-index: 1000;
+    animation: moveHeart 1s forwards;
+    opacity: 1;
+}
+
+@keyframes moveHeart {
+    to {
+        transform: translate(var(--translate-x), var(--translate-y));
+        opacity: 0;
+    }
 }
 
 

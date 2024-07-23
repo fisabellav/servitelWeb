@@ -1,55 +1,108 @@
 const form = document.querySelector('.custom-validation');
 // Ocultar el error de longitud mínima al cargar la página
-document.getElementById("error_nombre_min").style.display = "none";
-document.getElementById("error_nombre_max").style.display = "none";
-document.getElementById("error_apellido_min").style.display = "none";
-document.getElementById("error_apellido_max").style.display = "none";
-document.getElementById("error_fono").style.display = "none";
-document.getElementById("error_nacimiento").style.display = "none";
-document.getElementById("error_fecha").style.display = "none";
-document.getElementById("error_comuna").style.display = "none";
-document.getElementById("error_checkbox").style.display = "none";
+document.addEventListener("DOMContentLoaded", function () {
+    var errorElements = document.querySelectorAll(".text-danger");
+    errorElements.forEach(function (element) {
+        element.style.display = "none";
+    });
+});
 
-const phoneInput = document.querySelector('#idFono');
+
+const idNombre = document.getElementById('idNombre');
+const idApellido = document.getElementById('idApellido');
+const idFecha_nac = document.getElementById('idFecha_nac');
+const idCorreo = document.getElementById('idCorreo');
+const comuna_select = document.getElementById('comuna-select');
+// Verificar si el elemento idContraseña está presente en el DOM
+const passwordElement = document.getElementById("idContraseña");
+const passwordConfirmElement = document.getElementById("password_confirm");
+const phoneInput = document.getElementById('idFono');
+
+const error_nombre_min = document.getElementById('error_nombre_min');
+const error_nombre_max = document.getElementById('error_nombre_max');
+const error_apellido_min = document.getElementById('error_apellido_min');
+const error_apellido_max = document.getElementById('error_apellido_max');
+const error_fono = document.getElementById('error_fono');
+const error_nacimiento = document.getElementById('error_nacimiento');
+const error_email = document.getElementById('error_email');
+const error_comuna = document.getElementById('error_comuna');
+const error_password = document.getElementById('error_password');
+const error_confirmacion_password = document.getElementById('error_confirm_password');
+
+if (passwordElement) {
+
+    // Agregar evento blur al campo de contraseña (idContraseña)
+    passwordElement.addEventListener("blur", function () {
+        let password = this.value;
+        // Llamar a la función "validarPassword" con el valor de la contraseña como argumento
+        validarPassword(password, passwordElement, error_password);
+    });
+}
+
+if (passwordConfirmElement) {
+    // Agregar evento blur al campo de confirmación de contraseña (password_confirm)
+    passwordConfirmElement.addEventListener("blur", function () {
+        let confirmacionPassword = this.value;
+        validarConfirmacionPassword(confirmacionPassword, passwordConfirmElement, error_confirmacion_password);
+    });
+}
+
+
+
+// Configuración inicial de intlTelInput
+
 const iti = window.intlTelInput(phoneInput, {
     utilsScript: 'https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js',
     initialCountry: 'cl'
 });
 
-phoneInput.addEventListener('input', (e) => {
-    const value = e.target.value.replace(/\D+/g, '');
-    let formattedValue = '';
+applyPhoneFormat(phoneInput);
 
-    // Verifica si el código de país seleccionado es Chile
-    if (iti.getSelectedCountryData().iso2 === 'cl') {
-        // Aplica el formato de número de teléfono específico para Chile
-        if (value.startsWith('9')) {
-            formattedValue = formatTelefono9(value);
-        } else if (value.startsWith('2')) {
-            formattedValue = formatTelefono2(value);
+
+
+// Función para aplicar formato de teléfono
+function applyPhoneFormat(inputElement) {
+    inputElement.addEventListener('input', (e) => {
+        const value = e.target.value.replace(/\D+/g, '');
+        let formattedValue = '';
+
+        // Verifica si el código de país seleccionado es Chile
+        if (iti.getSelectedCountryData().iso2 === 'cl') {
+            // Aplica el formato de número de teléfono específico para Chile
+            if (value.startsWith('9')) {
+                formattedValue = formatTelefono9(value);
+            } else if (value.startsWith('2')) {
+                formattedValue = formatTelefono2(value);
+            } else {
+                formattedValue = formatTelefono9(value);
+            }
+
+            // Limita a 9 dígitos solo para Chile
+            if (value.length >= 9) {
+                if (value.startsWith('9')) {
+                formattedValue = formattedValue.substring(0, 11);
+                } else if (value.startsWith('2')) {
+                formattedValue = formattedValue.substring(0, 12);
+                }
+            }
+
         } else {
-            formattedValue = formatTelefono9(value);
+            // Aplica el formato de número de teléfono por defecto
+            iti.setNumber(value);
+            formattedValue = iti.getNumber();
+
+            if (value.length >= 12) {
+                formattedValue = formattedValue.substring(0, 17);
+            }
         }
-
-        // Limita a 9 dígitos solo para Chile
-        if (value.length >= 9) {
-            formattedValue = formattedValue.substring(0, 11);
-
-        }
+        e.target.value = formattedValue;
+    });
+}
 
 
-    } else {
-        // Aplica el formato de número de teléfono por defecto
-        iti.setNumber(value);
-        formattedValue = iti.getNumber();
 
-        if (value.length >= 12) {
-            formattedValue = formattedValue.substring(0, 17);
-        }
-    }
-    e.target.value = formattedValue;
-});
 
+// Funciones para el formato específico de teléfono
 function formatTelefono9(value) {
     if (value.length <= 1) {
         return value;
@@ -58,6 +111,7 @@ function formatTelefono9(value) {
     } else {
         return value.replace(/(\d{1})(\d{4})(\d{1,4})/, '$1 $2 $3');
     }
+    
 }
 
 function formatTelefono2(value) {
@@ -68,187 +122,240 @@ function formatTelefono2(value) {
     } else if (value.length <= 7) {
         return value.replace(/(\d{1})(\d{4})(\d{1,2})/, '$1 $2 $3');
     } else {
-        return value.replace(/(\d{1})(\d{2})(\d{3})(\d{1,2})/, '$1 $2-$3-$4');
+        return value.replace(/(\d{1})(\d{2})(\d{3})(\d{1,3})/, '$1 $2 $3 $4');
     }
 }
 
 // Agregar un listener de eventos al elemento con id "idNombre"
 // para que se ejecute la función "validarNombre" cuando el elemento pierda el foco
-document.getElementById("idNombre").addEventListener("blur", function () {
-    let nombre = document.getElementById("idNombre").value;
-    // Llamar a la función "validarNombre" con el valor del nombre como argumento
-    validarNombre(nombre);
-});
-document.getElementById("idApellido").addEventListener("blur", function () {
-    let apellido = document.getElementById("idApellido").value;
-    // Llamar a la función "validarNombre" con el valor del nombre como argumento
-    validarApellido(apellido);
-});
-document.getElementById("idFono").addEventListener("blur", function () {
-    let fono = document.getElementById("idFono").value;
-    // Llamar a la función "validarNombre" con el valor del nombre como argumento
-    validarFono(fono);
 
-    const prefijoInput = document.querySelector('#prefijo-hidden');
-    const prefijoSelect = document.querySelector('.iti');
-    const prefijoElement = prefijoSelect.querySelector('[aria-selected="true"]');
+if (idApellido) {
+    idApellido.addEventListener('blur', function () {
+        let apellido = this.value;
+        validarApellido(apellido, idApellido, error_apellido_min, error_apellido_max);
+    });
+}
 
-    let prefijo = '+'; // Variable para almacenar el prefijo seleccionado
+if (idNombre) {
+    idNombre.addEventListener('blur', function () {
+        let nombre = this.value;
 
-    if (prefijoElement) {
-        prefijo += prefijoElement.getAttribute('data-dial-code'); // Obtiene el valor de data-dial-code
+        validarNombre(nombre, idNombre, error_nombre_min, error_nombre_max);
+    });
+}
+
+if (phoneInput) {
+    phoneInput.addEventListener('blur', function () {
+        const selectedCountryData = iti.getSelectedCountryData();
+        const prefijo = selectedCountryData.dialCode; // Obtiene el prefijo
+        const phoneNumber = this.value.replace(/\s+/g, ''); // Elimina todos los espacios en blanco del número de teléfono
+
+        const fono = `+${prefijo}${phoneNumber}`;
+        validarFono(fono, phoneInput, error_fono);
+
+        const fono_formateado = document.getElementById('formatted_phone_number');
+        if (fono_formateado) {
+            fono_formateado.value = fono; // Actualiza el campo oculto con el número formateado
+        }
+    });
+}
+
+
+if (idCorreo) {
+    idCorreo.addEventListener("blur", function () {
+        let email = this.value;
+        // Llamar a la función "validarNombre" con el valor del nombre como argumento
+        validarEmail(email, idCorreo, error_email);
+    });
+}
+
+if (idFecha_nac) {
+    idFecha_nac.addEventListener("blur", function () {
+        let fecha_nac = this.value;
+        const error_nacimiento = document.getElementById('error_nacimiento');
+        validarFechaNac(fecha_nac, idFecha_nac, error_nacimiento);
+    });
+}
+
+if (comuna_select) {
+    comuna_select.addEventListener('blur', function () {
+        let comuna = this.value;
+        validarComuna(comuna, comuna_select, error_comuna);
+    });
+}
+
+
+// Función para validar el formulario
+function validarFormulario(event) {
+    event.preventDefault(); // Prevent form submission
+
+    let isValid = true;
+
+    
+    if (!(validarNombre(idNombre.value, idNombre, error_nombre_min, error_nombre_max) &&
+        validarApellido(idApellido.value, idApellido, error_apellido_min, error_apellido_max) &&
+        validarFono(phoneInput.value, phoneInput, error_fono) &&
+        validarFechaNac(idFecha_nac.value, idFecha_nac, error_nacimiento) &&
+        validarComuna(comuna_select.value, comuna_select, error_comuna) &&
+        validarEmail(idCorreo.value, idCorreo, error_email) &&
+        document.getElementById("gridCheck").checked)) {
+
+        // Agregar validación del checkbox
+        if (!document.getElementById("gridCheck").checked) {
+            document.getElementById("error_checkbox").style.display = "inline";
+        }
+
+        isValid = false;
     }
 
-    prefijoInput.value = prefijo;
-});
-document.getElementById("comuna-select").addEventListener("blur", function () {
-    let comuna = document.getElementById("comuna-select").value;
-    // Llamar a la función "validarNombre" con el valor del nombre como argumento
-    validarComuna(comuna);
-});
-document.getElementById("idFecha_nac").addEventListener("blur", function () {
-    // Obtener el campo de fecha de nacimiento
-    let fecha_nac = document.getElementById("idFecha_nac").value;
-    // Llamar a la función "validarNombre" con el valor del nombre como argumento
-    validarFechaNac(fecha_nac);
-});
 
-form.addEventListener('submit', (e) => {
-    let isValid = false; // Inicialmente asumimos que el formulario no es válido
+}
 
-    if (validarNombre(document.getElementById("idNombre").value) &&
-        validarApellido(document.getElementById("idApellido").value) &&
-        validarFono(document.getElementById("idFono").value) &&
-        validarFechaNac(document.getElementById("idFecha_nac").value) &&
-        validarComuna(document.getElementById("comuna-select").value) &&
-        document.getElementById("gridCheck").checked) {
-        
-        // Si todas las validaciones son exitosas y el checkbox está marcado, el formulario es válido
-        isValid = true;
-    } else {
-        // Si hay algún error de validación o el checkbox no está marcado, el formulario no es válido
-        document.getElementById("error_checkbox").style.display = "inline";
-    }
-
-    // Previene el envío del formulario si no es válido
-    if (!isValid) {
-        e.preventDefault();
-    }
-});
-
-// Definir la función "validarNombre"
-function validarNombre(nombre) {
+// Funciones de validación específicas para cada campo del formulario
+function validarNombre(nombre, inputNombre, errorMin, errorMax) {
     if (nombre.trim().length < 3) {
-        // Mostrar el error de longitud mínima si el nombre es demasiado corto
-        document.getElementById("error_nombre_max").style.display = "none";
-        document.getElementById("error_nombre_min").style.display = "inline";
-        // Agregar la clase "is-invalid" al elemento con id "idNombre"
-        document.getElementById("idNombre").classList.add("is-invalid");
-        // Devolver falso para indicar que el nombre no es válido
+        errorMin.style.display = "inline";
+        errorMax.style.display = "none";
+        inputNombre.classList.add("is-invalid");
         return false;
     } else if (nombre.trim().length > 20) {
-        // Ocultar el error de longitud mínima y mostrar el error de longitud máxima
-        // si el nombre es demasiado largo
-        document.getElementById("error_nombre_min").style.display = "none";
-        document.getElementById("error_nombre_max").style.display = "inline";
-        // Agregar la clase "is-invalid" al elemento con id "idNombre"
-        document.getElementById("idNombre").classList.add("is-invalid");
-        // Devolver falso para indicar que el nombre no es válido
+        errorMin.style.display = "none";
+        errorMax.style.display = "inline";
+        inputNombre.classList.add("is-invalid");
         return false;
     } else {
-        // Ocultar los errores de longitud mínima y máxima
-        document.getElementById("error_nombre_min").style.display = "none";
-        document.getElementById("error_nombre_max").style.display = "none";
-        // Quitar la clase "is-invalid" y agregar la clase "is-valid" al elemento con id "idNombre"
-        document.getElementById("idNombre").classList.remove("is-invalid");
-        document.getElementById("idNombre").classList.add("is-valid");
-        // Devolver verdadero para indicar que el nombre es válido
+        errorMin.style.display = "none";
+        errorMax.style.display = "none";
+        inputNombre.classList.remove("is-invalid");
+        inputNombre.classList.add("is-valid");
         return true;
     }
 }
 
-function validarApellido(apellido) {
+function validarApellido(apellido, inputApellido, errorMin, errorMax) {
+
     if (apellido.trim().length < 3) {
-        document.getElementById("error_apellido_min").style.display = "inline";
-        document.getElementById("idApellido").classList.add("is-invalid");
+        errorMin.style.display = "inline";
+        errorMax.style.display = "none";
+        inputApellido.classList.add("is-invalid");
         return false;
     } else if (apellido.trim().length > 20) {
-        document.getElementById("error_apellido_min").style.display = "none";
-        document.getElementById("error_apellido_max").style.display = "inline";
-        document.getElementById("idApellido").classList.add("is-invalid");
+        errorMin.style.display = "none";
+        errorMax.style.display = "inline";
+        inputApellido.classList.add("is-invalid");
         return false;
     } else {
-        document.getElementById("error_apellido_min").style.display = "none";
-        document.getElementById("error_apellido_max").style.display = "none";
-        document.getElementById("idApellido").classList.remove("is-invalid");
-        document.getElementById("idApellido").classList.add("is-valid");
+        errorMin.style.display = "none";
+        errorMax.style.display = "none";
+        inputApellido.classList.remove("is-invalid");
+        inputApellido.classList.add("is-valid");
         return true;
     }
 }
 
-function validarFono(fono) {
-    if (fono.trim().length < 3) {
-        document.getElementById("error_fono").style.display = "inline";
-        document.getElementById("idFono").classList.add("is-invalid");
+function validarFono(fono, inputFono, errorFono) {
+    const PHONE_REGEX = /^(\+56[92]\d{8}|\+(?!56)\d{1,3}\d{9,15})$/;
+
+    if (!PHONE_REGEX.test(fono.trim())) {
+        errorFono.style.display = "inline";
+        inputFono.classList.add("is-invalid");
         return false;
     } else {
-        document.getElementById("error_fono").style.display = "none";
-        document.getElementById("error_fono").style.display = "none";
-        document.getElementById("idFono").classList.remove("is-invalid");
-        document.getElementById("idFono").classList.add("is-valid");
+        errorFono.style.display = "none";
+        inputFono.classList.remove("is-invalid");
+        inputFono.classList.add("is-valid");
         return true;
     }
 }
 
-function validarFechaNac(fecha_nac) {
-    if (fecha_nac === "") {
-        document.getElementById("error_nacimiento").style.display = "inline";
-        document.getElementById("error_fecha").style.display = "none";
-        document.getElementById("idFecha_nac").classList.add("is-invalid");
+function validarFechaNac(fechaNac, inputFechaNac, errorNacimiento) {
+
+    if (fechaNac.trim() === "") {
+        errorNacimiento.style.display = "inline";
+        inputFechaNac.classList.add("is-invalid");
         return false;
-    } else{
-        // Convertir la fecha de nacimiento a un objeto Date
-        var fechaNacimiento = new Date(fecha_nac);
-        
-        // Calcular la fecha actual
-        var fechaActual = new Date();
-        
-        // Calcular la edad restando la fecha actual menos la fecha de nacimiento
-        var edad = fechaActual.getFullYear() - fechaNacimiento.getFullYear();
-        
-        // Restar un año si el día actual es antes del día de nacimiento
-        if (fechaNacimiento.getMonth() > fechaActual.getMonth() || 
-            (fechaNacimiento.getMonth() === fechaActual.getMonth() && fechaNacimiento.getDate() > fechaActual.getDate())) {
-            edad--;
-        }
-        
-        // Verificar si la edad está dentro del rango deseado (entre 18 y 120 años)
-        if (edad >= 18 && edad <= 120) {
-            // La fecha de nacimiento es válida
-            document.getElementById("error_nacimiento").style.display = "none";
-            document.getElementById("error_fecha").style.display = "none";
-            document.getElementById("idFecha_nac").classList.remove("is-invalid");
-            document.getElementById("idFecha_nac").classList.add("is-valid");
-            return true;
+    } else {
+        // Validación de edad aquí si es necesario
+        errorNacimiento.style.display = "none";
+        inputFechaNac.classList.remove("is-invalid");
+        inputFechaNac.classList.add("is-valid");
+        return true;
+    }
+}
+
+function validarEmail(email, inputEmail, errorEmail) {
+
+    if (email.trim() === "" || !email.trim().includes("@")) {
+        errorEmail.style.display = "inline";
+        inputEmail.classList.add("is-invalid");
+        return false;
+    } else {
+        errorEmail.style.display = "none";
+        inputEmail.classList.remove("is-invalid");
+        inputEmail.classList.add("is-valid");
+        return true;
+    }
+}
+
+function validarComuna(comuna, inputComuna, errorComuna) {
+
+    if (comuna.trim() === "") {
+        errorComuna.style.display = "inline";
+        inputComuna.classList.add("is-invalid");
+        return false;
+    } else {
+        errorComuna.style.display = "none";
+        inputComuna.classList.remove("is-invalid");
+        inputComuna.classList.add("is-valid");
+        return true;
+    }
+}
+
+function validarPassword(password, inputPassword, errorPassword) {
+
+    if (password.length === 0 || password.length < 8 || password.length > 16) {
+        if (password.trim().length === 0) {
+            errorPassword.style.display = "none";
+            inputPassword.classList.remove("is-invalid");
+            inputPassword.classList.remove("is-valid");
+            return true; // Skip validation if the password is empty with spaces
         } else {
-            // La fecha de nacimiento no está dentro del rango deseado
-            document.getElementById("error_fecha").style.display = "inline";
-            document.getElementById("error_nacimiento").style.display = "none";
-            document.getElementById("idFecha_nac").classList.add("is-invalid");
+            errorPassword.style.display = "inline";
+            inputPassword.classList.add("is-invalid");
+            inputPassword.classList.remove("is-valid");
             return false;
         }
+    } else if (!/\d/.test(password)) {
+        errorPassword.style.display = "inline";
+        inputPassword.classList.add("is-invalid");
+        return false;
+    } else if (!/[a-z]/.test(password) || !/[A-Z]/.test(password)) {
+        errorPassword.style.display = "inline";
+        inputPassword.classList.add("is-invalid");
+        return false;
+    } else if (/[^a-zA-Z0-9]/.test(password)) {
+        errorPassword.style.display = "inline";
+        inputPassword.classList.add("is-invalid");
+        return false;
+    } else {
+        errorPassword.style.display = "none";
+        inputPassword.classList.remove("is-invalid");
+        inputPassword.classList.add("is-valid");
+        return true;
     }
 }
 
-function validarComuna(comuna) {
-    if (comuna == "") {
-        document.getElementById("error_comuna").style.display = "inline";
-        document.getElementById("comuna-select").classList.add("is-invalid");
+function validarConfirmacionPassword(confirmacionPassword, inputConfirmacionPassword, errorConfirmacionPassword) {
+    const password = passwordElement.value.trim();
+
+    if (password !== confirmacionPassword) {
+        errorConfirmacionPassword.style.display = "inline";
+        inputConfirmacionPassword.classList.add("is-invalid");
         return false;
     } else {
-        document.getElementById("error_comuna").style.display = "none";
-        document.getElementById("comuna-select").classList.remove("is-invalid");
-        document.getElementById("comuna-select").classList.add("is-valid");
+        errorConfirmacionPassword.style.display = "none";
+        inputConfirmacionPassword.classList.remove("is-invalid");
+        inputConfirmacionPassword.classList.add("is-valid");
         return true;
     }
 }

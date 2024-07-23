@@ -1,14 +1,4 @@
-const filterGroups = document.querySelectorAll('.filter-group');
 
-filterGroups.forEach(filterGroup => {
-    const filterGroupTitle = filterGroup.querySelector('.filter-group-title');
-    const filterGroupToggle = filterGroupTitle.querySelector('.filter-group-toggle');
-    const filterOptions = filterGroup.querySelector('.filter-options');
-
-    filterGroupToggle.addEventListener('click', () => {
-        filterGroup.classList.toggle('active');
-    });
-});
 
 
 

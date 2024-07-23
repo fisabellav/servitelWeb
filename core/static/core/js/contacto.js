@@ -102,8 +102,8 @@ const addCartToHTML = () => {
         
     } else {
         // Si no hay productos en la lista de deseos, mostrar un mensaje indicando que está vacía
-        wishlistContainer.textContent = 'No hay productos en la lista de deseos.';
-    }
+        wishlistContainer.innerHTML = '<div class="text-center text-md-start m-md-3"> No hay productos en la lista de deseos.</div>';
+    }   
     iconCartSpan.innerText = totalQuantity;
 };
 

@@ -10,39 +10,61 @@
 
 {% block first_content %}
 <section id="form_sptn" class="container mycontainer mx-auto">
-    <div id="container_new" class="container px-0 mx-0 mb-2 py-3 text-center">
-        <h3>Formulario registro nuevos productos</h3>
+    {% if messages %}
+    <div class="alert {{ request.session.level_mensaje }} alert-dismissible" role="alert">
+        <ul>
+            {% for message in messages %}
+            <li><strong>{{message}}</strong></li>
+            {% endfor %}
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </ul>
     </div>
-    <div class="container myform my-2 pt-2 p-5">
+    {% endif %}
+
+    <div id="container_new" class="container px-0 mx-0 mb-2 py-3">
+        <h3 class="text-center">Formulario registro nuevos productos</h3>
+    <div class="container myform my-2 pt-2 p-md-5">
         <form class="row g-3" action="" method="post" enctype="multipart/form-data">
             {% csrf_token %}
             <div class="col-md-12 form-group mb-3">
                 <label for="product" class="fw-bold">Producto</label>
-                <div class="input-group">
+                <div class="input-group mt-2">
                     {{ form.product }}
                 </div>
             </div>
             <div class="col-md-12 form-group mb-3">
                 <label for="description" class="fw-bold">Descripción</label>
-                <div class="input-group">
+                <div class="input-group mt-2">
                     {{ form.description }}
                 </div>
             </div>
             <div class="col-md-6 form-group mb-3">
                 <label for="cameras" class="fw-bold">Cámaras</label>
-                <div class="input-group">
+                <div class="input-group mt-2">
                     {{ form.cameras }}
                 </div>
             </div>
             <div class="col-md-6 form-group mb-3">
                 <label for="channels" class="fw-bold">Canales</label>
-                <div class="input-group">
+                <div class="input-group mt-2">
                     {{ form.channels }}
+                </div>
+            </div>
+            <div class="col-md-6 form-group mb-3">
+                <label for="category" class="fw-bold">Categoría</label>
+                <div class="input-group mt-2">
+                    {{ form.category }}
+                </div>
+            </div>
+            <div class="col-md-6 form-group mb-3">
+                <label for="price" class="fw-bold">Precio</label>
+                <div class="input-group mt-2">
+                    {{ form.price }}
                 </div>
             </div>
             <div class="col-md-12 form-group mb-3">
                 <label for="image" class="fw-bold">Imagen</label>
-                <div class="input-group">
+                <div class="input-group mt-2">
                     {{ form.image }}
                 </div>
                 {% if form.instance.image %}
@@ -53,10 +75,12 @@
                 </div>
                 {% endif %}
             </div>
-            <div class="text-end">
-                <input type="submit" class="btn btn-primary me-2" id="registrar" value="Registrar">
-                <input type="reset" class="btn btn-reset me-2" id="restablecer" value="Restablecer">
-                <a class="btn btn-secondary" href="{% url 'product-list' %}">Volver</a>
+            <div class="container-fluid ">
+                <div class="d-flex flex-row-reverse justify-content-center p-2">
+                    <input type="submit" class="btn btn-primary mx-1 mx-md-2" id="registrar" value="Registrar">
+                    <input type="reset" class="btn btn-reset mx-0 mx-md-2" id="restablecer" value="Restablecer">
+                    <a class="btn btn-secondary mx-1 mx-md-2" href="{% url 'product-list' %}">Volver</a>
+                </div>
             </div>
         </form>
     </div>

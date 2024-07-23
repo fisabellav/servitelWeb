@@ -106,6 +106,18 @@ margin-left: 0;
     transition: all 0.2s;
 }
 
+.comprar{
+    color: #ececec;
+    display: inline-block;
+    text-decoration: none;
+    background-color: #191919;
+    padding: 1.2rem 2.5rem;
+    border-radius: 1rem;
+    margin-top: 1rem;
+    font-size: 14px;
+    transition: all 0.2s;
+}
+
 .comprar:hover {
     transform: scale(1.1);
 }
@@ -114,20 +126,20 @@ margin-left: 0;
     background-color: #eeeeee;
     padding: 30px;
     width: 80%;
-    margin: 40px 100px;
+    margin: 80px 100px;
     border-radius: 1rem;
 }
+
+
 
 .iti {
     position: relative;
     display: flex;
 }
 
-@media (min-width: 992px){
-    .thumbnails {
-        width: 20%;
-    }
-    .product-detail .product-info {
-        margin-top: 150px;
+@media (min-width: 768px) {
+    .col.img-fluid.product-image  {
+        flex: 0 0 auto;
+        width: 60%;
     }
 }
