@@ -1,30 +1,15 @@
 # Ignorar archivos y directorios de desarrollo
 .git/
-node_modules/
-npm-debug.log
-*.log
 
 # Ignorar archivos de caché y temporales
-tmp/
 cache/
-*.tmp
 
-# Ignorar archivos de documentación
-docs/
-*.md
 
-# Ignorar archivos de pruebas
-test/
-tests/
-coverage/
 
 # Ignorar archivos y directorios específicos de Heroku
 .heroku/
 *.sqlite3
 
-# Ignorar archivos de configuración local
-*.env
-*.local
 
 # Ignorar directorios específicos que ocupan mucho espacio
 staticfiles/
