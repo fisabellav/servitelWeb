@@ -223,8 +223,6 @@ def producto(request, id):
                         request.session['registro_comuna'] = ""
                         request.session['registro_birthday'] = ""
                         request.session['registro_genero'] = ""
-                        if password:
-                                password = bcrypt.hashpw(password.encode(), bcrypt.gensalt()).decode()   
 
                         user = User.objects.create(
                             name=name,
@@ -471,9 +469,6 @@ def contacto(request):
 
                     email = user_form.cleaned_data.get('email')
                     password = user_form.cleaned_data.get('password', '')
-
-                    if password:
-                        password = bcrypt.hashpw(password.encode(), bcrypt.gensalt()).decode()
 
                     user = User.objects.create(
                         name=name,

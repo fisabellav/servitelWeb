@@ -5,7 +5,6 @@ from django.core.mail import send_mail
 from django.conf import settings
 from .models import *
 from .forms import UserForm
-import bcrypt
 import json
 from django.http import JsonResponse
 import requests
@@ -179,9 +178,8 @@ def complete_registration(request, token):
                 messages.error(request, "Las contraseñas no coinciden.")
                 return redirect(reverse('complete-registration', kwargs={'token': token}))
             
-            # Hash and save the password
-            password_hash = bcrypt.hashpw(password.encode(), bcrypt.gensalt()).decode()
-            user.password = password_hash
+            
+            user.password = password
             user.verification_token = None  # Clear verification token after setting password
             user.save()
             request.session['level_mensaje'] = 'alert-success'
