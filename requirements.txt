@@ -5,7 +5,6 @@ charset-normalizer==3.3.2
 colorama==0.4.6
 dill==0.3.8
 Django==5.0.4
-django-anymail==11.0
 gunicorn==22.0.0
 idna==3.7
 isort==5.13.2
@@ -16,3 +15,4 @@ pillow==10.3.0
 platformdirs==4.2.0
 pylint==3.1.0
 requests==2.32.3
+whitenoise==6.7.0
