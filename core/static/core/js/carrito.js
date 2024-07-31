@@ -37,21 +37,22 @@ export const addToCart = (productData) => {
             id: productData.id,
             name: productData.name,
             image: productData.image,
-            quantity: 1,
+            quantity: productData.quantity,
         }];
     } else if (positionThisProductInCart < 0) {
         cart.push({
             id: productData.id,
             name: productData.name,
             image: productData.image,
-            quantity: 1,
+            quantity: productData.quantity,
         });
     } else {
-        cart[positionThisProductInCart].quantity += 1; 
+        cart[positionThisProductInCart].quantity += productData.quantity; 
     }
     addCartToHTML();
     saveCartToLocalStorage(); // Guardar el carrito en el almacenamiento local después de actualizarlo
 }
+
 
 export const changeQuantityCart = (product_id, type) => {
     let positionItemInCart = cart.findIndex((value) => value.id == product_id);

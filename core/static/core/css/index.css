@@ -14,29 +14,14 @@
     object-fit: cover;
 }
 
-/* 
-@media (min-width: 1200px) {
-    .banner {
-        max-height: fit-content;
-    }
+
+
+
+.floating-alert {
+    position: absolute;
+    top: 0px; /* Ajusta este valor según la posición deseada */
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1000; /* Asegura que la alerta esté por encima de la imagen */
+    width: 100%; /* Ajusta el ancho según tus necesidades */
 }
-
-@media (max-width: 992px) {
-    .banner{
-        height: 500px;
-    }
-}
-/* Media query for medium screen size */
-/* @media (max-width: 768px) {
-    .banner{
-        height: 400px;
-    }
-}
-
-@media (max-width: 480px) {
-    .banner {
-        height: 300px;
-    }
-} */ 
-
-

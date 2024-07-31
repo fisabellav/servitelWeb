@@ -1,0 +1,51 @@
+{% extends 'core/base.html' %}
+
+{% block title %}About{% endblock %}
+
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'core/css/index.css' %}" />
+<link rel="stylesheet" href="{% static 'core/css/category.css' %}" />
+{% endblock %}
+
+{% block navbar_script %}
+
+
+
+<script>
+    const backgroundImageUrl = "{% static 'core/img/navbar4.jpg' %}";
+    setNavbarBackgroundOnScroll(backgroundImageUrl);
+</script>
+{% endblock %}
+
+{% block first_content %}
+
+<div class="indexBody">
+    <div class="banner  position-relative">
+        {% if messages %}
+        <div class="alert {{ request.session.level_mensaje }} alert-dismissible floating-alert" role="alert">
+            <ul>
+                {% for message in messages %}
+                <li><strong>{{ message }}</strong></li>
+                {% endfor %}
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </ul>
+        </div>
+        {% endif %}
+        <img src="{% static 'core/img/client.jpg' %}" alt="">
+    </div>
+
+    <h2 class="title">Sobre nosotros</h2>
+    <div class="container mx-auto">
+        <p class="text"> Somos una empresa dedicada a la venta de sistemas de seguridad, instalaciones y mantenimientos de
+            estos. <br> Llevamos más de 10 años ofreciendo productos y servicios de calidad.</p>
+    </div>
+
+</div>
+{% endblock %}
+
+
+{% block my_js %}
+<script src="{% static 'core/js/index.js' %}"></script>
+{% endblock %}

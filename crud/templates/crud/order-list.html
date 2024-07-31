@@ -1,0 +1,129 @@
+{% extends 'crud/base.html' %}
+{% block title %}Pedidos{% endblock %}
+
+{% load static %}
+{% block meta_extra %}
+    <meta name="csrf-token" content="{{ csrf_token }}">
+{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'crud/css/product-list.css' %}">
+{% endblock %}
+
+{% block first_content %}
+
+<div class="mycontainer">
+    {% if messages %}
+    <div class="alert {{ request.session.level_mensaje }} alert-dismissible" role="alert">
+        <ul>
+            {% for message in messages %}
+            <li><strong>{{message}}</strong></li>
+            {% endfor %}
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </ul>
+    </div>
+
+    {% endif %}
+    <div class="container-fluid order-panel px-auto">
+        <div class="row m-0">
+            <div id="myFilters" class="col">
+                <!-- FILTROS -->
+                <div id="filters" class="p-4">
+                    <h3 class="filter-title">Filtros</h3>
+
+                    <form method="get" action="{% url 'order-list' %}">
+                        <div class="form-group">
+                            <label for="estado-filter" class="form-label mt-2">Filtrar por Estado:</label>
+                            <select id="estado-filter" name="estado" class="form-control">
+                                <option value="">Todos</option>
+                                {% for key, value in estado_choices %}
+                                    <option value="{{ key }}" {% if key == estado_seleccionado %}selected{% endif %}>{{ value }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="apply-filters mt-3">
+                            <button type="submit" id="apply-filters-btn" class="product-btn">Aplicar filtros</button>
+                        </div>
+                    </form>
+                </div>
+
+
+            </div>
+            <div class="col-lg-10 p-0">
+                <h3 class="filter-title my-4">Pedidos</h3>
+                <div class="py-3 my-4 container-fluid mx-auto">
+
+                    <div class="table-responsive">
+                        <table class="table myTable table-hover">
+                            <thead class="table-head">
+                                <tr>
+                                    <th>ID Pedido</th>
+                                    <th>Nombre Cliente</th>
+                                    <th>Estado</th>
+                                    <th>Total</th>
+                                    <th class="text-center">Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody class="table-body">
+                                {% for s in pedidos %}
+                                <tr data-order-id="{{s.id}}">
+                                    <td class="order-id">
+                                        <h6><a class="card-link text-decoration-none" href="">{{s.id}}</a></h6>
+                                    </td>
+                                    <td>
+                                        <h6>{{ s.user.name }} {{ s.user.last_name }}</h6>
+                                    </td>
+                                    <td  class="order-status">
+                                        <h6>
+                                            <a class="card-link text-decoration-none" href="">
+                                                {{ s.get_status_display }}</a>
+                                        </h6>
+                                    </td>
+                                    <td>
+                                        <p>{{ s.total }}</p>
+                                    </td>
+                                    <td class="tbActions">
+                                        <div class="myActions container">
+                                            <div class="row row-cols-3  text-center pt-2">
+                                                <div class="col-3 me-4">
+                                                    <a class="btn detalle-btn"
+                                                        href="{% url 'order-detail' id=s.id %}">Detalle</a>
+                                                </div>
+                                                <div class="col-3 ms-3">
+                                                    <button class="btn btn-outline-none btn-circle btn-confirm"
+                                                        data-order-id="{{ s.id }}">
+                                                        <span class="fs-5">
+                                                            <i class="fa-solid fa-check"></i>
+                                                        </span>
+                                                    </button>
+                                                </div>
+                                                <div class="col-3">
+                                                    <button class="btn btn-outline-none btn-circle btn-cancel"
+                                                        data-order-id="{{ s.id }}">
+                                                        <span class="fs-5">
+                                                            <i class="fa-solid fa-xmark"></i>
+                                                        </span>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}
+
+{% block my_js %}
+<script src="{% static 'crud/js/funciones.js' %}"></script>
+
+{% endblock %}

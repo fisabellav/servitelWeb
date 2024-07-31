@@ -33,23 +33,23 @@
     </div>
     {% endif %}
 
-    <form id="formulario" class="row g-2 p-5" action="" method="post" enctype="multipart/form-data">
+    <form id="formulario" class="row g-2 p-md-5 mx-auto" action="" method="post" enctype="multipart/form-data">
         {% csrf_token %}
         <h3>Contáctanos</h3>
         <div class="row mt-3">
-            <div class="col-6">
-                <label for="idNombre" class="form-label">Nombre</label>
+            <div class="col-12 col-md-6">
+                <label for="idNombre" class="form-label">Nombre{% if request.session.usuario.rol == 'ADMIN' %}*{% endif %}</label>
                 {{form.name}}
 
             </div>
-            <div class="col-6">
+            <div class="mt-3 mt-md-0 col-12 col-md-6">
                 <label for="idApellido" class="form-label">Apellidos</label>
                 {{form.last_name}}
 
             </div>
         </div>
         <div class="row mt-3">
-            <div class="col-6">
+            <div class="col-12 col-md-6">
                 <label for="idFono" class="form-label">Teléfono</label>
                 <div class="">
                     <input type="hidden" id="prefijo-hidden" name="prefijo_telefono" value="+" />
@@ -58,7 +58,7 @@
 
                 </div>
             </div>
-            <div class="col-6">
+            <div class="mt-3 mt-md-0 col-12 col-md-6">
                 <label for="idFecha_nac" class="form-label">Fecha nacimiento</label>
                 <div class="input-group">
                     {{form.birthday}}
@@ -67,11 +67,11 @@
             </div>
         </div>
         <div class="row mt-3">
-            <div class="col-6">
+            <div class="col-12 col-md-6">
                 <label for="genero-select" class="form-label">{{ form.gender.label }}</label>
                 {{ form.gender }}
             </div>
-            <div class="col-6">
+            <div class="mt-3 mt-md-0 col-12 col-md-6">
                 <label for="comuna-select" class="form-label">Comuna</label>
                 {{form.comuna}}
             </div>
@@ -100,7 +100,7 @@
             </div>
         </div>
         <div class="col-12 mt-5">
-            <button type="submit" class="btn btn-primary">Enviar</button>
+            <button type="submit" class="btn btn-enviar">Enviar</button>
         </div>
     </form>
 </div>

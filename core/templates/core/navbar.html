@@ -7,15 +7,10 @@
         </div>
         <ul class="links">
             <li><a href="{% url 'catalogo' %}">Cátalogo</a></li>
-            <li><a href="">Accesorios</a></li>
-            <li><a href="">Kits</a></li>
-            <li><a href="">Nosotros</a></li>
+            <li><a href="{% url 'accesorios' %}">Accesorios</a></li>
+            <li><a href="{% url 'about' %}">Nosotros</a></li>
             <div class="items">
                 {% if request.session.usuario %}
-                {% if request.session.usuario.rol == 'ADMIN' %}
-                <a class="nav-link" href="{% url 'product-list' %}">Vista admin</a>
-                {% endif %}
-                {% if request.session.usuario.rol == 'USER' %}
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
                         aria-expanded="false"> <i class="fa-solid fa-user"></i>
@@ -28,13 +23,17 @@
                         <li><a href="/accounts/logout" class="dropdown-item">Cerrar sesión</a></li>
                     </ul>
                 </li>
+                {% if request.session.usuario.rol == 'ADMIN' %}
+                <a class="nav-link" href="{% url 'product-list' %}">Vista admin</a>
                 {% endif %}
                 {% else %}
                 <a href="/accounts/login" class="action_btn"><i class="fa-solid fa-user"></i></a>
                 {% endif %}
-                <a href="#" class="action_btn"><i class="fa-solid fa-magnifying-glass"></i></a>
                 <a class="action_btn icon-cart" data-bs-toggle="offcanvas" href="#offcanvasExample" role="button"
-                    aria-controls="offcanvasExample"><div class="icon-navbar"><i class="fa-solid fa-heart wishlist-icon"></i><span class="wishlist-counter">0</span></div></a>
+                    aria-controls="offcanvasExample">
+                    <div class="icon-navbar"><i class="fa-solid fa-heart wishlist-icon"></i><span
+                            class="wishlist-counter">0</span></div>
+                </a>
             </div>
         </ul>
 
@@ -44,40 +43,36 @@
     </div>
 
     <div class="dropdown_menu">
-        <li><a href="{% url 'catalogo' %}">Catálogo</a></li>
-        <li><a href="">Accesorios</a></li>
-        <li><a href="">Kits</a></li>
-        <li><a href="">Nosotros</a></li>
+        <li><a class="nav-item" href="{% url 'catalogo' %}">Catálogo</a></li>
+        <li><a class="nav-item" href="{% url 'accesorios' %}">Accesorios</a></li>
+        <li><a class="nav-item" href="{% url 'about' %}">Nosotros</a></li>
+        {% if request.session.usuario.rol == 'ADMIN' %}
+        <li><a class="nav-item" href="{% url 'product-list' %}">Vista admin</a></li>
+        {% endif %}
         <div class="items">
-            {% if request.session.usuario.rol == 'ADMIN' %}
-            <a class="nav-link " href="">Vista admin</a>
-            {% endif %}
             {% if request.session.usuario %}
-            <a href="/accounts/logout" class="action_btn"><i class="fa-solid fa-user-large-slash"></i> </a>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                    aria-expanded="false"> <i class="fa-solid fa-user"></i>
+                    {{request.session.usuario.name}}
+                </a>
+                <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" href="{% url 'editar-perfil' id=request.session.usuario.id %}">Editar
+                            datos</a></li>
+                    <li><a class="dropdown-item" href="{% url 'my-orders' %}">Mis pedidos</a></li>
+                    <li><a href="/accounts/logout" class="dropdown-item">Cerrar sesión</a></li>
+                </ul>
+            </li>
             {% else %}
-            <a href="/accounts/login" class="action_btn"><i class="fa-solid fa-user"></i></a>
+            <a href="/accounts/login" class="action_btn nav-item"><i class="fa-solid fa-user"></i></a>
             {% endif %}
-
-            <a href="#" class="action_btn"><i class="fa-solid fa-magnifying-glass"></i></a>
-            <a class="action_btn icon-cart" data-bs-toggle="offcanvas" href="#offcanvasExample" role="button"
+            <a class="action_btn icon-cart " data-bs-toggle="offcanvas" href="#offcanvasExample" role="button"
                 aria-controls="offcanvasExample"><i class="fa-solid fa-heart"></i><span>0</span></a>
         </div>
 </header>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous">
-</script>
+    </script>
 
-<script>
-    const toggleBtn = document.querySelector('.toggle_btn');
-    const toggleBtnIcon = document.querySelector('.toggle_btn i');
-    const dropdownMenu = document.querySelector('.dropdown_menu');
-
-    toggleBtn.onclick = function () {
-        dropdownMenu.classList.toggle('open')
-        const isOpen = dropdownMenu.classList.contains('open')
-
-        toggleBtnIcon.classList = isOpen ? 'fa-solid fa-xmark' : 'fa-solid fa-bars'
-    };
-
-</script>
+<script src="{% static 'core/js/navscript.js' %}"></script>

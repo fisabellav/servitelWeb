@@ -118,6 +118,24 @@ margin-left: 0;
     transition: all 0.2s;
 }
 
+.btn-enviar{
+    background-color: #28799f;
+    color: #ececec;
+    display: inline-block;
+    text-decoration: none;
+    padding: 0.6rem 2rem;
+    margin-top: 1rem;
+    font-size: 14px;
+    transition: all 0.2s;
+
+}
+
+.btn-enviar:hover {
+    transform: scale(1.1);
+    background-color: #28799f;
+    color: #ececec;
+}
+
 .comprar:hover {
     transform: scale(1.1);
 }
@@ -131,7 +149,6 @@ margin-left: 0;
 }
 
 
-
 .iti {
     position: relative;
     display: flex;
@@ -141,5 +158,12 @@ margin-left: 0;
     .col.img-fluid.product-image  {
         flex: 0 0 auto;
         width: 60%;
+    }
+}
+
+@media (max-width: 768px) {
+    .formulario{
+        width: 90%;
+        padding: 20px;
     }
 }

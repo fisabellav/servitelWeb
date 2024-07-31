@@ -21,7 +21,17 @@
 {% endblock %}
 
 {% block first_content %}
-<div class="banner">
+<div class="banner  position-relative">
+    {% if messages %}
+    <div class="alert {{ request.session.level_mensaje }} alert-dismissible floating-alert" role="alert">
+        <ul>
+            {% for message in messages %}
+            <li><strong>{{ message }}</strong></li>
+            {% endfor %}
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </ul>
+    </div>
+    {% endif %}
     <img src="{% static 'core/img/camera.jpg' %}" alt="">
 </div>
 
@@ -64,7 +74,10 @@
                                     {% if filtro_camara %}
                                     <select id="camera-filter" name="cameras" class="form-select myselect" multiple>
                                         {% for f in filtro_camara %}
-                                        <option value="{{ f }}" {% if f in selected_channels %}selected{% elif forloop.first %}selected{% endif %}>{{ f }}</option>
+                                        {% if f is not None %}
+                                        <option value="{{ f }}" {% if f in selected_channels %}selected{% elif
+                                            forloop.first %}selected{% endif %}>{{ f }}</option>
+                                        {% endif %}
                                         {% endfor %}
                                     </select>
                                     {% else %}
@@ -85,7 +98,10 @@
                                     {% if filtro_canal %}
                                     <select id="channel-filter" name="channels" class="form-select myselect" multiple>
                                         {% for f in filtro_canal %}
-                                        <option value="{{ f }}" {% if f in selected_channels %}selected{% elif forloop.first %}selected{% endif %}>{{ f }}</option>
+                                        {% if f is not None %}
+                                        <option value="{{ f }}" {% if f in selected_channels %}selected{% elif
+                                            forloop.first %}selected{% endif %}>{{ f }}</option>
+                                        {% endif %}
                                         {% endfor %}
                                     </select>
                                     {% else %}
@@ -106,13 +122,14 @@
 
         </div>
 
-        
+
 
         <div class="col-md-9 p-0 contenedor">
             <!-- PRODUCTOS -->
-            <div id="myproducts" class="container-fluid p-4">
+            <div id="myproducts" class="container p-4">
                 <div class="all-products">
-                    <div class="row row-cols-1 row-cols-md-4 gy-3  mx-auto justify-content-center justify-content-md-start">
+                    <div
+                        class="row row-cols-1 row-cols-md-4 gy-3  mx-auto justify-content-center justify-content-md-start">
                         {% if filtered_cameras %}
                         {% for p in filtered_cameras %}
                         <div class="col-lg-3 ">
@@ -126,7 +143,7 @@
                                 </div>
                                 <div class="button-container">
                                     <a class="product-btn" href="{% url 'producto' id=p.id %}">Ver Detalles</a>
-                                    <i class="deseos fa-regular fa-heart"></i>
+                                    <i class="deseos fa-regular fa-heart add-to-wishlist"></i>
                                 </div>
                             </div>
                         </div>
@@ -143,7 +160,7 @@
                             </div>
                             <div class="button-container">
                                 <a class="product-btn" href="{% url 'producto' id=f.id %}">Ver Detalles</a>
-                                <i class="deseos fa-regular fa-heart"></i>
+                                <i class="deseos fa-regular fa-heart add-to-wishlist"></i>
                             </div>
                         </div>
                         {% endfor %}
@@ -154,58 +171,9 @@
         </div>
     </div>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            const applyFiltersBtn = document.getElementById('apply-filters-btn');
-            applyFiltersBtn.addEventListener('click', function () {
-                const cameraFilter = document.getElementById('camera-filter');
-                const channelFilter = document.getElementById('channel-filter');
-
-                const selectedCameras = Array.from(cameraFilter.selectedOptions).map(option => option.value);
-                const selectedChannels = Array.from(channelFilter.selectedOptions).map(option => option.value);
-
-                const url = new URL(window.location.href);
-                url.searchParams.delete('cameras');
-                url.searchParams.delete('channels');
-
-                selectedCameras.forEach(camera => url.searchParams.append('cameras', camera));
-                selectedChannels.forEach(channel => url.searchParams.append('channels', channel));
-
-                window.location.href = url.toString();
-            });
-        });
-    </script>
-
     {% endblock %}
 
     {% block my_js %}
     <script src="{% static 'core/js/catalogo.js' %}"></script>
     <script type="module" src="{% static 'core/js/addwish.js' %}"></script>
     {% endblock %}
-
-    <!-- <div class="price-filter">
-            <h3 class="filter-group-title">Rango de precios</h3>
-            <div class="price-slider">
-                <input type="range" min="0" max="1000" step="100" value="1000" class="price-range" id="price-range">
-                <div class="price-labels">
-                    <span class="price-label" id="price-label-min">$0</span>
-                    <span class="price-label" id="price-label-max">$1000</span>
-                </div>
-            </div>
-        </div> -->
-    <!-- <script>
-            const priceRange = document.querySelector('#price-range');
-            const priceLabelMin = document.querySelector('#price-label-min');
-            const priceLabelMax = document.querySelector('#price-label-max');
-
-            priceRange.addEventListener('input', () => {
-                console.log("holaa")
-                const minPrice = priceRange.value;
-                const maxPrice = priceRange.max;
-                const labelMin = `$${minPrice}`;
-                const labelMax = `$${maxPrice}`;
-
-                priceLabelMin.textContent = labelMin;
-                priceLabelMax.textContent = labelMax;
-            });
-        </script> -->

@@ -13,6 +13,16 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 from pathlib import Path
 from django.contrib.messages import constants as messages
 
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.mailersend.net'
+EMAIL_PORT = 587  # Puerto SMTP de MailerSend
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'MS_Pqwt9D@trial-o65qngkme93lwr12.mlsender.net'
+EMAIL_HOST_PASSWORD = 'a48ae57f7109e7232c8ba2bfbfe1ffa9cd69416335cbcf6ebcfbbf456581b841'
+
+MAILERSEND_API_KEY = 'mlsn.a48ae57f7109e7232c8ba2bfbfe1ffa9cd69416335cbcf6ebcfbbf456581b841'
+DEFAULT_FROM_EMAIL = 'MS_Pqwt9D@trial-o65qngkme93lwr12.mlsender.net'
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -143,3 +153,14 @@ MEDIA_URL = '/media/'
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+AUTH_USER_MODEL = 'login.User'
+
+AUTHENTICATION_BACKENDS = [
+    'login.auth_backends.EmailBackend',
+    'django.contrib.auth.backends.ModelBackend',  # Backend predeterminado
+]
+
+LOGIN_URL = '/accounts/login'
+LOGIN_REDIRECT_URL = '/'
+LOGOUT_REDIRECT_URL = '/'

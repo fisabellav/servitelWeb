@@ -11,13 +11,14 @@ listProductHTML.addEventListener('click', (event) => {
         let productElement = positionClick.closest('.product');
         let productId = productElement.dataset.id;
         let productName = productElement.querySelector('.product-title').textContent;
-        
+        let productQuantity = 1;
         let productImage = productElement.querySelector('img').src;
 
         let productData = {
             id: productId,
             name: productName,
             image: productImage,
+            quantity: productQuantity,
         };
         console.log(productId)
         addToCart(productData);

@@ -17,3 +17,11 @@
     border-color: #d9534f;
     color: white;
 }
+
+.flex-container {
+    display: flex;
+    align-items: center;
+}
+.flex-container label {
+    margin-right: 10px; /* Ajusta según sea necesario */
+}

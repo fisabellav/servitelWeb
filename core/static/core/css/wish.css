@@ -44,6 +44,7 @@
     align-items: center;
 }
 
+
 .listCart .quantity span {
     display: inline;
     width: 25px;
@@ -71,5 +72,12 @@
 
 .listCart::-webkit-scrollbar {
     width: 0;
+}
+
+@media (max-width: 768px) {
+    .listCart .item {
+        grid-template-columns: 60px 130px 100px 1fr;
+        gap: 5px;
+    }
 }
 

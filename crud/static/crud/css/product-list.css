@@ -144,6 +144,10 @@ button.product-btn {
     border: none;
 }
 
+.btn-circle:hover{
+    color: white;
+    transform: scale(1.1);
+}
 
 
 .btn-circle.btn-confirm{

@@ -15,18 +15,21 @@
                     <li><a class="dropdown-item disabled" href="#">Accesorio</a></li>
                 </ul>
             </li>
-            <li><a href="{% url 'product-list' %}">Listar Productos</a></li>
+            <li><a href="{% url 'product-list' %}">Productos</a></li>
+            <li><a href="{% url 'order-list' %}">Pedidos</a></li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                    aria-expanded="false"> <i class="fa-solid fa-user"></i>
+                    {{request.session.usuario.name}}
+                </a>
+                <ul class="dropdown-menu">
+                    <li><a class="dropdown-item"
+                            href="{% url 'editar-perfil' id=request.session.usuario.id %}">Editar datos</a></li>
+                    <li><a class="dropdown-item" href="{% url 'my-orders' %}">Mis pedidos</a></li>
+                    <li><a href="/accounts/logout" class="dropdown-item">Cerrar sesión</a></li>
+                </ul>
+            </li>
             <li><a href="{% url 'index' %}">Vista Usuario</a></li>
-            
-            <div class="items">
-                <a href="{% url 'logout' %}" class="action_btn"><img src="{%static 'crud/img/logout-icon.png' %}" alt="" class="img-icon"></a>
-                <a href="#" class="action_btn"><i class="fa-solid fa-magnifying-glass"></i></a>
-
-                <div class="collapse" id="search-field">
-                    <input type="text" class="form-control" placeholder="Buscar productos...">
-                    <button type="submit" class="btn btn-primary">Buscar</button>
-                </div>
-            </div>
         </ul>
 
         <div class="toggle_btn">
@@ -47,7 +50,8 @@
                     <li><a class="dropdown-item disabled" href="#">Accesorio</a></li>
                 </ul>
             </li>
-            <li><a href="{% url 'product-list' %}">Listar Productos</a></li>
+            <li><a href="{% url 'product-list' %}">Productos</a></li>
+            <li><a href="{% url 'order-list' %}">Pedidos</a></li>
             <li><a href="{% url 'index' %}">Vista Usuario</a></li>
             
             <div class="items">

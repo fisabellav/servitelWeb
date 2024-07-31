@@ -9,8 +9,9 @@ import bcrypt
 import json
 from django.http import JsonResponse
 import requests
-from mailersend import emails
+from crud.utils import send_verification_email # Importa la función que envía el correo
 from django.conf import settings
+from django.contrib.auth import authenticate, login as auth_login, logout as auth_logout
 # from crud.utils import send_verification_email # Importa la función que envía el correo
 
 
@@ -26,6 +27,7 @@ def signup(request):
         return render(request, 'login/signup.html', context)
     
     if request.method == 'POST':
+        user_form = UserForm(request.POST, prefix='')
         phone_number = request.POST.get('formatted_phone_number')
             
 
@@ -69,119 +71,96 @@ def signup(request):
             request.session['registro_birthday'] = ""
             request.session['registro_genero'] = ""
             
-            name = request.POST['name']
-            last_name = request.POST['last_name']
-            email = request.POST['email']
-            password = request.POST['password']
-            comuna_id = request.POST['comuna']  # Assuming 'comuna' is passed as the ID of Comuna object
-            birthday = request.POST['birthday']
-            gender = request.POST['gender']
-            
-            # Check if user already exists with the same email or phone number
-            existing_user_email = User.objects.filter(email=email).first()
-            existing_user_phone = User.objects.filter(phone_number=phone_number).first()
-            
-            if existing_user_email or existing_user_phone:
-                existing_user = existing_user_email if existing_user_email else existing_user_phone
-                
-                # If user exists but doesn't have a password set (password is None or empty)
-                if existing_user and not existing_user.password:
-                    # Generate a unique token for verification
-                    verification_token = get_random_string(length=32)
-                    
-                    # Save the token with the user record
-                    existing_user.verification_token = verification_token
-                    existing_user.save()
-                    
-                    # Send an email with a link for completing registration
-                    verification_link = reverse('complete-registration', kwargs={'token': verification_token})
-                    verification_url = request.build_absolute_uri(verification_link)
-                    
-                    # send_verification_email(existing_user.email, verification_url)
-                    print(verification_url)
+            if user_form.is_valid():
+                email = user_form.cleaned_data.get('email')
+                phone_number = user_form.cleaned_data.get('phone_number')
+                name = user_form.cleaned_data.get('name')
+                last_name = user_form.cleaned_data.get('last_name')
+                birthday = user_form.cleaned_data.get('birthday')
+                gender = user_form.cleaned_data.get('gender')
+                comuna = user_form.cleaned_data.get('comuna')
 
-                    request.session['level_mensaje'] = 'alert-warning'
-                    messages.warning(request, "El correo o teléfono ya están registrados. Se ha enviado un correo para completar tu registro.")
-                    return redirect(reverse('login'))
+                existing_user_email = User.objects.filter(email=email).first()
+                existing_user_phone = User.objects.filter(phone_number=phone_number).first()
+                
+                if existing_user_email or existing_user_phone:
+                    existing_user = existing_user_email if existing_user_email else existing_user_phone
+                    
+                    if existing_user and not existing_user.password:
+                        verification_token = get_random_string(length=32)
+                        existing_user.verification_token = verification_token
+                        existing_user.save()
+                        
+                        verification_link = reverse('complete-registration', kwargs={'token': verification_token})
+                        verification_url = request.build_absolute_uri(verification_link)
+                        send_verification_email(existing_user.email, verification_url)
+                        
+                        request.session['level_mensaje'] = 'alert-warning'
+                        messages.warning(request, "El correo o teléfono ya están registrados. Se ha enviado un correo para completar tu registro.")
+                        return redirect(reverse('login'))
+                    else:
+                        request.session['level_mensaje'] = 'alert-warning'
+                        messages.warning(request, "El correo o teléfono ya están registrados. Ingrese con su contraseña.")
+                        return redirect(reverse('login'))
                 else:
-                    request.session['level_mensaje'] = 'alert-warning'
-                    messages.warning(request, "El correo o teléfono ya están registrados. Ingrese con su contraseña.")
+                    user = user_form.save(commit=False)
+                    user.username = email  # Usar email como nombre de usuario
+                    user.set_password(user_form.cleaned_data.get('password'))
+                    user.save()
+                    request.session['level_mensaje'] = 'alert-success'
+                    messages.success(request, "Usuario registrado con éxito!")
+                    return redirect(reverse('login'))
             else:
-                # Create a new user if not exists
-                comuna = Comuna.objects.get(pk=comuna_id)
-                password_hash = bcrypt.hashpw(password.encode(), bcrypt.gensalt()).decode()
-                User.objects.create(
-                    name=name,
-                    last_name=last_name,
-                    email=email,
-                    birthday=birthday,
-                    phone_number=phone_number,
-                    password=password_hash,
-                    comuna=comuna,
-                    gender=gender
-                )
-                messages.success(request, "Usuario registrado con éxito!!!!")
-        
-        request.session['level_mensaje'] = 'alert-success'
-        request.session['email_login'] = email
-        return redirect(reverse('login'))
-    
-    return render(request, 'login/signup.html')
+                request.session['level_mensaje'] = 'alert-danger'
+                messages.error(request, "Formulario inválido")
             
 def login(request):
-    if request.method == 'GET':
-        return render(request, 'login/login.html')
-    else:
-        if request.method == 'POST':
-            email_login = request.POST['email_login']
-            request.session['email_login'] = email_login  # Store email in session
+    if request.method == 'POST':
+        email = request.POST['email_login']
+        password = request.POST['password_login']
+
+        try:
+            user = authenticate(request, email=email, password=password)
+        except:
+            user = None
             
-            user = User.objects.filter(email=request.POST['email_login']) #Buscamos el correo ingresado en la BD             
+
+        if user is not None:
+            auth_login(request, user)
+            messages.success(request, "Ingreso exitoso")
+            request.session['level_mensaje'] = 'alert-success'
+
+            usuario = User.objects.filter(email=request.POST['email_login']) #Buscamos el correo ingresado en la BD             
             
-            if user : #Si el usuario existe
+            if usuario : #Si el usuario existe
 
-                usuario_registrado = user[0]
+                usuario_registrado = usuario[0]
 
-                if usuario_registrado.password:
+                usuario = {
+                    'id':usuario_registrado.id,
+                    'name':usuario_registrado.name,
+                    'last_name':usuario_registrado.last_name,
+                    'email':usuario_registrado.email,
+                    'rol':usuario_registrado.rol,
+                }
 
-                
-                    if bcrypt.checkpw(request.POST['password_login'].encode(), usuario_registrado.password.encode()): 
-                        usuario = {
-                            'id':usuario_registrado.id,
-                            'name':usuario_registrado.name,
-                            'last_name':usuario_registrado.last_name,
-                            'email':usuario_registrado.email,
-                            'rol':usuario_registrado.rol,
-                        }
-
-                        request.session['usuario'] = usuario
-                        
-
-                        if usuario_registrado.rol == 'ADMIN' :
-                            messages.success(request,"Ingreso exitoso")
-                            request.session['level_mensaje'] = 'alert-success'
-                            return redirect(reverse('product-list') + '?SUCCESS')
-                            
-                        else:
-                            messages.success(request,"Ingreso exitoso")
-                            request.session['level_mensaje'] = 'alert-success'
-                            return redirect(reverse('index') + '?SUCCESS')
-                    else:
-                        messages.error(request,"Datos mal ingresados o el usuario no existe")
-                        request.session['level_mensaje'] = 'alert-danger'
-                        return redirect(reverse('login') + '?FAIL')
-                else:
-                    messages.error(request,"Datos mal ingresados o el usuario no existe")
-                    request.session['level_mensaje'] = 'alert-danger'
-                    return redirect(reverse('login') + '?FAIL')
+                request.session['usuario'] = usuario
+            
+            if user.is_staff:
+                return redirect(reverse('product-list') + '?SUCCESS')
             else:
-                messages.error(request,"Datos mal ingresados o el usuario no existe")
-                request.session['level_mensaje'] = 'alert-danger'
-                return redirect(reverse('login') + '?FAIL')
+                return redirect(reverse('index') + '?SUCCESS')
+        else:
+            request.session['level_mensaje'] = 'alert-danger'
+            messages.error(request, "Correo electrónico o contraseña incorrectos")
+            return render(request, 'login/login.html')
+    else:
+        return render(request, 'login/login.html')
             
 def logout(request):
     if 'usuario' in request.session:
         del request.session['usuario']
+    auth_logout(request)   
     
     return redirect('/')
 

@@ -9,6 +9,9 @@ from .models import *
 from .forms import *
 from login.forms import *
 from crud.forms import *
+from mailersend import emails
+from crud.utils import send_order_status_email  # Importa la función que envía el correo
+from django.conf import settings
 
 
 # Create your views here.
@@ -41,6 +44,11 @@ def catalogo(request):
     }
     return render(request, 'core/catalogo.html', context)
 
+def accesorios(request):
+    productos_filtrados = Product.objects.filter(category='AC')
+    context = {'productos':productos_filtrados, 'request': request}
+    return render(request, 'core/accesorios.html', context)
+
 def filter_products(request):
     camera_filter = list(set(Product.objects.all().values_list('cameras', flat=True)))
     channel_filter = list(set(Product.objects.all().values_list('channels', flat=True)))
@@ -66,6 +74,41 @@ def filter_products(request):
     }
     return render(request, 'core/catalogo.html', context)
 
+def send_dynamic_order_email(user_email, order_number):
+    mailer = emails.NewEmail(settings.MAILERSEND_API_KEY)
+    mail_body = {}
+
+    mail_from = {
+        "name": "Servitel",
+        "email": settings.DEFAULT_FROM_EMAIL,
+    }
+
+    recipients = [
+        {
+            "email": user_email,
+        }
+    ]
+
+    personalization = [
+        {
+            "email": user_email,
+            "data": {
+                "order_number": order_number
+            }
+        }
+        
+    ]
+
+    mailer.set_mail_from(mail_from, mail_body)
+    mailer.set_mail_to(recipients, mail_body)
+    mailer.set_subject("Pedido recibido", mail_body)
+    mailer.set_template("351ndgwnvnqgzqx8", mail_body)
+    mailer.set_advanced_personalization(personalization, mail_body)
+
+    response = mailer.send(mail_body)
+
+    print(response)
+    return response
 
 def producto(request, id):
     try:
@@ -106,8 +149,7 @@ def producto(request, id):
                         verification_link = reverse('complete-registration', kwargs={'token': verification_token})
                         verification_url = request.build_absolute_uri(verification_link)
                         
-                        print(verification_url)
-                        # send_verification_email(existing_user.email, verification_url)
+                        send_verification_email(existing_user.email, verification_url)
 
                         request.session['level_mensaje'] = 'alert-warning'
                         messages.warning(request, "El correo o teléfono ya están registrados. Se ha enviado un correo para completar tu registro.")
@@ -216,7 +258,7 @@ def producto(request, id):
                         request.session['level_mensaje'] = 'alert-success'
                         messages.success(request, 'Pedido enviado. En breve le llegará el correo de confirmación')
                         
-                        # send_dynamic_order_email(email, order.id)
+                        send_dynamic_order_email(email, order.id)
                         return redirect(reverse('catalogo') + '?OK')
             
         if request.method == 'GET':
@@ -286,7 +328,7 @@ def new_order_wishlist(request):
             # Mensaje de éxito y redirección
             request.session['level_mensaje'] = 'alert-success'
             messages.success(request, 'Pedido realizado. Pronto te llegará un mail de confirmación')
-            # send_dynamic_order_email(user_instance.email, order.id)
+            send_dynamic_order_email(user_instance.email, order.id)
             
             return JsonResponse({'success': True})
         
@@ -353,7 +395,7 @@ def new_order(request, id):
 
             request.session['level_mensaje'] = 'alert-success'
             messages.success(request, 'Pedido enviado. En breve le llegará el correo de confirmación')
-            # send_dynamic_order_email(user_instance.email, order.id)
+            send_dynamic_order_email(user_instance.email, order.id)
             return redirect(reverse('catalogo') + '?OK')  # Redirigir a una página de éxito después de crear el pedido
 
         else:
@@ -404,7 +446,7 @@ def contacto(request):
                         verification_link = reverse('complete-registration', kwargs={'token': verification_token})
                         verification_url = request.build_absolute_uri(verification_link)
                         
-                        # send_verification_email(existing_user.email, verification_url)
+                        send_verification_email(existing_user.email, verification_url)
 
                         request.session['level_mensaje'] = 'alert-warning'
                         messages.warning(request, "El correo o teléfono ya están registrados. Se ha enviado un correo para completar tu registro.")
@@ -474,7 +516,7 @@ def contacto(request):
 
                     request.session['level_mensaje'] = 'alert-success'
                     messages.success(request, 'Solicitud enviada. En breve le llegará el correo de confirmación')
-                    # send_dynamic_order_email(email, order.id)
+                    send_dynamic_order_email(email, order.id)
                     return redirect(reverse('contacto') + '?OK')
                 else:
                     context = {
@@ -535,43 +577,37 @@ def order_detail(request, id):
 
 
 def editar_perfil(request, id):
-    
     user = get_object_or_404(User, id=id)
-    old_password_hash = user.password
-    form = UserForm(instance = user)
+    old_password = user.password
+    staff = user.is_staff
+    form = UserForm(instance=user)
 
     if request.method == 'POST':
-        form = UserForm(request.POST, request.FILES, instance = user)
-
+        form = UserForm(request.POST, request.FILES, instance=user)
 
         if form.is_valid():
-
             postData = request.POST.copy()
-            errors = User.objects.validador_campos(postData)
+            errors = User.objects.validador_campos(postData, staff)
 
             if errors:
-                    for key, value in errors.items():
-                        messages.error(request, value)
+                for key, value in errors.items():
+                    messages.error(request, value)
 
-                    request.session['level_mensaje'] = 'alert-danger'
-                    return redirect(reverse('editar-perfil', args=[id]))
+                request.session['level_mensaje'] = 'alert-danger'
+                return redirect(reverse('editar-perfil', args=[id]))
             else:
-                # Guardar la contraseña actual en una variable temporal
-                
-
-                # Obtener la nueva contraseña del formulario
+                # Guardar la nueva contraseña del formulario
                 new_password = postData.get('password').strip()
 
                 # Guardar el formulario
                 user_instance = form.save(commit=False)
 
                 if new_password:
-                    # Si se proporciona una nueva contraseña, encriptarla con bcrypt y establecerla
-                    hashed_password = bcrypt.hashpw(new_password.encode('utf-8'), bcrypt.gensalt())
-                    user_instance.password = hashed_password.decode('utf-8')
+                    # Si se proporciona una nueva contraseña, establecerla usando set_password
+                    user_instance.set_password(new_password)
                 else:
                     # Si no se proporciona una nueva contraseña, usar la contraseña existente
-                    user_instance.password = old_password_hash
+                    user_instance.password = old_password
 
                 # Guardar el usuario con la posible nueva contraseña y otros cambios
                 user_instance.save()
@@ -584,19 +620,25 @@ def editar_perfil(request, id):
                 birthday_formatted = user.birthday.strftime('%Y-%m-%d') if user.birthday else None
                 request.session['usuario'] = {
                     'id': user.id,
-                    'name': user.name,
-                    'last_name': user.last_name,
-                    'email': user.email,
-                    'phone_number': user.phone_number,
-                    'comuna': user.comuna.comuna,
-                    'gender': user.get_gender_display(),
+                    'name': getattr(user, 'name', None),
+                    'last_name': getattr(user, 'last_name', None),
+                    'email': getattr(user, 'email', None),
+                    'phone_number': getattr(user, 'phone_number', None),
+                    'comuna': getattr(user.comuna, 'comuna', None) if user.comuna else None,
+                    'gender': user.get_gender_display() if user.gender else None,
                     'birthday': birthday_formatted,
-                    'rol': user.rol,
+                    'rol': getattr(user, 'rol', None),
                 }
                 return redirect(reverse('index') + '?UPDATED')
         else:
+            for field, errors in form.errors.items():
+                for error in errors:
+                    messages.error(request, f"Error en {field}: {error}")
             return redirect(reverse('editar-perfil', args=[id]))
+    else:
+        context = {'form': form}
+        return render(request, 'core/perfil.html', context)
 
-    context = {'form':form}
-    return render(request,'core/perfil.html',context)
+def about(request):
+    return render(request, 'core/about.html')
 
