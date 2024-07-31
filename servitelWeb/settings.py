@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 
 from pathlib import Path
+import os
 from django.contrib.messages import constants as messages
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
@@ -38,12 +39,13 @@ MESSAGE_TAGS = {
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-vc4dhc_sc^cg^nw0s&*u(u%q(m34s0=1*kbxwn+igr*19=p5%^'
+SECRET_KEY = os.getenv("SECRET_KEY", 'django-insecure-vc4dhc_sc^cg^nw0s&*u(u%q(m34s0=1*kbxwn+igr*19=p5%^')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.getenv("IS_DEVELOPMENT", True)
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [os.getenv("APP_HOST"),
+                '127.0.0.1']
 
 
 # Application definition
@@ -54,9 +56,6 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
-    
-    'livereload',
-
     'django.contrib.staticfiles',
     'core',
     'crud',
@@ -71,8 +70,6 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-
-    'livereload.middleware.LiveReloadScript',
 ]
 
 ROOT_URLCONF = 'servitelWeb.urls'
