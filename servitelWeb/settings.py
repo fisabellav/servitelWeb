@@ -44,9 +44,11 @@ SECRET_KEY = os.getenv("SECRET_KEY", 'django-insecure-vc4dhc_sc^cg^nw0s&*u(u%q(m
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.getenv("IS_DEVELOPMENT", True)
 
-ALLOWED_HOSTS = [os.getenv("APP_HOST"),
-                '127.0.0.1']
+ALLOWED_HOSTS = [
+                '*']
 
+# os.getenv("APP_HOST"),
+#                 '127.0.0.1'
 
 # Application definition
 
@@ -99,8 +101,12 @@ WSGI_APPLICATION = 'servitelWeb.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'ct51n47hh9w1ttfs',
+        'USER': 'yd59napbzxo1h623',
+        'PASSWORD': 'yuea944kfo5ze4k8',
+        'HOST': 'lyl3nln24eqcxxot.cbetxkdyhwsb.us-east-1.rds.amazonaws.com',
+        'PORT': '3306',
     }
 }
 

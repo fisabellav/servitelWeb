@@ -52,12 +52,12 @@ document.addEventListener('DOMContentLoaded', function() {
         modalBtn.addEventListener('click', function () {
             Swal.fire({
                 title: "¿Estás seguro?",
-                text: "¿Quieres enviar el carrito?",
+                text: "¿Quieres enviar la solicitud?",
                 icon: "question",
                 showCancelButton: true,
                 confirmButtonColor: "#3085d6",
                 cancelButtonColor: "#d33",
-                confirmButtonText: "Sí, enviar carrito",
+                confirmButtonText: "Sí, enviar solicitud",
                 cancelButtonText: "Cancelar"
             }).then((result) => {
                 if (result.isConfirmed) {

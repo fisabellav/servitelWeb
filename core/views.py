@@ -182,12 +182,11 @@ def producto(request, id):
                     quantity = orderdetail_form.cleaned_data.get('quantity')
                     postData = request.POST.copy()
                     postData['phone_number'] = phone_number
-                    errors = User.objects.validador_campos(postData)
+                    errors = User.objects.validador_campos(postData, False)
 
                     if errors:
                         for key, value in errors.items():
                             messages.error(request, value)
-                        messages.error(phone_number)  
                         # Preserve form data in session
                         request.session['registro_nombre'] = request.POST.get('name', '')
                         request.session['registro_apellido'] = request.POST.get('last_name', '')
@@ -470,49 +469,84 @@ def contacto(request):
                     email = user_form.cleaned_data.get('email')
                     password = user_form.cleaned_data.get('password', '')
 
-                    user = User.objects.create(
-                        name=name,
-                        last_name=last_name,
-                        birthday=birthday,
-                        phone_number=phone_number,
-                        comuna=comuna,
-                        gender=gender,
-                        email=email,
-                        password=password,
-                    )
-                    user.save()
+                    postData = request.POST.copy()
+                    postData['phone_number'] = phone_number
+                    errors = User.objects.validador_campos(postData, False)
 
-                    order = Order.objects.create(
-                        user=user,
-                        total=0,  # Inicialmente en 0, se actualizará más tarde
-                    )
-                    order.save()
-
-                    wishlist = request.POST.get('wishlist', '[]')
-                    wishlist_products = json.loads(wishlist)
-
-                    total = 0
-                    for item in wishlist_products:
-                        product = Product.objects.get(id=item['id'])
-                        quantity = item['quantity']
-                        subtotal = product.price * quantity
-                        total += subtotal
-
-                        OrderDetail.objects.create(
-                            order=order,
-                            product=product,
-                            quantity=quantity,
-                            unit_price=product.price,
-                            subtotal=subtotal,
+                    if errors:
+                        for key, value in errors.items():
+                            messages.error(request, value)
+                        # Preserve form data in session
+                        request.session['registro_nombre'] = request.POST.get('name', '')
+                        request.session['registro_apellido'] = request.POST.get('last_name', '')
+                        request.session['registro_email'] = request.POST.get('email', '')
+                        request.session['registro_phone'] = request.POST.get('formatted_phone_number', '')
+                        request.session['registro_comuna'] = request.POST.get('comuna', '')
+                        request.session['registro_genero'] = request.POST.get('gender', '')
+                        request.session['registro_birthday'] = request.POST.get('birthday', '')
+                        request.session['level_mensaje'] = 'alert-danger'
+                        
+                        # Pass session data as context variables
+                        context = {
+                            'name': request.session['registro_nombre'],
+                            'last_name': request.session['registro_apellido'],
+                            'email': request.session['registro_email'],
+                            'phone_number': request.session['registro_phone'],
+                            'comuna': request.session['registro_comuna'],
+                            'birthday': request.session['registro_birthday'],
+                            'gender': request.session['registro_genero'],
+                            'user_form': user_form,
+                            'orderdetail_form': orderdetail_form,
+                            'order_form': order_form,
+                            'producto': producto  
+                        }
+                        return render(request, 'core/contacto.html', context)
+                    
+                    else:
+                        user = User.objects.create(
+                            name=name,
+                            last_name=last_name,
+                            birthday=birthday,
+                            phone_number=phone_number,
+                            comuna=comuna,
+                            gender=gender,
+                            email=email,
+                            password=password,
                         )
+                        user.save()
 
-                        order.total = total
+                        order = Order.objects.create(
+                            user=user,
+                            total=0,  # Inicialmente en 0, se actualizará más tarde
+                        )
                         order.save()
 
-                    request.session['level_mensaje'] = 'alert-success'
-                    messages.success(request, 'Solicitud enviada. En breve le llegará el correo de confirmación')
-                    send_dynamic_order_email(email, order.id)
-                    return redirect(reverse('contacto') + '?OK')
+                        wishlist = request.POST.get('wishlist', '[]')
+                        wishlist_products = json.loads(wishlist)
+
+                        total = 0
+                        for item in wishlist_products:
+                            product = Product.objects.get(id=item['id'])
+                            quantity = item['quantity']
+                            subtotal = product.price * quantity
+                            total += subtotal
+
+                            OrderDetail.objects.create(
+                                order=order,
+                                product=product,
+                                quantity=quantity,
+                                unit_price=product.price,
+                                subtotal=subtotal,
+                            )
+
+                            order.total = total
+                            order.save()
+                            
+
+                        request.session['level_mensaje'] = 'alert-success'
+                        messages.success(request, 'Solicitud enviada. En breve le llegará el correo de confirmación')
+                        send_dynamic_order_email(email, order.id)
+                        return redirect(reverse('contacto') + '?OK')
                 else:
                     context = {
                         'user_form': user_form,

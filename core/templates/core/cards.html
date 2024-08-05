@@ -6,6 +6,7 @@
         <h2 class="title">Destacados</h2>
         <div class="slide-container">
             <div class="mycard-wrapper swiper-wrapper">
+                {% if productos %}
                 {% for p in productos %}
                 <div class="mycard swiper-slide">
                     <a href="{% url 'producto' id=p.id %}">
@@ -23,6 +24,7 @@
                     </a>
                 </div>
                 {% endfor %}
+                {% endif %}
             </div>
         </div>
         <div class="swiper-button-next swiper-navBtn"></div>
