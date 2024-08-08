@@ -102,12 +102,8 @@ WSGI_APPLICATION = 'servitelWeb.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'ct51n47hh9w1ttfs',
-        'USER': 'yd59napbzxo1h623',
-        'PASSWORD': 'yuea944kfo5ze4k8',
-        'HOST': 'lyl3nln24eqcxxot.cbetxkdyhwsb.us-east-1.rds.amazonaws.com',
-        'PORT': '3306',
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
 
