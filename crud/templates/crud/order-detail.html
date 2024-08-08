@@ -13,23 +13,39 @@
 <div class="container mycont">
     <div class="row">
         <div class="col-12">
-            <h3>Detalle del Pedido #{{ order.id }}</h3>
-            <ul class="list-unstyled">
-                <li><strong>Cliente:</strong> {{ order.user }}</li>
-                <li class="flex-container"><strong>
-                    <label for="status">Estado:</label></strong>
-                    <form method="post" action="{% url 'order-detail' order.id %}" id="status-form">
-                        {% csrf_token %}
-                        <select class="form-control " id="status" name="status">
-                            {% for key, value in order.STATUS_CHOICES %}
-                                <option value="{{ key }}" {% if order.status == key %}selected{% endif %}>{{ value }}</option>
-                            {% endfor %}
-                        </select>
-                    </form>
-                </li>
-                <li><strong>Fecha de creación:</strong> {{ order.created_at }}</li>
-                <li><strong>Total:</strong> {{ order.total }}</li>
-            </ul>
+            <div class="row">
+                <!-- Columna 1: Detalles del Pedido -->
+                <div class="col-md-6">
+                    <h3>Detalle del Pedido #{{ order.id }}</h3>
+                    <ul class="list-unstyled">
+                        <li><strong>Cliente:</strong> {{ order.user }}</li>
+                        <li class="flex-container">
+                            <strong><label for="status">Estado:</label></strong>
+                            <form method="post" action="{% url 'order-detail' order.id %}" id="status-form">
+                                {% csrf_token %}
+                                <select class="form-control" id="status" name="status">
+                                    {% for key, value in order.STATUS_CHOICES %}
+                                        <option value="{{ key }}" {% if order.status == key %}selected{% endif %}>{{ value }}</option>
+                                    {% endfor %}
+                                </select>
+                            </form>
+                        </li>
+                        <li><strong>Fecha de creación:</strong> {{ order.created_at }}</li>
+                        <li><strong>Total:</strong> {{ order.total }}</li>
+                    </ul>
+                </div>
+        
+                <!-- Columna 2: Información del Cliente -->
+                <div class="col-12 col-md-6">
+                    <h3>Información del Cliente</h3>
+                    <ul class="list-unstyled">
+                        <li><strong>Teléfono:</strong> {{ order.user.phone_number }}</li>
+                        <li><strong>Comuna:</strong> {{ order.user.comuna }}</li>
+                        <li><strong>Correo:</strong> {{ order.user.email }}</li>
+                        <li><strong>Género:</strong> {{ order.user.get_gender_display}}</li>
+                        <li><strong>Edad:</strong> {{ age }}</li>
+                </div>
+            </div>
 
             <h4>Productos</h4>
             <table class="table table-hover">

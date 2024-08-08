@@ -7,6 +7,7 @@ from django.contrib.auth.decorators import login_required, user_passes_test
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404
 from .utils import send_order_status_email  # Importa la función que envía el correo
+from datetime import date
 
 
 
@@ -197,6 +198,11 @@ def order_detail(request, id):
         order = get_object_or_404(Order, id=id)
         detalles = OrderDetail.objects.filter(order=order)
 
+        # Calcular la edad
+        today = date.today()
+        birth_date = order.user.birthday
+        age = today.year - birth_date.year - ((today.month, today.day) < (birth_date.month, birth_date.day))
+
         if request.method == 'POST':
             new_status = request.POST.get('status')
             if new_status and new_status in dict(Order.STATUS_CHOICES):
@@ -209,8 +215,8 @@ def order_detail(request, id):
                 request.session['level_mensaje'] = 'alert-danger'
             return redirect(reverse('order-detail', args=[order.id]))
 
-        return render(request, 'crud/order-detail.html', {'order': order, 'detalles': detalles})
+        return render(request, 'crud/order-detail.html', {'order': order,  'age': age, 'detalles': detalles})
     except:
         messages.error(request, "Algo salió mal. Intenta nuevamente")
         request.session['level_mensaje'] = 'alert-danger'
-        return render(request, 'crud/order-detail.html', {'order': order, 'detalles': detalles})
+        return render(request, 'crud/order-detail.html', {'order': order, 'age': age, 'detalles': detalles})

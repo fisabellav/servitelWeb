@@ -32,7 +32,7 @@ def signup(request):
 
         postData = request.POST.copy()
         postData['phone_number'] = phone_number
-        errors = User.objects.validador_campos(postData)
+        errors = User.objects.validador_campos(postData, False)
 
         if errors:
             for key, value in errors.items():

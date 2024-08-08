@@ -118,15 +118,19 @@ margin-left: 0;
     transition: all 0.2s;
 }
 
-.btn-enviar{
-    background-color: #28799f;
-    color: #ececec;
+.btn{
     display: inline-block;
     text-decoration: none;
     padding: 0.6rem 2rem;
     margin-top: 1rem;
+    margin-right: 1rem;
     font-size: 14px;
     transition: all 0.2s;
+}
+
+.btn-enviar{
+    background-color: #28799f;
+    color: #ececec;
 
 }
 
