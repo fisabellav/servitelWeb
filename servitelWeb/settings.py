@@ -46,6 +46,8 @@ DEBUG = os.getenv("IS_DEVELOPMENT", True)
 
 ALLOWED_HOSTS = ['www.servitelcctv.cl', 'servitelcctv.cl', 'https://www.servitelcctv.cl', '127.0.0.1']
 
+CSRF_TRUSTED_ORIGINS = ['https://www.servitelcctv.cl']
+
 # os.getenv("APP_HOST"),
 #                 '127.0.0.1'
 
