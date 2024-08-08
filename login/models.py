@@ -1,5 +1,6 @@
 from django.db import models
 import re
+from django.utils import timezone
 from datetime import datetime, timedelta
 from django.contrib.auth.models import Group, Permission
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
@@ -170,6 +171,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     created_at = models.DateTimeField(verbose_name='Fecha registro', auto_now_add=True)
     updated_at = models.DateTimeField(verbose_name='Fecha actualización', auto_now=True)
     verification_token = models.CharField(max_length=100, blank=True, null=True)
+    last_login = models.DateTimeField(verbose_name='Último inicio de sesión', blank=True, null=True, default=timezone.now)
     objects = UserManager()
 
     USERNAME_FIELD = 'email'
