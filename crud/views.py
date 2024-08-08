@@ -36,7 +36,8 @@ def add_product(request):
             if errors:
                 for key, value in errors.items():
                     messages.error(request, value)
-                
+
+                request.session['level_mensaje'] = 'alert-danger'
                 return redirect(reverse('add-product') + '?FAIL')
             
             else:
@@ -54,6 +55,8 @@ def add_product(request):
 
                 obj.save()
 
+                request.session['level_mensaje'] = 'alert-success'
+                messages.success(request, "Producto añadido correctamente.")
                 return redirect(reverse('product-list') + '?OK')
         else:
             return redirect(reverse('add-product') + '?FAIL')
@@ -94,6 +97,7 @@ def productlist_edit(request,id):
                     for key, value in errors.items():
                         messages.error(request, value)
                     
+                    request.session['level_mensaje'] = 'alert-danger'
                     return redirect(reverse('productlist-edit', args=[id]) + '?ERROR')
                 
                 else:
@@ -103,8 +107,12 @@ def productlist_edit(request,id):
 
                     if form.is_valid():
                         form.save()
+                        request.session['level_mensaje'] = 'alert-success'
+                        messages.success(request, "Producto modificado correctamente.")
                         return redirect(reverse('product-list') + '?UPDATED')
                     else:
+                        messages.success(request, "No se realizaron cambios. Intente nuevamente.")
+                        request.session['level_mensaje'] = 'alert-danger'
                         return redirect(reverse('productlist-edit', args=[id]) + '?ERROR')
             else:
                 context = {'form': form}
