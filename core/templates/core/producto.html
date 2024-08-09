@@ -51,6 +51,7 @@
                 <div class="product-info">
                     <h4 class="product-title">{{producto.product}}</h4>
                     <p class="product-description">{{producto.description}}</p>
+                    <h5 class="product-price" data-price="{{ producto.price }}">{{ producto.price }}</h5>
                     <h5>Cantidad:</h5>
                     <form id="order-form" method="post" action="{% url 'new-order' id=producto.id %}">
                         {% csrf_token %}
