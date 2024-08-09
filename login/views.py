@@ -8,6 +8,7 @@ from .forms import UserForm
 import json
 from django.http import JsonResponse
 import requests
+from django.contrib.auth.decorators import login_required, user_passes_test
 from crud.utils import send_verification_email # Importa la función que envía el correo
 from django.conf import settings
 from django.contrib.auth import authenticate, login as auth_login, logout as auth_logout
