@@ -188,7 +188,7 @@ def complete_registration(request, token):
                 return redirect(reverse('complete-registration', kwargs={'token': token}))
             
             
-            user.password = password
+            user.set_password(password)
             user.verification_token = None  # Clear verification token after setting password
             user.save()
             request.session['level_mensaje'] = 'alert-success'
