@@ -2,7 +2,7 @@
 
 {% block title %}Catálogo{% endblock %}
 
-{% load humanize %}
+
 {% load static %}
 
 {% block extra_css %}
@@ -140,7 +140,7 @@
                                 {% endif %}
                                 <div class="product-info">
                                     <h4 class="product-title">{{p.product}}</h4>
-                                    <p class="product-price">{{ p.price|floatformat:0|intcomma }}</p>
+                                    <p class="product-price">{{ p.price}}</p>
                                 </div>
                                 <div class="button-container">
                                     <a class="product-btn" href="{% url 'producto' id=p.id %}">Ver Detalles</a>
@@ -157,7 +157,7 @@
                             <div class="product-info">
                                 {% endif %}
                                 <h4 class="product-title">{{f.product}}</h4>
-                                <p class="product-price">{{ f.price|floatformat:0|intcomma }}</p>
+                                <p class="product-price">{{ f.price}}</p>
                             </div>
                             <div class="button-container">
                                 <a class="product-btn" href="{% url 'producto' id=f.id %}">Ver Detalles</a>
@@ -177,4 +177,12 @@
     {% block my_js %}
     <script src="{% static 'core/js/catalogo.js' %}"></script>
     <script type="module" src="{% static 'core/js/addwish.js' %}"></script>
+    <script>
+        function formatPrice(price) {
+            return new Intl.NumberFormat('es-CL', { style: 'currency', currency: 'CLP' }).format(price);
+        }
+    
+        // Supongamos que tienes un elemento con id "product-price"
+        document.getElementById('product-price').textContent = formatPrice(360000);
+    </script>
     {% endblock %}

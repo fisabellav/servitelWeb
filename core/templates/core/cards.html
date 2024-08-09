@@ -1,4 +1,4 @@
-{% load humanize %}
+
 {% load static %}
 
 <div id="cardsbody">
@@ -18,7 +18,7 @@
                         <div class="card-details">
                             <div class="name-job">
                                 <h3 class="name">{{p.product}}</h3>
-                                <h4 class="description">{{ p.price|floatformat:0|intcomma }}</h4>
+                                <h4 class="description">{{ p.price}}</h4>
                             </div>
                         </div>
                     </a>
@@ -38,4 +38,12 @@
 
 {% block my_js %}
 <script src="{% static 'core/js/swiper.js' %}"></script>
+<script>
+    function formatPrice(price) {
+        return new Intl.NumberFormat('es-CL', { style: 'currency', currency: 'CLP' }).format(price);
+    }
+
+    // Supongamos que tienes un elemento con id "product-price"
+    document.getElementById('product-price').textContent = formatPrice(360000);
+</script>
 {% endblock %}
