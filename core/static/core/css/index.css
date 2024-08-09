@@ -33,3 +33,14 @@
     color: #2b2b2b;
     margin-bottom: 1rem;
 }
+
+@media screen and (max-width: 768px) {
+
+    .title-about {
+        font-size: 40px;
+        font-weight: 700;
+        margin: 20px 55px;
+        color: #2b2b2b;
+        margin-bottom: 1rem;
+    }
+}
