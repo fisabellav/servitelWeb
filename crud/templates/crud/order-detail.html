@@ -34,7 +34,7 @@
                             </form>
                         </li>
                         <li><strong>Fecha de creación:</strong> {{ order.created_at }}</li>
-                        <li class="product-price" data-price="{{ order.total }}"><strong>Total:</strong> {{ order.total }}</li>
+                        <li class="d-inline-flex"><strong>Total: </strong> <p class="product-price" data-price="{{ order.total }}">{{ order.total }}</p></li>
                     </ul>
                 </div>
         
@@ -72,7 +72,7 @@
                             {% endif %}
                         </td>
                         <td>{{ p.quantity }}</td>
-                        <td>{{ p.subtotal }}</td>
+                        <td class="product-price" data-price="{{ p.subtotal }}>{{ p.subtotal }}</td>
                     </tr>
                     {% endfor %}
                 </tbody>
