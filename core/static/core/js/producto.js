@@ -1,4 +1,26 @@
 import {addToCart } from './carrito.js';
+
+document.addEventListener('DOMContentLoaded', function () {
+    // Selecciona todos los elementos que tienen la clase 'product-price'
+    const priceElements = document.querySelectorAll('.product-price');
+
+    // Itera sobre cada elemento y aplica el formato
+    priceElements.forEach(function (element) {
+        // Obtén el precio del atributo data-price y conviértelo en número
+        const price = parseFloat(element.getAttribute('data-price'));
+
+        // Formatea el precio usando Intl.NumberFormat
+        const formattedPrice = new Intl.NumberFormat('es-CL', {
+            style: 'currency',
+            currency: 'CLP',
+            minimumFractionDigits: 0
+        }).format(price);
+
+        // Actualiza el contenido del elemento con el precio formateado
+        element.textContent = formattedPrice;
+    });
+});
+
 let listProductHTML = document.querySelector('.product-detail');
 document.addEventListener('DOMContentLoaded', function() {
 
