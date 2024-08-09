@@ -3,6 +3,9 @@
 
 
 {% load static %}
+{% block meta_extra %}
+    <meta name="csrf-token" content="{{ csrf_token }}">
+{% endblock %}
 
 {% block extra_css %}
 <link rel="stylesheet" href="{% static 'crud/css/form-product.css' %}">
@@ -31,7 +34,7 @@
                             </form>
                         </li>
                         <li><strong>Fecha de creación:</strong> {{ order.created_at }}</li>
-                        <li><strong>Total:</strong> {{ order.total }}</li>
+                        <li class="product-price" data-price="{{ order.total }}"><strong>Total:</strong> {{ order.total }}</li>
                     </ul>
                 </div>
         

@@ -161,8 +161,7 @@ def update_order_status(request, order_id, status):
         # Enviar correo electrónico al usuario
         user_email = order.user.email
         user_name = order.user.name
-        order_id = order.id
-        send_order_status_email(user_email, user_name, order_id, status)
+        send_order_status_email(user_email, user_name, order, status)
         return JsonResponse({'success': True})
     except Exception as e:
         # En caso de error, devolver una respuesta JSON con el mensaje de error
