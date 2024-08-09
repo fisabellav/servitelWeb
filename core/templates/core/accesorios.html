@@ -25,8 +25,8 @@
     <img src="{% static 'core/img/accesorios_bg.png' %}" alt="">
 </div>
 
- <!-- CATEGORIAS -->
- <div class="categories">
+<!-- CATEGORIAS -->
+<div class="categories">
     <div class="category">
         <a href="{% url 'catalogo' %}">
             <img src="{% static 'core/img/categorias/catalogo.png' %}" alt="Catálogo">
@@ -66,9 +66,9 @@
                         <h4 class="product-title">{{f.product}}</h4>
                         <p class="product-price" data-price="{{ p.price }}>{{ f.price }}</p>
                     </div>
-                    <div class="button-container">
-                        <a class="product-btn" href="{% url 'producto' id=f.id %}">Ver Detalles</a>
-                        <i class="deseos fa-regular fa-heart add-to-wishlist"></i>
+                    <div class=" button-container">
+                            <a class="product-btn" href="{% url 'producto' id=f.id %}">Ver Detalles</a>
+                            <i class="deseos fa-regular fa-heart add-to-wishlist"></i>
                     </div>
                 </div>
                 {% endfor %}
@@ -89,78 +89,4 @@
 <script src="{% static 'core/js/catalogo.js' %}"></script>
 <script type="module" src="{% static 'core/js/addwish.js' %}"></script>
 
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-            // Selecciona todos los elementos que tienen la clase 'product-price'
-            const priceElements = document.querySelectorAll('.product-price');
-
-            // Itera sobre cada elemento y aplica el formato
-            priceElements.forEach(function (element) {
-                // Obtén el precio del atributo data-price y conviértelo en número
-                const price = parseFloat(element.getAttribute('data-price'));
-
-                // Formatea el precio usando Intl.NumberFormat
-                const formattedPrice = new Intl.NumberFormat('es-CL', {
-                    style: 'currency',
-                    currency: 'CLP',
-                    minimumFractionDigits: 0
-                }).format(price);
-
-                // Actualiza el contenido del elemento con el precio formateado
-                element.textContent = formattedPrice;
-            });
-        });
-</script>
-
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        // Obtener todos los elementos con la clase .deseos
-        const deseosElements = document.querySelectorAll('.deseos');
-
-        deseosElements.forEach(deseos => {
-            deseos.addEventListener('click', function () {
-                let heart = this;
-                let heartRect = heart.getBoundingClientRect();
-
-                // Crear y clonar el corazón
-                let heartClone = heart.cloneNode(true);
-                heartClone.style.position = 'absolute';
-                heartClone.style.left = `${heartRect.left + window.scrollX}px`;
-                heartClone.style.top = `${heartRect.top + window.scrollY}px`;
-                heartClone.style.width = `${heartRect.width}px`;
-                heartClone.style.height = `${heartRect.height}px`;
-                heartClone.style.zIndex = '1000';
-                heartClone.style.transition = 'transform 1s, opacity 1s';
-
-                document.body.appendChild(heartClone);
-
-                // Obtener la posición del corazón en la barra de navegación
-                let navbarHeart;
-                if (window.matchMedia("(max-width: 768px)").matches) {
-                    // Modo móvil
-                    navbarHeart = document.querySelector('.dropdown_menu .icon-cart');
-                } else {
-                    // Modo escritorio
-                    navbarHeart = document.querySelector('.icon-navbar');
-                }
-
-                let navbarRect = navbarHeart.getBoundingClientRect();
-
-                // Calcular el desplazamiento
-                let translateX = navbarRect.left + window.scrollX + (navbarRect.width / 2) - (heartRect.left + window.scrollX) - (heartRect.width / 2);
-                let translateY = navbarRect.top + window.scrollY + (navbarRect.height / 2) - (heartRect.top + window.scrollY) - (heartRect.height / 2);
-                // Aplicar estilos para la animación
-                requestAnimationFrame(() => {
-                    heartClone.style.transform = `translate(${translateX}px, ${translateY}px)`;
-                    heartClone.style.opacity = '0';
-                });
-
-                heartClone.addEventListener('transitionend', function () {
-                    heartClone.remove();
-                    // Aquí puedes agregar cualquier lógica adicional después de la animación
-                });
-            });
-        });
-    });
-</script>
 {% endblock %}
