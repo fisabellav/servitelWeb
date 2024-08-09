@@ -139,7 +139,7 @@
                                 {% endif %}
                                 <div class="product-info">
                                     <h4 class="product-title">{{p.product}}</h4>
-                                    <p class="product-price">{{p.price}}</p>
+                                    <p class="product-price">{{ p.price|floatformat:0|intcomma }}</p>
                                 </div>
                                 <div class="button-container">
                                     <a class="product-btn" href="{% url 'producto' id=p.id %}">Ver Detalles</a>
@@ -156,7 +156,7 @@
                             <div class="product-info">
                                 {% endif %}
                                 <h4 class="product-title">{{f.product}}</h4>
-                                <p class="product-price">{{p.price}}</p>
+                                <p class="product-price">{{ f.price|floatformat:0|intcomma }}</p>
                             </div>
                             <div class="button-container">
                                 <a class="product-btn" href="{% url 'producto' id=f.id %}">Ver Detalles</a>
