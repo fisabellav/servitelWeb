@@ -45,8 +45,28 @@ def catalogo(request):
     return render(request, 'core/catalogo.html', context)
 
 def kits(request):
-    productos_filtrados = Product.objects.filter(category='KT')
-    context = {'productos':productos_filtrados, 'request': request}
+    camera_filter = list(set(Product.objects.all().values_list('cameras', flat=True)))
+    channel_filter = list(set(Product.objects.all().values_list('channels', flat=True)))
+
+    selected_cameras = request.GET.getlist('cameras')
+    selected_channels = request.GET.getlist('channels')
+
+    filtered_products = Product.objects.filter(category='KI')
+
+    if selected_cameras:
+        filtered_products = filtered_products.filter(cameras__in=selected_cameras)
+
+    if selected_channels:
+        filtered_products = filtered_products.filter(channels__in=selected_channels)
+
+    context = {
+        'filtro_canal': channel_filter,
+        'filtro_camara': camera_filter,
+        'productos': filtered_products,
+        'request': request,
+        'selected_cameras': selected_cameras,
+        'selected_channels': selected_channels
+    }
     return render(request, 'core/catalogo.html', context)
 
 def accesorios(request):
