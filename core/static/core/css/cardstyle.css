@@ -104,6 +104,11 @@
     background-color: #000;
 }
 
+#cardsbody .product-price {
+    font-size: 18px;
+    font-weight: 500;
+    color: #000;
+}
 @media screen and (max-width: 768px) {
     #cardsbody .swiper-navBtn {
         display: none;
