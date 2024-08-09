@@ -272,10 +272,10 @@ def producto(request, id):
                             comuna=comuna,
                             gender=gender,
                             email=email,
-                            password=password,
                         )
+                        user.set_password(password)
                         user.save()
-
+                        
                     
                         total = producto.price * quantity
                         order = Order.objects.create(
@@ -554,8 +554,8 @@ def contacto(request):
                             comuna=comuna,
                             gender=gender,
                             email=email,
-                            password=password,
                         )
+                        user.set_password(password)
                         user.save()
 
                         order = Order.objects.create(
