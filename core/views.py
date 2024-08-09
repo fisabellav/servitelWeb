@@ -12,6 +12,7 @@ from crud.forms import *
 from mailersend import emails
 from crud.utils import send_order_status_email  # Importa la función que envía el correo
 from django.conf import settings
+from django.contrib.auth.decorators import login_required
 
 
 # Create your views here.
@@ -312,6 +313,7 @@ def producto(request, id):
     except Product.DoesNotExist:
         return redirect(reverse('catalogo') + '?NO_EXIST')
 
+@login_required
 def new_order_wishlist(request):
     if 'usuario' in request.session:
         usuario_info = request.session['usuario']
@@ -383,6 +385,7 @@ def new_order_wishlist(request):
         request.session['level_mensaje'] = 'alert-danger'
         return redirect(reverse('login'))
 
+@login_required
 def new_order(request, id):
     if 'usuario' in request.session:
         usuario_info = request.session['usuario']
@@ -449,19 +452,19 @@ def new_order(request, id):
 def contacto(request):
     try:
         if request.method == 'POST':
-            user_form = UserForm(request.POST, prefix='user')
+            user_form = UserForm(request.POST, prefix='')
             order_form = OrderForm(request.POST, prefix='order')
             orderdetail_form = OrderDetailForm(request.POST, prefix='order-detail')
 
             # Obtener datos del formulario POST
-            name = request.POST.get('user-name')
-            last_name = request.POST.get('user-last_name')
-            birthday = request.POST.get('user-birthday')
-            comuna = request.POST.get('user-comuna')
-            gender = request.POST.get('user-gender')
-            phone_number = request.POST.get('user-phone_number')
-            email = request.POST.get('user-email')
-            password = request.POST.get('user-password', '')
+            name = request.POST.get('name')
+            last_name = request.POST.get('last_name')
+            birthday = request.POST.get('birthday')
+            comuna = request.POST.get('comuna')
+            gender = request.POST.get('gender')
+            phone_number = request.POST.get('phone_number')
+            email = request.POST.get('email')
+            password = request.POST.get('password', '')
 
             # Comprueba si ya existe un usuario con el correo electrónico o el número de teléfono
             existing_user_email = User.objects.filter(email=email).first()
@@ -597,7 +600,7 @@ def contacto(request):
                     messages.warning(request, 'ALGO NO FUNCIONA')
                     return render(request, 'core/contacto.html', context)
         else:
-            user_form = UserForm(prefix='user')
+            user_form = UserForm(prefix='')
             order_form = OrderForm(prefix='order')
             orderdetail_form = OrderDetailForm(prefix='order-detail')
             
@@ -611,6 +614,7 @@ def contacto(request):
         return redirect(reverse('contacto') + '?NO_EXIST')
 
 
+@login_required
 def order_list(request):
     if 'usuario' in request.session:
         usuario_info = request.session['usuario']
@@ -626,6 +630,7 @@ def order_list(request):
         request.session['level_mensaje'] = 'alert-danger'
         return redirect(reverse('login'))
 
+@login_required
 def order_detail(request, id):
     if 'usuario' in request.session:
         usuario_info = request.session['usuario']
@@ -644,7 +649,7 @@ def order_detail(request, id):
         request.session['level_mensaje'] = 'alert-danger'
         return redirect(reverse('login'))
 
-
+@login_required
 def editar_perfil(request, id):
     user = get_object_or_404(User, id=id)
     old_password = user.password
