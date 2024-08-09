@@ -1,6 +1,6 @@
 {% extends 'core/base.html' %}
 
-{% block title %}Catálogo{% endblock %}
+{% block title %}Accesorios{% endblock %}
 
 {% load static %}
 
@@ -25,23 +25,23 @@
     <img src="{% static 'core/img/accesorios_bg.png' %}" alt="">
 </div>
 
-<!-- CATEGORIAS -->
-<div class="categories">
+ <!-- CATEGORIAS -->
+ <div class="categories">
     <div class="category">
         <a href="{% url 'catalogo' %}">
-            <img src="{% static 'core/img/categorias/catalogo.png' %}" alt="Categoría 1">
+            <img src="{% static 'core/img/categorias/catalogo.png' %}" alt="Catálogo">
             <h4 class="category-title">Catálogo</h4>
         </a>
     </div>
     <div class="category">
-        <a href="">
-            <img src="{% static 'core/img/categorias/accesorios.png' %}" alt="Categoría 2">
+        <a href="{% url 'accesorios' %}">
+            <img src="{% static 'core/img/categorias/accesorios.png' %}" alt="Accesorios">
             <h4 class="category-title">Accesorios</h4>
         </a>
     </div>
     <div class="category">
-        <a href="">
-            <img src="{% static 'core/img/categorias/kits.png' %}" alt="Categoría 2">
+        <a href="{% url 'kits' %}">
+            <img src="{% static 'core/img/categorias/kits.png' %}" alt="Kits">
             <h4 class="category-title">Kits</h4>
         </a>
     </div>
