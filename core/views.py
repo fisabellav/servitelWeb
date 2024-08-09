@@ -47,7 +47,7 @@ def catalogo(request):
 def kits(request):
     productos_filtrados = Product.objects.filter(category='KT')
     context = {'productos':productos_filtrados, 'request': request}
-    return render(request, 'core/kits.html', context)
+    return render(request, 'core/catalogo.html', context)
 
 def accesorios(request):
     productos_filtrados = Product.objects.filter(category='AC')
