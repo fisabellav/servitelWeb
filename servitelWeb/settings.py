@@ -44,7 +44,7 @@ SECRET_KEY = os.getenv("SECRET_KEY", 'django-insecure-vc4dhc_sc^cg^nw0s&*u(u%q(m
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.getenv("IS_DEVELOPMENT", True)
 
-ALLOWED_HOSTS = ['www.servitelcctv.cl', 'servitelcctv.cl', 'https://www.servitelcctv.cl', '127.0.0.1']
+ALLOWED_HOSTS = [os.getenv('APP_HOST'), '127.0.0.1']
 
 CSRF_TRUSTED_ORIGINS = ['https://www.servitelcctv.cl']
 
@@ -63,6 +63,8 @@ INSTALLED_APPS = [
     'core',
     'crud',
     'login',
+
+    'storages',
 ]
 
 MIDDLEWARE = [
@@ -100,10 +102,16 @@ WSGI_APPLICATION = 'servitelWeb.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
+
+
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME':  os.getenv('DATABASE_NAME'),
+        'USER':  os.getenv('DATABASE_USER'),
+        'PASSWORD':  os.getenv('DATABASE_PASSWORD'),
+        'HOST': os.getenv('DATABASE_HOST'),
+        'PORT':  os.getenv('DATABASE_PORT'),
     }
 }
 
@@ -147,8 +155,6 @@ STATIC_ROOT = BASE_DIR / "staticfiles"
 
 #Media Files
 MEDIA_ROOT = BASE_DIR / 'media/'
-MEDIA_URL = '/media/'
-
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
@@ -166,3 +172,12 @@ LOGIN_URL = '/accounts/login'
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
 
+
+DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+
+AWS_ACCESS_KEY_ID = os.getenv('AWS_ACCESS_KEY_ID')
+AWS_SECRET_ACCESS_KEY = os.getenv('AWS_SECRET_ACCESS_KEY')
+AWS_STORAGE_BUCKET_NAME = os.getenv('AWS_STORAGE_BUCKET_NAME')
+AWS_QUERYSTRING_AUTH = False
+AWS_S3_REGION_NAME = os.getenv('AWS_S3_REGION_NAME')
+MEDIA_URL = f'https://{AWS_STORAGE_BUCKET_NAME}.s3.{AWS_S3_REGION_NAME}.amazonaws.com/media/'

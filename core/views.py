@@ -74,9 +74,13 @@ def filter_products(request):
     }
     return render(request, 'core/catalogo.html', context)
 
-def send_dynamic_order_email(user_email, order_number):
+def send_dynamic_order_email(user_email, order):
+    products = []
     mailer = emails.NewEmail(settings.MAILERSEND_API_KEY)
-    mail_body = {}
+    mail_body = {
+        "products": products,
+        "order_number": order.id
+    }
 
     mail_from = {
         "name": "Servitel",
@@ -89,21 +93,32 @@ def send_dynamic_order_email(user_email, order_number):
         }
     ]
 
+    products = [
+        {
+            "url": detail.product.image.url if detail.product.image else "",
+            "image": detail.product.image.url if detail.product.image else "",
+            "price": detail.product.price,
+            "title":  detail.product.product,
+            "description":  detail.product.description
+        }
+        for detail in order.orderdetail_set.all()
+    ]
+
     personalization = [
         {
             "email": user_email,
             "data": {
-                "order_number": order_number
+                "products": products,
+                "order_number": order.id
             }
         }
-        
     ]
-
     mailer.set_mail_from(mail_from, mail_body)
     mailer.set_mail_to(recipients, mail_body)
-    mailer.set_subject("Pedido recibido", mail_body)
-    mailer.set_template("351ndgwnvnqgzqx8", mail_body)
+    mailer.set_subject("Solicitud recibida", mail_body)
+    mailer.set_template("7dnvo4d092xg5r86", mail_body)
     mailer.set_advanced_personalization(personalization, mail_body)
+
 
     response = mailer.send(mail_body)
 
@@ -255,7 +270,7 @@ def producto(request, id):
                         request.session['level_mensaje'] = 'alert-success'
                         messages.success(request, 'Pedido enviado. En breve le llegará el correo de confirmación')
                         
-                        send_dynamic_order_email(email, order.id)
+                        send_dynamic_order_email(email, order)
                         return redirect(reverse('catalogo') + '?OK')
             
         if request.method == 'GET':
@@ -298,7 +313,7 @@ def new_order_wishlist(request):
                     product = Product.objects.get(id=product_id)
                     subtotal = product.price * quantity
                     # Crear el detalle del pedido
-                    OrderDetail.objects.create(
+                    order_detail = OrderDetail.objects.create(
                         order=order,
                         product=product,
                         quantity=quantity,
@@ -325,7 +340,7 @@ def new_order_wishlist(request):
             # Mensaje de éxito y redirección
             request.session['level_mensaje'] = 'alert-success'
             messages.success(request, 'Pedido realizado. Pronto te llegará un mail de confirmación')
-            send_dynamic_order_email(user_instance.email, order.id)
+            send_dynamic_order_email(user_instance.email, order)
             
             return JsonResponse({'success': True})
         
@@ -381,7 +396,7 @@ def new_order(request, id):
                         })
             else:
                 # Si no hay wishlist, solo añadir el producto actual al pedido
-                OrderDetail.objects.create(
+                order_detail = OrderDetail.objects.create(
                     order=order,
                     product=producto,
                     quantity=quantity,
@@ -392,7 +407,7 @@ def new_order(request, id):
 
             request.session['level_mensaje'] = 'alert-success'
             messages.success(request, 'Pedido enviado. En breve le llegará el correo de confirmación')
-            send_dynamic_order_email(user_instance.email, order.id)
+            send_dynamic_order_email(user_instance.email, order)
             return redirect(reverse('catalogo') + '?OK')  # Redirigir a una página de éxito después de crear el pedido
 
         else:
@@ -531,7 +546,7 @@ def contacto(request):
                             subtotal = product.price * quantity
                             total += subtotal
 
-                            OrderDetail.objects.create(
+                            order_detail = OrderDetail.objects.create(
                                 order=order,
                                 product=product,
                                 quantity=quantity,
@@ -545,7 +560,7 @@ def contacto(request):
 
                         request.session['level_mensaje'] = 'alert-success'
                         messages.success(request, 'Solicitud enviada. En breve le llegará el correo de confirmación')
-                        send_dynamic_order_email(email, order.id)
+                        send_dynamic_order_email(email, order)
                         return redirect(reverse('contacto') + '?OK')
                 else:
                     context = {

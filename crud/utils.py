@@ -8,7 +8,7 @@ def get_template(status):
     if status == 'CF':
         return "7dnvo4d092xg5r86"
     elif status == 'CN':
-        return "3yxj6ljw9d7gdo2r"
+        return "yzkq340xnx34d796"
     elif status == 'EP':
         return "7dnvo4d092xg5r86"
 
@@ -22,15 +22,19 @@ def get_subject(status):
     else:
         return "Actualización de Pedido"
 
-def send_order_status_email(user_email, user_name, order_id, new_status):
+def send_order_status_email(user_email, user_name, order, new_status):
+    products = []
     template = get_template(new_status)
     subject = get_subject(new_status)
 
     mailer = emails.NewEmail(settings.MAILERSEND_API_KEY)
-    mail_body = {}
+    mail_body = {
+        "products": products,
+        "order_number": order.id
+    }
 
     mail_from = {
-        "name": "AntoJitos",
+        "name": "Servitel",
         "email": settings.DEFAULT_FROM_EMAIL,
     }
 
@@ -41,15 +45,23 @@ def send_order_status_email(user_email, user_name, order_id, new_status):
         }
     ]
 
+    products = [
+        {
+            "url": detail.product.image.url if detail.product.image else "",
+            "image": detail.product.image.url if detail.product.image else "",
+            "price": detail.product.price,
+            "title":  detail.product.product,
+            "description":  detail.product.description
+        }
+        for detail in order.orderdetail_set.all()
+    ]
+
     personalization = [
         {
             "email": user_email,
             "data": {
-                "order_number": order_id,
-                "order": {
-                    "id": order_id,
-                    "status": new_status
-                }
+                "products": products,
+                "order_number": order.id
             }
         }
     ]
@@ -69,7 +81,7 @@ def send_verification_email(user_email, verification_url):
     mail_body = {}
 
     mail_from = {
-        "name": "AntoJitos",
+        "name": "Servitel",
         "email": settings.DEFAULT_FROM_EMAIL,
     }
 
