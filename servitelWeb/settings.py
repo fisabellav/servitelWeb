@@ -42,7 +42,7 @@ MESSAGE_TAGS = {
 SECRET_KEY = os.getenv("SECRET_KEY", 'django-insecure-vc4dhc_sc^cg^nw0s&*u(u%q(m34s0=1*kbxwn+igr*19=p5%^')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.getenv("IS_DEVELOPMENT", True)
+DEBUG = os.getenv("IS_DEVELOPMENT", True) != "False"
 
 ALLOWED_HOSTS = [os.getenv('APP_HOST'), '127.0.0.1']
 
