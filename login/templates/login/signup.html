@@ -17,6 +17,17 @@
     </ul>
 </div>
 {% endif %}
+{% if form_errors %}
+        <div class="alert alert-danger">
+            <ul>
+                {% for field, errors in form_errors.items %}
+                    {% for error in errors %}
+                        <li>{{ field }}: {{ error }}</li>
+                    {% endfor %}
+                {% endfor %}
+            </ul>
+        </div>
+    {% endif %}
 
 <div class="container-fluid">
     <form action="/accounts/signup" class="row g-2 p-md-5 p-3 custom-validation" method="POST">
