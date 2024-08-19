@@ -64,7 +64,7 @@
                     <div class="product-info">
                         {% endif %}
                         <h4 class="product-title">{{f.product}}</h4>
-                        <p class="product-price" data-price="{{ p.price }}>{{ f.price }}</p>
+                        <p class="product-price" data-price="{{ f.price }}">{{ f.price }}</p>
                     </div>
                     <div class=" button-container">
                             <a class="product-btn" href="{% url 'producto' id=f.id %}">Ver Detalles</a>
