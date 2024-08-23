@@ -52,23 +52,24 @@
 <div class="container-fluid p-0 contenedor">
     <h1 class="ms-4 mt-4 p-4">Accesorios</h1>
     {% if productos %}
-    <div id="myproducts" class="container p-4">
+    <div id="myproducts" class="container p-4 mx-auto">
         <div class="all-products">
 
-            <div class="row row-cols-1 row-cols-md-4 gy-3  mx-auto justify-content-center justify-content-md-start">
-
+            <div class="row row-cols-1 row-cols-md-4 gy-3 gx-1 mx-auto justify-content-center justify-content-md-start">
                 {% for f in productos %}
-                <div class="product m-2" data-id="{{ f.id }}">
-                    {% if f.image %}
-                    <img src="{{f.image.url}}">
-                    <div class="product-info">
-                        {% endif %}
-                        <h4 class="product-title">{{f.product}}</h4>
-                        <p class="product-price" data-price="{{ f.price }}">{{ f.price }}</p>
-                    </div>
-                    <div class=" button-container">
-                            <a class="product-btn" href="{% url 'producto' id=f.id %}">Ver Detalles</a>
+                <div class="col justify-content-md-start">
+                    <div class="card product accesorios p-3" data-id="{{ f.id }}">
+                        {% if f.image %}
+                        <img src="{{f.image.url}}" class="card-img-top img-fluid">
+                        <div class="card-body">
+                            {% endif %}
+                            <h5 class="card-title product-title">{{f.product}}</h5>
+                            <p class="card-text product-price" data-price="{{ f.price }}">{{ f.price }}</p>
+                        </div>
+                        <div class="d-flex justify-content-between align-items-center button-container">
+                            <a class="btn product-btn" href="{% url 'producto' id=f.id %}">Ver Detalles</a>
                             <i class="deseos fa-regular fa-heart add-to-wishlist"></i>
+                        </div>
                     </div>
                 </div>
                 {% endfor %}

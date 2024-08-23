@@ -58,7 +58,7 @@
     </div>
 </div>
 
-<div class="container-fluid">
+<div class="container-fluid p-0">
     <div class="row row-cols-1 row-cols-md-2 m-0">
         <div id="myFilters" class="col-md-3">
             <!-- FILTROS -->
@@ -125,43 +125,45 @@
 
 
 
-        <div class="col-md-9 p-0 contenedor">
+        <div class="col-md-9 p-0 contenedor" >
             <!-- PRODUCTOS -->
             <div id="myproducts" class="container p-4">
                 <div class="all-products">
-                    <div
-                        class="row row-cols-1 row-cols-md-4 gy-3  me-1 justify-content-center justify-content-md-start">
+                    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-4 gy-3 justify-content-center justify-content-md-start">
                         {% if filtered_cameras %}
                         {% for p in filtered_cameras %}
-                        <div class="col-lg-3 ">
-                            <div class="product m-2" data-id="{{ p.id }}">
+                        <div class="col">
+                            <div class="card product p-3" data-id="{{ p.id }}">
                                 {% if p.image %}
-                                <img src="{{p.image.url}}">
+                                <img src="{{p.image.url}}" class="card-img-top">
                                 {% endif %}
-                                <div class="product-info">
-                                    <h4 class="product-title">{{p.product}}</h4>
-                                    <p class="product-price" data-price="{{ p.price }}">{{ p.price}}</p>
-                                </div>
-                                <div class="button-container">
-                                    <a class="product-btn" href="{% url 'producto' id=p.id %}">Ver Detalles</a>
-                                    <i class="deseos fa-regular fa-heart add-to-wishlist"></i>
+                                <div class="card-body">
+                                    <h5 class="card-title">{{p.product}}</h5>
+                                    <p class="card-text product-price" data-price="{{ p.price }}">{{ p.price}}</p>
+                                    <div class="d-flex justify-content-between align-items-center button-container">
+                                        <a class="btn product-btn" href="{% url 'producto' id=p.id %}">Ver Detalles</a>
+                                        <i class="deseos fa-regular fa-heart add-to-wishlist"></i>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                         {% endfor %}
                         {% else %}
                         {% for f in productos %}
-                        <div class="product m-2" data-id="{{ f.id }}">
-                            {% if f.image %}
-                            <img src="{{f.image.url}}">
-                            <div class="product-info">
-                                {% endif %}
-                                <h4 class="product-title">{{f.product}}</h4>
-                                <p class="product-price" data-price="{{ f.price }}">{{ f.price}}</p>
-                            </div>
-                            <div class="button-container">
-                                <a class="product-btn" href="{% url 'producto' id=f.id %}">Ver Detalles</a>
-                                <i class="deseos fa-regular fa-heart add-to-wishlist"></i>
+                        <div class="col">
+                            <div class="card product p-3" data-id="{{ f.id }}">
+                                {% if f.image %}
+                                <img src="{{f.image.url}}" class="card-img-top img-fluid">
+                                <div class="card-body">
+                                    {% endif %}
+                                    <h5 class="card-title">{{f.product}}</h5>
+                                    <p class="card-text product-price" data-price="{{ f.price }}">{{ f.price}}</p>
+                                    
+                                </div>
+                                <div class="d-flex justify-content-between align-items-center button-container">
+                                    <a class="btn product-btn" href="{% url 'producto' id=f.id %}">Ver Detalles</a>
+                                    <i class="deseos fa-regular fa-heart add-to-wishlist"></i>
+                                </div>
                             </div>
                         </div>
                         {% endfor %}
