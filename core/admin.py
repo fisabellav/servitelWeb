@@ -4,7 +4,7 @@ from .models import Order, OrderDetail
 
 
 class OrderAdmin(admin.ModelAdmin):
-    list_display = ('id', 'user', 'status', 'created_at')
+    list_display = ('id', 'user', 'status', 'created_at', 'updated_at', 'fees',)
     
 
 class OrderDetailAdmin(admin.ModelAdmin):
@@ -17,6 +17,7 @@ class OrderDetailAdmin(admin.ModelAdmin):
     def get_order_user(self, obj):
         return obj.order.user
     get_order_user.short_description = 'Cliente'
+
 
 
 

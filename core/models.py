@@ -15,6 +15,8 @@ class Order(models.Model):
     total = models.PositiveIntegerField(verbose_name='Total')
     status = models.CharField(verbose_name='Estado', max_length=2, choices=STATUS_CHOICES, default='PC')
     created_at = models.DateTimeField(verbose_name='Fecha registro',auto_now_add=True)
+    updated_at = models.DateTimeField(verbose_name='Fecha actualización',auto_now=True)
+    fees = models.PositiveIntegerField(verbose_name='Cuotas', default=1)
 
     class Meta:
         verbose_name = 'pedido'
@@ -36,3 +38,4 @@ class OrderDetail(models.Model):
 
     def __str__(self):
         return f"{self.order}-{self.product}"
+
