@@ -64,6 +64,7 @@ INSTALLED_APPS = [
     'core',
     'crud',
     'login',
+    'pagos',
 
     'storages',
 ]
@@ -105,14 +106,25 @@ WSGI_APPLICATION = 'servitelWeb.wsgi.application'
 
 
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME':  os.getenv('DATABASE_NAME'),
+#         'USER':  os.getenv('DATABASE_USER'),
+#         'PASSWORD':  os.getenv('DATABASE_PASSWORD'),
+#         'HOST': os.getenv('DATABASE_HOST'),
+#         'PORT':  os.getenv('DATABASE_PORT'),
+#     }
+# }
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME':  os.getenv('DATABASE_NAME'),
-        'USER':  os.getenv('DATABASE_USER'),
-        'PASSWORD':  os.getenv('DATABASE_PASSWORD'),
-        'HOST': os.getenv('DATABASE_HOST'),
-        'PORT':  os.getenv('DATABASE_PORT'),
+        'NAME':  'dfce0lrrr4ti70',
+        'USER':  'u5al3cmhv4f2m3',
+        'PASSWORD':  'p65c5edc0d5f0bdcf5fdea456ee19e5e370d3f892ba2593e7154f6050889f37bd',
+        'HOST':  'ceqbglof0h8enj.cluster-czrs8kj4isg7.us-east-1.rds.amazonaws.com',
+        'PORT':  '5432',
     }
 }
 
@@ -177,9 +189,14 @@ LOGOUT_REDIRECT_URL = '/'
 
 DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 
-AWS_ACCESS_KEY_ID = os.getenv('AWS_ACCESS_KEY_ID')
-AWS_SECRET_ACCESS_KEY = os.getenv('AWS_SECRET_ACCESS_KEY')
-AWS_STORAGE_BUCKET_NAME = os.getenv('AWS_STORAGE_BUCKET_NAME')
+# AWS_ACCESS_KEY_ID = os.getenv('AWS_ACCESS_KEY_ID')
+# AWS_SECRET_ACCESS_KEY = os.getenv('AWS_SECRET_ACCESS_KEY')
+# AWS_STORAGE_BUCKET_NAME = os.getenv('AWS_STORAGE_BUCKET_NAME')
+# AWS_QUERYSTRING_AUTH = False
+# AWS_S3_REGION_NAME = os.getenv('AWS_S3_REGION_NAME')
+AWS_ACCESS_KEY_ID = 'AKIA5FTZAROLGRNC357B'
+AWS_SECRET_ACCESS_KEY = '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'
+AWS_STORAGE_BUCKET_NAME = 'servitelweb'
 AWS_QUERYSTRING_AUTH = False
-AWS_S3_REGION_NAME = os.getenv('AWS_S3_REGION_NAME')
+AWS_S3_REGION_NAME = 'us-east-1'
 MEDIA_URL = f'https://{AWS_STORAGE_BUCKET_NAME}.s3.{AWS_S3_REGION_NAME}.amazonaws.com/media/'
