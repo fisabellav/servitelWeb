@@ -14,15 +14,15 @@ from pathlib import Path
 import os
 from django.contrib.messages import constants as messages
 
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.mailersend.net'
-EMAIL_PORT = 587  # Puerto SMTP de MailerSend
-EMAIL_USE_TLS = True
-EMAIL_HOST_USER = 'MS_Pqwt9D@trial-o65qngkme93lwr12.mlsender.net'
-EMAIL_HOST_PASSWORD = 'a48ae57f7109e7232c8ba2bfbfe1ffa9cd69416335cbcf6ebcfbbf456581b841'
+EMAIL_BACKEND = os.getenv('EMAIL_BACKEND')
+EMAIL_HOST = 'os.getenv('EMAIL_HOST')
+EMAIL_PORT = os.getenv('EMAIL_PORT')  # Puerto SMTP de MailerSend
+EMAIL_USE_TLS = os.getenv('EMAIL_USE_TLS')
+EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
 
-MAILERSEND_API_KEY = 'mlsn.a48ae57f7109e7232c8ba2bfbfe1ffa9cd69416335cbcf6ebcfbbf456581b841'
-DEFAULT_FROM_EMAIL = 'MS_Pqwt9D@trial-o65qngkme93lwr12.mlsender.net'
+MAILERSEND_API_KEY = os.getenv('MAILERSEND_API_KEY')
+DEFAULT_FROM_EMAIL = os.getenv('DEFAULT_FROM_EMAIL')
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
